@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import MerkleTree from "merkletreejs";
 import { utils } from "ethers";
 import wallets from './wallets';
@@ -24,7 +24,11 @@ export class AppService {
   }
 
   async getIsOnFroggylist(address: string): Promise<boolean> {
-    let proof = this.froggylist.getHexProof(keccak256(address));
-    return await contract.methods.isOnFroggylist(address, proof).call();
+    try {
+      let proof = this.froggylist.getHexProof(keccak256(address));
+      return await contract.methods.isOnFroggylist(address, proof).call();
+    } catch (error) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
   }
 }
