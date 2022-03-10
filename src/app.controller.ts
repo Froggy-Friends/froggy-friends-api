@@ -18,4 +18,9 @@ export class AppController {
       proof: this.appService.getProof(proofRequest.wallet)
     }
   }
+
+  @Post('/check')
+  async getIsOnFroggylist(@Body() proofRequest: ProofRequest): Promise<boolean> {
+    return this.appService.getIsOnFroggylist(proofRequest.wallet);
+  }
 }
