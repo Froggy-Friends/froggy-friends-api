@@ -3,7 +3,7 @@ export interface Attribute {
   value: string;
 }
 
-export interface FroggiesOwned {
+export interface Froggy {
   name: string;
   description: string;
   image: string;

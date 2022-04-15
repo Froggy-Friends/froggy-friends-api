@@ -1,7 +1,7 @@
-import { FroggiesOwned } from './models/FroggiesOwned';
 import { Body, Controller, Post, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { OwnedRequest } from './models/OwnedRequest';
+import { OwnedResponse } from './models/OwnedResponse';
 import { ProofRequest } from './models/ProofRequest';
 import { ProofResponse } from './models/ProofResponse';
 
@@ -27,7 +27,7 @@ export class AppController {
   }
 
   @Post('/owned')
-  async getFroggiesOwned(@Body() ownedRequest: OwnedRequest): Promise<FroggiesOwned[]> {
+  async getFroggiesOwned(@Body() ownedRequest: OwnedRequest): Promise<OwnedResponse> {
     return this.appService.getFroggiesOwned(ownedRequest.account);
   }
 }

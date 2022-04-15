@@ -3,14 +3,16 @@ import MerkleTree from "merkletreejs";
 import { utils } from "ethers";
 import wallets from './wallets';
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import { FroggiesOwned } from './models/FroggiesOwned';
+import * as abi from './abi.json';
+import * as rarity from '../rarityBands.json';
+import { OwnedResponse } from './models/OwnedResponse';
 const axios = require('axios');
 require('dotenv').config();
 const { keccak256 } = utils;
 const { ALCHEMY_API_URL, CONTRACT_ADDRESS } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
-const abi = require('../src/abi.json');
-const contract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
+const abiItem: any = abi;
+const contract = new web3.eth.Contract(abiItem, CONTRACT_ADDRESS);
 
 @Injectable()
 export class AppService {
@@ -34,18 +36,41 @@ export class AppService {
     }
   }
 
-  async getFroggiesOwned(address: string): Promise<FroggiesOwned[]> {
+  async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
       let balanceOfOwner = await contract.methods.balanceOf(address).call();
-      const metadata = [];
+      const ownedResponse: OwnedResponse = {
+        froggies: [],
+        totalRibbit: 0
+      };
+      const froggies = [];
+      let totalRibbit = 0;
       for(let i = 0; i < balanceOfOwner; i++) {
         const tokenId = await contract.methods.tokenOfOwnerByIndex(address, i).call();
         const tokenUri = await contract.methods.tokenURI(tokenId).call();
         const response = await axios.get(tokenUri);
-        metadata.push(response.data);
+        const froggy = {...response.data};
+        const id = +tokenId;
+        if (rarity.common.includes(id)) {
+          froggy.ribbit = 20;
+        } else if (rarity.uncommon.includes(id)) {
+          froggy.ribbit = 30;
+        } else if (rarity.rare.includes(id)) {
+          froggy.ribbit = 40;
+        } else if (rarity.legendary.includes(id)) {
+          froggy.ribbit = 75;
+        } else if (rarity.epic.includes(id)) {
+          froggy.ribbit = 150;
+        }
+        froggies.push(froggy);
+        totalRibbit += froggy.ribbit;
       }
-      return metadata;
+
+      ownedResponse.froggies = froggies;
+      ownedResponse.totalRibbit = totalRibbit;
+      return ownedResponse;
     } catch (error) {
+      console.log("Get Froggies Owned Error: ", error);
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
