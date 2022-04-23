@@ -4,15 +4,18 @@ import { utils } from "ethers";
 import wallets from './wallets';
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import * as abi from './abi.json';
+import * as stakingAbi from './staking-abi.json';
 import * as rarity from '../rarityBands.json';
 import { OwnedResponse } from './models/OwnedResponse';
 const axios = require('axios');
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
+const stakingAbiItem: any = stakingAbi;
 const contract = new web3.eth.Contract(abiItem, CONTRACT_ADDRESS);
+const stakingContract = new web3.eth.Contract(stakingAbiItem, STAKING_CONTRACT_ADDRESS);
 
 @Injectable()
 export class AppService {
@@ -39,6 +42,8 @@ export class AppService {
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
       let balanceOfOwner = await contract.methods.balanceOf(address).call();
+      const tokensStaked: number[] = await stakingContract.methods.checkallnftstaked(address).call();
+      console.log("tokens staked: ", tokensStaked);
       const ownedResponse: OwnedResponse = {
         froggies: [],
         totalRibbit: 0
@@ -50,6 +55,14 @@ export class AppService {
         const tokenUri = await contract.methods.tokenURI(tokenId).call();
         const response = await axios.get(tokenUri);
         const froggy = {...response.data};
+        if (tokensStaked.includes(tokenId)) {
+          console.log("token is staking: ", tokenId);
+          froggy.isStaked = true;
+        } else {
+          console.log("token is not staked: ", tokenId);
+          froggy.isStaked = false;
+        }
+
         const id = +tokenId;
         if (rarity.common.includes(id)) {
           froggy.ribbit = 20;
