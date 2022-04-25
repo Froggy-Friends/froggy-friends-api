@@ -4,18 +4,21 @@ import { utils } from "ethers";
 import wallets from './wallets';
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import * as abi from './abi.json';
-import * as stakingAbi from './staking-abi.json';
+import * as stakingAbi from './abi-staking.json';
+import * as ribbitAbi from './abi-ribbit.json';
 import * as rarity from '../rarityBands.json';
 import { OwnedResponse } from './models/OwnedResponse';
 const axios = require('axios');
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
+const ribbitAbiItem: any = ribbitAbi;
 const contract = new web3.eth.Contract(abiItem, CONTRACT_ADDRESS);
 const stakingContract = new web3.eth.Contract(stakingAbiItem, STAKING_CONTRACT_ADDRESS);
+const ribbitContract = new web3.eth.Contract(ribbitAbiItem, RIBBIT_CONTRACT_ADDRESS);
 
 @Injectable()
 export class AppService {
@@ -42,11 +45,17 @@ export class AppService {
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
       let balanceOfOwner = await contract.methods.balanceOf(address).call();
+      const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
+      console.log("is staking approved: ", isStakingApproved);
       const tokensStaked: number[] = await stakingContract.methods.checkallnftstaked(address).call();
+      const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+      console.log("allowance: ", allowance);
       console.log("tokens staked: ", tokensStaked);
       const ownedResponse: OwnedResponse = {
         froggies: [],
-        totalRibbit: 0
+        totalRibbit: 0,
+        allowance: +allowance,
+        isStakingApproved: isStakingApproved
       };
       const froggies = [];
       let totalRibbit = 0;
