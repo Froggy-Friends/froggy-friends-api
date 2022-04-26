@@ -74,14 +74,29 @@ export class AppService {
         const tokenUri = await contract.methods.tokenURI(tokenId).call();
         const response = await axios.get(tokenUri);
         const froggy = {...response.data};
-        if (tokensStaked.includes(tokenId)) {
-          console.log("token is staking: ", tokenId);
-          froggy.isStaked = true;
-        } else {
-          console.log("token is not staked: ", tokenId);
-          froggy.isStaked = false;
-        }
+        froggy.isStaked = false;
 
+        const id = +tokenId;
+        if (rarity.common.includes(id)) {
+          froggy.ribbit = 20;
+        } else if (rarity.uncommon.includes(id)) {
+          froggy.ribbit = 30;
+        } else if (rarity.rare.includes(id)) {
+          froggy.ribbit = 40;
+        } else if (rarity.legendary.includes(id)) {
+          froggy.ribbit = 75;
+        } else if (rarity.epic.includes(id)) {
+          froggy.ribbit = 150;
+        }
+        froggies.push(froggy);
+        totalRibbit += froggy.ribbit;
+      }
+
+      for (const tokenId of tokensStaked) {
+        const tokenUri = await contract.methods.tokenURI(tokenId).call();
+        const response = await axios.get(tokenUri);
+        const froggy = {...response.data};
+        froggy.isStaked = true;
         const id = +tokenId;
         if (rarity.common.includes(id)) {
           froggy.ribbit = 20;
