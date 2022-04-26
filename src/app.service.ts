@@ -8,6 +8,7 @@ import * as stakingAbi from './abi-staking.json';
 import * as ribbitAbi from './abi-ribbit.json';
 import * as rarity from '../rarityBands.json';
 import { OwnedResponse } from './models/OwnedResponse';
+const keccak = require("keccak256");
 const axios = require('axios');
 require('dotenv').config();
 const { keccak256 } = utils;
@@ -23,10 +24,19 @@ const ribbitContract = new web3.eth.Contract(ribbitAbiItem, RIBBIT_CONTRACT_ADDR
 @Injectable()
 export class AppService {
   froggylist: MerkleTree;
+  rarities: MerkleTree;
 
   constructor() {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
     console.log("froggylist root: ", this.froggylist.getHexRoot());
+    const common = rarity.common.map(tokenId => `${tokenId}20`);
+    const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
+    const rare = rarity.rare.map(tokenId => `${tokenId}40`);
+    const legendary = rarity.legendary.map(tokenId => `${tokenId}75`);
+    const epic = rarity.epic.map(tokenId => `${tokenId}150`);
+    const tokensWithRarity = [...common, ...uncommon, ...rare, ...legendary, ...epic];
+    this.rarities = new MerkleTree(tokensWithRarity.map(token => keccak(token)), keccak, { sortPairs: true});
+    console.log("rarities root: ", this.rarities.getHexRoot());
   }
 
   getProof(address: string): string[] {
@@ -95,5 +105,26 @@ export class AppService {
       console.log("Get Froggies Owned Error: ", error);
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  getStakeProof(tokenIds: number[]): string[] {
+    const stakeProof = [];
+    for (const tokenId of tokenIds) {
+      let leaf = '';
+      if (rarity.common.includes(tokenId)) {
+        leaf = keccak(`${tokenId}20`);
+      } else if (rarity.uncommon.includes(tokenId)) {
+        leaf = keccak(`${tokenId}30`);
+      } else if (rarity.rare.includes(tokenId)) {
+        leaf = keccak(`${tokenId}40`);
+      } else if (rarity.legendary.includes(tokenId)) {
+        leaf = keccak(`${tokenId}75`);
+      } else if (rarity.epic.includes(tokenId)) {
+        leaf = keccak(`${tokenId}150`);
+      }
+      const proof = this.rarities.getHexProof(leaf);
+      stakeProof.push(proof);
+    }
+    return stakeProof;
   }
 }
