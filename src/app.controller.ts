@@ -30,4 +30,9 @@ export class AppController {
   async getFroggiesOwned(@Body() ownedRequest: OwnedRequest): Promise<OwnedResponse> {
     return this.appService.getFroggiesOwned(ownedRequest.account);
   }
+
+  @Post('/stake')
+  getStakeProof(@Body() tokenIds: number[]): string[] {
+    return this.appService.getStakeProof(tokenIds);
+  }
 }

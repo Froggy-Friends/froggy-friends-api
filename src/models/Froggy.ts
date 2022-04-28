@@ -10,5 +10,6 @@ export interface Froggy {
   dna: string;
   edition: number;
   date: number;
+  isStaked: boolean;
   attributes: Attribute[];
 }
