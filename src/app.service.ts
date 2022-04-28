@@ -56,7 +56,7 @@ export class AppService {
     try {
       let balanceOfOwner = await contract.methods.balanceOf(address).call();
       const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
-      const tokensStaked: number[] = await stakingContract.methods.checkallnftstaked(address).call();
+      const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
       const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
       const ownedResponse: OwnedResponse = {
         froggies: [],
