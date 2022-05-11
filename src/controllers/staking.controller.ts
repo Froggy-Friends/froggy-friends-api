@@ -1,10 +1,10 @@
 import { Controller, Get } from "@nestjs/common";
-import { MoralisService } from './../services/moralis.service';
+import { StakingService } from './../services/staking.service';
 
 
 @Controller()
-export class MoralisController {
-  constructor(private readonly moralisService: MoralisService) {}
+export class StakingController {
+  constructor(private readonly moralisService: StakingService) {}
 
   @Get("/staking")
   getStakingHolders() {
