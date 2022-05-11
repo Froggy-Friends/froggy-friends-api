@@ -8,6 +8,7 @@ import * as stakingAbi from './abi-staking.json';
 import * as ribbitAbi from './abi-ribbit.json';
 import * as rarity from '../rarityBands.json';
 import { OwnedResponse } from './models/OwnedResponse';
+const Moralis = require("moralis/node");
 const keccak = require("keccak256");
 const axios = require('axios');
 require('dotenv').config();
@@ -54,10 +55,18 @@ export class AppService {
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
-      let balanceOfOwner = await contract.methods.balanceOf(address).call();
-      const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
+      // get staking token ids
       const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
+      // get unstaking token ids
+      const options = {
+        chain: "Eth",
+        address: address,
+        token_address: CONTRACT_ADDRESS
+      };
+      const { result } = await Moralis.Web3API.account.getNFTsForContract(options);
+      const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
       const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+
       const ownedResponse: OwnedResponse = {
         froggies: [],
         totalRibbit: 0,
@@ -66,49 +75,51 @@ export class AppService {
       };
       const froggies = [];
       let totalRibbit = 0;
-      for(let i = 0; i < balanceOfOwner; i++) {
-        const tokenId = await contract.methods.tokenOfOwnerByIndex(address, i).call();
-        const tokenUri = await contract.methods.tokenURI(tokenId).call();
-        const response = await axios.get(tokenUri);
-        const froggy = {...response.data};
-        froggy.isStaked = false;
 
-        const id = +tokenId;
+      for(const froggy of result) {
+        const metadata = JSON.parse(froggy.metadata);
+        const nft = {
+          ...metadata,
+          isStaked: false,
+          ribbit: 0
+        };
+        
+        const id = +froggy.token_id;
         if (rarity.common.includes(id)) {
-          froggy.ribbit = 20;
+          nft.ribbit = 20;
         } else if (rarity.uncommon.includes(id)) {
-          froggy.ribbit = 30;
+          nft.ribbit = 30;
         } else if (rarity.rare.includes(id)) {
-          froggy.ribbit = 40;
+          nft.ribbit = 40;
         } else if (rarity.legendary.includes(id)) {
-          froggy.ribbit = 75;
+          nft.ribbit = 75;
         } else if (rarity.epic.includes(id)) {
-          froggy.ribbit = 150;
+          nft.ribbit = 150;
         }
-        froggies.push(froggy);
-        totalRibbit += froggy.ribbit;
+        froggies.push(nft);
+        totalRibbit += nft.ribbit;
       }
 
-      for (const tokenId of tokensStaked) {
-        const tokenUri = await contract.methods.tokenURI(tokenId).call();
-        const response = await axios.get(tokenUri);
-        const froggy = {...response.data};
-        froggy.isStaked = true;
-        const id = +tokenId;
-        if (rarity.common.includes(id)) {
-          froggy.ribbit = 20;
-        } else if (rarity.uncommon.includes(id)) {
-          froggy.ribbit = 30;
-        } else if (rarity.rare.includes(id)) {
-          froggy.ribbit = 40;
-        } else if (rarity.legendary.includes(id)) {
-          froggy.ribbit = 75;
-        } else if (rarity.epic.includes(id)) {
-          froggy.ribbit = 150;
-        }
-        froggies.push(froggy);
-        totalRibbit += froggy.ribbit;
-      }
+      // for (const tokenId of tokensStaked) {
+      //   const tokenUri = await contract.methods.tokenURI(tokenId).call();
+      //   const response = await axios.get(tokenUri);
+      //   const froggy = {...response.data};
+      //   froggy.isStaked = true;
+      //   const id = +tokenId;
+      //   if (rarity.common.includes(id)) {
+      //     froggy.ribbit = 20;
+      //   } else if (rarity.uncommon.includes(id)) {
+      //     froggy.ribbit = 30;
+      //   } else if (rarity.rare.includes(id)) {
+      //     froggy.ribbit = 40;
+      //   } else if (rarity.legendary.includes(id)) {
+      //     froggy.ribbit = 75;
+      //   } else if (rarity.epic.includes(id)) {
+      //     froggy.ribbit = 150;
+      //   }
+      //   froggies.push(froggy);
+      //   totalRibbit += froggy.ribbit;
+      // }
 
       ownedResponse.froggies = froggies;
       ownedResponse.totalRibbit = totalRibbit;

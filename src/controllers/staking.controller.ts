@@ -4,10 +4,10 @@ import { StakingService } from './../services/staking.service';
 
 @Controller()
 export class StakingController {
-  constructor(private readonly moralisService: StakingService) {}
+  constructor(private readonly stakingService: StakingService) {}
 
   @Get("/staking")
   getStakingHolders() {
-    return this.moralisService.getStakingHolders();
+    return this.stakingService.getStakingHolders();
   }
 }
