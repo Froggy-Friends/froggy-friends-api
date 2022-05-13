@@ -56,6 +56,9 @@ export class AppService {
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
+      // get staking token ids
+      const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
+
       // get unstaking token ids
       const options = {
         chain: "Eth",
@@ -75,7 +78,10 @@ export class AppService {
       const froggies = [];
       let totalRibbit = 0;
 
-      for(const result of unstaked.result) {
+      // remove staked tokens from unstaked moralis list
+      const results = unstaked.result.filter((nft: any) => !tokensStaked.includes(nft.token_id));
+
+      for(const result of results) {
         const froggy: Froggy = {
           name: `Froggy #${result.token_id}`,
           image: `${IPFS_IMAGE_URL}/${result.token_id}.png`,
@@ -98,9 +104,6 @@ export class AppService {
         froggies.push(froggy);
         totalRibbit += froggy.ribbit;
       }
-
-      // get staking token ids
-      const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
 
       for (const tokenId of tokensStaked) {
         const froggy: Froggy = {
