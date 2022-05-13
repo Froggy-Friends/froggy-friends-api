@@ -13,7 +13,7 @@ const keccak = require("keccak256");
 const axios = require('axios');
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
@@ -63,7 +63,7 @@ export class AppService {
         address: address,
         token_address: CONTRACT_ADDRESS
       };
-      const { result } = await Moralis.Web3API.account.getNFTsForContract(options);
+      const unstaked = await Moralis.Web3API.account.getNFTsForContract(options);
       const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
       const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
 
@@ -76,24 +76,24 @@ export class AppService {
       const froggies = [];
       let totalRibbit = 0;
 
-      for(const froggy of result) {
-        const metadata = JSON.parse(froggy.metadata);
+      for(const froggy of unstaked.result) {
         const nft = {
-          ...metadata,
+          name: `Froggy #${froggy.token_id}`,
+          image: `${IPFS_IMAGE_URL}/${froggy.token_id}.png`,
+          edition: +froggy.token_id,
           isStaked: false,
           ribbit: 0
         };
         
-        const id = +froggy.token_id;
-        if (rarity.common.includes(id)) {
+        if (rarity.common.includes(nft.edition)) {
           nft.ribbit = 20;
-        } else if (rarity.uncommon.includes(id)) {
+        } else if (rarity.uncommon.includes(nft.edition)) {
           nft.ribbit = 30;
-        } else if (rarity.rare.includes(id)) {
+        } else if (rarity.rare.includes(nft.edition)) {
           nft.ribbit = 40;
-        } else if (rarity.legendary.includes(id)) {
+        } else if (rarity.legendary.includes(nft.edition)) {
           nft.ribbit = 75;
-        } else if (rarity.epic.includes(id)) {
+        } else if (rarity.epic.includes(nft.edition)) {
           nft.ribbit = 150;
         }
         froggies.push(nft);
