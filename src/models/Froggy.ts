@@ -5,11 +5,8 @@ export interface Attribute {
 
 export interface Froggy {
   name: string;
-  description: string;
   image: string;
-  dna: string;
   edition: number;
-  date: number;
   isStaked: boolean;
-  attributes: Attribute[];
+  ribbit: number;
 }

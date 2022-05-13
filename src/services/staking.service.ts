@@ -1,20 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 const Moralis = require("moralis/node");
-const { MORALIS_URL, MORALIS_APP_ID, MORALIS_KEY } = process.env;
 
 @Injectable()
-export class MoralisService {
-
-  constructor() {
-    this.start().catch(err => console.log("moralis error: ", err));
-  }
-
-  async start() {
-    await Moralis.start({ serverUrl: MORALIS_URL, appId: MORALIS_APP_ID, masterKey: MORALIS_KEY });
-  }
+export class StakingService {
 
   async getStakingHolders() {
     const StakingTransfers = Moralis.Object.extend("EthNFTTransfers");
