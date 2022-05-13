@@ -8,6 +8,7 @@ import * as stakingAbi from './abi-staking.json';
 import * as ribbitAbi from './abi-ribbit.json';
 import * as rarity from '../rarityBands.json';
 import { OwnedResponse } from './models/OwnedResponse';
+import { Froggy } from './models/Froggy';
 const Moralis = require("moralis/node");
 const keccak = require("keccak256");
 const axios = require('axios');
@@ -55,8 +56,6 @@ export class AppService {
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
-      // get staking token ids
-      const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
       // get unstaking token ids
       const options = {
         chain: "Eth",
@@ -76,50 +75,56 @@ export class AppService {
       const froggies = [];
       let totalRibbit = 0;
 
-      for(const froggy of unstaked.result) {
-        const nft = {
-          name: `Froggy #${froggy.token_id}`,
-          image: `${IPFS_IMAGE_URL}/${froggy.token_id}.png`,
-          edition: +froggy.token_id,
+      for(const result of unstaked.result) {
+        const froggy: Froggy = {
+          name: `Froggy #${result.token_id}`,
+          image: `${IPFS_IMAGE_URL}/${result.token_id}.png`,
+          edition: +result.token_id,
           isStaked: false,
           ribbit: 0
         };
         
-        if (rarity.common.includes(nft.edition)) {
-          nft.ribbit = 20;
-        } else if (rarity.uncommon.includes(nft.edition)) {
-          nft.ribbit = 30;
-        } else if (rarity.rare.includes(nft.edition)) {
-          nft.ribbit = 40;
-        } else if (rarity.legendary.includes(nft.edition)) {
-          nft.ribbit = 75;
-        } else if (rarity.epic.includes(nft.edition)) {
-          nft.ribbit = 150;
+        if (rarity.common.includes(froggy.edition)) {
+          froggy.ribbit = 20;
+        } else if (rarity.uncommon.includes(froggy.edition)) {
+          froggy.ribbit = 30;
+        } else if (rarity.rare.includes(froggy.edition)) {
+          froggy.ribbit = 40;
+        } else if (rarity.legendary.includes(froggy.edition)) {
+          froggy.ribbit = 75;
+        } else if (rarity.epic.includes(froggy.edition)) {
+          froggy.ribbit = 150;
         }
-        froggies.push(nft);
-        totalRibbit += nft.ribbit;
+        froggies.push(froggy);
+        totalRibbit += froggy.ribbit;
       }
 
-      // for (const tokenId of tokensStaked) {
-      //   const tokenUri = await contract.methods.tokenURI(tokenId).call();
-      //   const response = await axios.get(tokenUri);
-      //   const froggy = {...response.data};
-      //   froggy.isStaked = true;
-      //   const id = +tokenId;
-      //   if (rarity.common.includes(id)) {
-      //     froggy.ribbit = 20;
-      //   } else if (rarity.uncommon.includes(id)) {
-      //     froggy.ribbit = 30;
-      //   } else if (rarity.rare.includes(id)) {
-      //     froggy.ribbit = 40;
-      //   } else if (rarity.legendary.includes(id)) {
-      //     froggy.ribbit = 75;
-      //   } else if (rarity.epic.includes(id)) {
-      //     froggy.ribbit = 150;
-      //   }
-      //   froggies.push(froggy);
-      //   totalRibbit += froggy.ribbit;
-      // }
+      // get staking token ids
+      const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
+
+      for (const tokenId of tokensStaked) {
+        const froggy: Froggy = {
+          name: `Froggy #${tokenId}`,
+          image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
+          edition: +tokenId,
+          isStaked: true,
+          ribbit: 0
+        }
+        
+        if (rarity.common.includes(froggy.edition)) {
+          froggy.ribbit = 20;
+        } else if (rarity.uncommon.includes(froggy.edition)) {
+          froggy.ribbit = 30;
+        } else if (rarity.rare.includes(froggy.edition)) {
+          froggy.ribbit = 40;
+        } else if (rarity.legendary.includes(froggy.edition)) {
+          froggy.ribbit = 75;
+        } else if (rarity.epic.includes(froggy.edition)) {
+          froggy.ribbit = 150;
+        }
+        froggies.push(froggy);
+        totalRibbit += froggy.ribbit;
+      }
 
       ownedResponse.froggies = froggies;
       ownedResponse.totalRibbit = totalRibbit;
