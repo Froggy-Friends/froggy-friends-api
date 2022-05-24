@@ -18,19 +18,29 @@ const ribbitContract = new web3.eth.Contract(ribbitAbiItem, RIBBIT_CONTRACT_ADDR
 @Injectable()
 export class StakingService {
   private readonly logger = new Logger(StakingService.name);
-  leaderboard: Leaderboard[];
+  private leaderboard: Leaderboard[];
 
   constructor() {
     this.leaderboard = [];
+    this.initLeaderboard();
   }
 
-  // @Cron(CronExpression.EVERY_MINUTE, { name: "leaderboard", timeZone: "America/Los_Angeles"})
-  // async processLeaderboard() {
-  //   this.logger.log("Processing leaderboard: ", new Date());
-  //   const stakers = await this.getStakingHoldersAllTime();
-  //   const leaderboard = await this.getLeaderboard(stakers);
-  //   this.leaderboard = leaderboard;
-  // }
+  async initLeaderboard() {
+    this.logger.log("Creating new leaderboard");
+    const stakers = await this.getStakingHoldersAllTime();
+    const leaderboard = await this.getStakersLeaderboard(stakers);
+    this.logger.log("Leaderboard holders processed: " + leaderboard.length);
+    this.leaderboard = leaderboard;
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_6AM, { name: "leaderboard", timeZone: "America/Los_Angeles"})
+  async processLeaderboard() {
+    this.initLeaderboard();
+  }
+
+  getLeaderboard() {
+    return this.leaderboard;
+  }
 
   async getStakingHolders(): Promise<string[]> {
     const StakingTransfers = Moralis.Object.extend("EthNFTTransfers");
@@ -75,7 +85,7 @@ export class StakingService {
     return [...new Set(owners)];
   }
 
-  async getLeaderboard(stakers: string[]): Promise<Leaderboard[]> {
+  async getStakersLeaderboard(stakers: string[]): Promise<Leaderboard[]> {
     let leaderboard: Leaderboard[] = [];
 
     for (const address of stakers) {

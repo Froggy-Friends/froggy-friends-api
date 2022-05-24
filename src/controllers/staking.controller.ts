@@ -13,8 +13,7 @@ export class StakingController {
   }
 
   @Get("/leaderboard")
-  async getLeaderboard(page: number): Promise<Leaderboard[]> {
-    const stakers = await this.stakingService.getStakingHoldersAllTime();
-    return await this.stakingService.getLeaderboard(stakers);
+  getLeaderboard() {
+    return this.stakingService.getLeaderboard();
   }
 }
