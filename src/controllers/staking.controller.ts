@@ -1,4 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
+import { Leaderboard } from "src/models/Leaderboard";
 import { StakingService } from './../services/staking.service';
 
 
@@ -9,5 +10,10 @@ export class StakingController {
   @Get("/staking")
   getStakingHolders() {
     return this.stakingService.getStakingHolders();
+  }
+
+  @Get("/leaderboard")
+  getLeaderboard() {
+    return this.stakingService.getLeaderboard();
   }
 }

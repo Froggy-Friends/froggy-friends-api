@@ -9,12 +9,12 @@ const { MORALIS_URL, MORALIS_APP_ID, MORALIS_KEY } = process.env;
 
 async function bootstrap() {
   try {
+    // start moralis connection
+    await Moralis.start({ serverUrl: MORALIS_URL, appId: MORALIS_APP_ID, masterKey: MORALIS_KEY });
+    
     const app = await NestFactory.create(AppModule);
     app.enableCors();
     app.useGlobalFilters(new NotFoundExceptionFilter());
-    
-    // start moralis connection
-    await Moralis.start({ serverUrl: MORALIS_URL, appId: MORALIS_APP_ID, masterKey: MORALIS_KEY });
     
     // start server
     await app.listen(process.env.PORT || 8080);
