@@ -100,15 +100,19 @@ export class StakingService {
 
       // convert back to gwei string format 
       const total: string = (formatEther(totalEther));
-      const totalFormatted: string = (+total).toFixed(2);
 
       leaderboard.push({
         account: address,
-        ribbit: total,
-        ribbitFormatted: commify(totalFormatted)
+        ribbit: total
       });
     }
 
-    return leaderboard.sort((a, b) => +b.ribbit - +a.ribbit);
+    return leaderboard.sort((a, b) => +b.ribbit - +a.ribbit).map(s => {
+      const total: string = (+s.ribbit).toFixed(2);
+      return {
+        account: s.account,
+        ribbit: commify(total)
+      }
+    })
   }
 }
