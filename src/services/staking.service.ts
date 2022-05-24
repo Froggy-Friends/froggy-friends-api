@@ -7,7 +7,8 @@ import * as stakingAbi from '../abi-staking.json';
 import * as ribbitAbi from '../abi-ribbit.json';
 import { formatEther, parseEther, commify, } from "ethers/lib/utils";
 import { BigNumber } from "@ethersproject/bignumber";
-const { ALCHEMY_API_URL, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS } = process.env;
+import { ethers } from "ethers";
+const { ALCHEMY_API_URL, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, ETHERSCAN_API_KEY } = process.env;
 const Moralis = require("moralis/node");
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const stakingAbiItem: any = stakingAbi;
@@ -101,8 +102,11 @@ export class StakingService {
       // convert back to gwei string format 
       const total: string = (formatEther(totalEther));
 
+      const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: ALCHEMY_API_URL});
+      const name = await provider.lookupAddress(address);
+
       leaderboard.push({
-        account: address,
+        account: name || address,
         ribbit: total
       });
     }
