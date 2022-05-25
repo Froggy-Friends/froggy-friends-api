@@ -102,11 +102,19 @@ export class StakingService {
       // convert back to gwei string format 
       const total: string = (formatEther(totalEther));
 
-      // const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: ALCHEMY_API_URL});
-      // const name = await provider.lookupAddress(address);
+      let account = address;
+      try {
+        const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: ALCHEMY_API_URL});
+        const name = await provider.lookupAddress(address);
+        if (name) {
+          account = name;
+        }
+      } catch (error) {
+        this.logger.error("lookup ENS error: " + error);
+      }
 
       leaderboard.push({
-        account: address,
+        account: account,
         ribbit: total
       });
     }
