@@ -23,7 +23,7 @@ export const items: Metadata[] = [
     name: 'Rabbit Friend',
     image: '',
     previewImage: '',
-    description: 'Rabbit Friend is our common tier friend that pairs with your froggy pfp and provides a 5% staking boost',
+    description: 'Rabbit Friend is our common tier genesis friend that pairs with your froggy pfp and provides a 5% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -34,12 +34,13 @@ export const items: Metadata[] = [
         value: 'Yes'
       },
       {
-        trait_type: 'Boost Percent',
-        value: '5%'
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 5
       },
       {
-        trait_type: 'Genesis Friend',
-        value: 'Yes'
+        trait_type: 'Friend Origin',
+        value: 'Genesis'
       }
     ]
   },
@@ -48,7 +49,7 @@ export const items: Metadata[] = [
     name: 'Bear Friend',
     image: '',
     previewImage: '',
-    description: 'Bear Friend is our uncommon tier friend that pairs with your froggy pfp and provides a 10% staking boost',
+    description: 'Bear Friend is our uncommon tier genesis friend that pairs with your froggy pfp and provides a 10% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -59,12 +60,13 @@ export const items: Metadata[] = [
         value: 'Yes'
       },
       {
-        trait_type: 'Boost Percent',
-        value: '10%'
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
       },
       {
-        trait_type: 'Genesis Friend',
-        value: 'Yes'
+        trait_type: 'Friend Origin',
+        value: 'Genesis'
       }
     ]
   },
@@ -73,7 +75,7 @@ export const items: Metadata[] = [
     name: 'Red Panda Friend',
     image: '',
     previewImage: '',
-    description: 'Red Panda Friend is our rare tier friend that pairs with your froggy pfp and provides a 15% staking boost',
+    description: 'Red Panda Friend is our rare tier genesis friend that pairs with your froggy pfp and provides a 15% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -84,12 +86,13 @@ export const items: Metadata[] = [
         value: 'Yes'
       },
       {
-        trait_type: 'Boost Percent',
-        value: '15%'
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 15
       },
       {
-        trait_type: 'Genesis Friend',
-        value: 'Yes'
+        trait_type: 'Friend Origin',
+        value: 'Genesis'
       }
     ]
   },
@@ -98,7 +101,7 @@ export const items: Metadata[] = [
     name: 'Cat Friend',
     image: '',
     previewImage: '',
-    description: 'Cat Friend is our legendary tier friend that pairs with your froggy pfp and provides a 20% staking boost',
+    description: 'Cat Friend is our legendary tier genesis friend that pairs with your froggy pfp and provides a 20% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -109,12 +112,13 @@ export const items: Metadata[] = [
         value: 'Yes'
       },
       {
-        trait_type: 'Boost Percent',
-        value: '20%'
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 20
       },
       {
-        trait_type: 'Genesis Friend',
-        value: 'Yes'
+        trait_type: 'Friend Origin',
+        value: 'Genesis'
       }
     ]
   },
@@ -123,7 +127,7 @@ export const items: Metadata[] = [
     name: 'Unicorn Friend',
     image: '',
     previewImage: '',
-    description: 'Unicorn Friend is our epic tier friend that pairs with your froggy pfp and provides a 30% staking boost',
+    description: 'Unicorn Friend is our epic tier genesis friend that pairs with your froggy pfp and provides a 30% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -134,12 +138,91 @@ export const items: Metadata[] = [
         value: 'Yes'
       },
       {
-        trait_type: 'Boost Percent',
-        value: '30%'
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 30
       },
       {
-        trait_type: 'Genesis Friend',
+        trait_type: 'Friend Origin',
+        value: 'Genesis'
+      }
+    ]
+  },
+  {
+    id: 7,
+    name: 'Golden Tiger Friend',
+    image: '',
+    previewImage: '',
+    description: 'Golden Tiger Friend is our epic tier genesis friend that pairs with your froggy pfp and provides a 30% staking boost',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
         value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 30
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Genesis'
+      }
+    ]
+  },
+  {
+    id: 8,
+    name: 'Bao Friend',
+    image: '',
+    previewImage: '',
+    description: 'Bao Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 9,
+    name: 'Roo Troop Friend',
+    image: '',
+    previewImage: '',
+    description: 'Roo Troop Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
       }
     ]
   }
