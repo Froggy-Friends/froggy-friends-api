@@ -4,7 +4,7 @@ export const items: Metadata[] = [
   {
     id: 1,
     name: 'Golden Lily Pad',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/1.png',
     previewImage: '',
     description: 'The Golden Lily Pad is a highly coveted Ribbit item that is loaded with perks including a golden embroidered hoodie and IRL event pass for complimentary food, drinks and more.',
     attributes: [
@@ -21,7 +21,7 @@ export const items: Metadata[] = [
   {
     id: 2,
     name: 'Rabbit Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/2.png',
     previewImage: '',
     description: 'Rabbit Friend is our common tier genesis friend that pairs with your froggy pfp and provides a 5% staking boost',
     attributes: [
@@ -47,7 +47,7 @@ export const items: Metadata[] = [
   {
     id: 3,
     name: 'Bear Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/3.png',
     previewImage: '',
     description: 'Bear Friend is our uncommon tier genesis friend that pairs with your froggy pfp and provides a 10% staking boost',
     attributes: [
@@ -73,7 +73,7 @@ export const items: Metadata[] = [
   {
     id: 4,
     name: 'Red Panda Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/4.png',
     previewImage: '',
     description: 'Red Panda Friend is our rare tier genesis friend that pairs with your froggy pfp and provides a 15% staking boost',
     attributes: [
@@ -99,7 +99,7 @@ export const items: Metadata[] = [
   {
     id: 5,
     name: 'Cat Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/5.png',
     previewImage: '',
     description: 'Cat Friend is our legendary tier genesis friend that pairs with your froggy pfp and provides a 20% staking boost',
     attributes: [
@@ -125,7 +125,7 @@ export const items: Metadata[] = [
   {
     id: 6,
     name: 'Unicorn Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/6.png',
     previewImage: '',
     description: 'Unicorn Friend is our epic tier genesis friend that pairs with your froggy pfp and provides a 30% staking boost',
     attributes: [
@@ -151,7 +151,7 @@ export const items: Metadata[] = [
   {
     id: 7,
     name: 'Golden Tiger Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/7.png',
     previewImage: '',
     description: 'Golden Tiger Friend is our epic tier genesis friend that pairs with your froggy pfp and provides a 30% staking boost',
     attributes: [
@@ -177,7 +177,7 @@ export const items: Metadata[] = [
   {
     id: 8,
     name: 'Bao Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/8.png',
     previewImage: '',
     description: 'Bao Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     attributes: [
@@ -203,7 +203,7 @@ export const items: Metadata[] = [
   {
     id: 9,
     name: 'Roo Troop Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/9.png',
     previewImage: '',
     description: 'Roo Troop Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     attributes: [
@@ -229,7 +229,7 @@ export const items: Metadata[] = [
   {
     id: 10,
     name: 'Squishiverse Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/10.png',
     previewImage: '',
     description: 'Squishiverse Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
     attributes: [
@@ -255,7 +255,7 @@ export const items: Metadata[] = [
   {
     id: 11,
     name: 'CryptoMories Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/11.png',
     previewImage: '',
     description: 'CryptoMories Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
     attributes: [
@@ -281,7 +281,7 @@ export const items: Metadata[] = [
   {
     id: 12,
     name: 'Kaiju Kings Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/12.png',
     previewImage: '',
     description: 'Kaiju Kings Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     attributes: [
@@ -307,7 +307,7 @@ export const items: Metadata[] = [
   {
     id: 13,
     name: 'Froggy Friends Raffle',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/13.png',
     previewImage: '',
     description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
     attributes: [
@@ -324,7 +324,7 @@ export const items: Metadata[] = [
   {
     id: 14,
     name: 'Froggy Friends Raffle',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/14.png',
     previewImage: '',
     description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
     attributes: [
@@ -341,7 +341,7 @@ export const items: Metadata[] = [
   {
     id: 15,
     name: 'Froggy Friends Raffle',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/15.png',
     previewImage: '',
     description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
     attributes: [
@@ -358,7 +358,7 @@ export const items: Metadata[] = [
   {
     id: 16,
     name: 'Froggy Friends NFT',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/16.png',
     previewImage: '',
     description: 'Purchase a random Froggy Friends NFT',
     attributes: [
@@ -375,7 +375,7 @@ export const items: Metadata[] = [
   {
     id: 17,
     name: 'Froggy Friends NFT',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/17.png',
     previewImage: '',
     description: 'Purchase a random Froggy Friends NFT',
     attributes: [
@@ -392,7 +392,7 @@ export const items: Metadata[] = [
   {
     id: 18,
     name: 'Froggy Friends NFT',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/18.png',
     previewImage: '',
     description: 'Purchase a random Froggy Friends NFT',
     attributes: [
