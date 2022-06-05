@@ -254,10 +254,10 @@ export const items: Metadata[] = [
   },
   {
     id: 11,
-    name: 'CryptoMorie Friend',
+    name: 'CryptoMories Friend',
     image: '',
     previewImage: '',
-    description: 'CryptoMorie Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
+    description: 'CryptoMories Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -279,11 +279,11 @@ export const items: Metadata[] = [
     ]
   },
   {
-    id: 11,
-    name: 'Kaiju King Friend',
+    id: 12,
+    name: 'Kaiju Kings Friend',
     image: '',
     previewImage: '',
-    description: 'Kaiju King Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    description: 'Kaiju Kings Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -301,6 +301,108 @@ export const items: Metadata[] = [
       {
         trait_type: 'Friend Origin',
         value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 13,
+    name: 'Froggy Friends Raffle',
+    image: '',
+    previewImage: '',
+    description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 14,
+    name: 'Froggy Friends Raffle',
+    image: '',
+    previewImage: '',
+    description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 15,
+    name: 'Froggy Friends Raffle',
+    image: '',
+    previewImage: '',
+    description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 16,
+    name: 'Froggy Friends NFT',
+    image: '',
+    previewImage: '',
+    description: 'Purchase a random Froggy Friends NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 17,
+    name: 'Froggy Friends NFT',
+    image: '',
+    previewImage: '',
+    description: 'Purchase a random Froggy Friends NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 18,
+    name: 'Froggy Friends NFT',
+    image: '',
+    previewImage: '',
+    description: 'Purchase a random Froggy Friends NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
       }
     ]
   }
