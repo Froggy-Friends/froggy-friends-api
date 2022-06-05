@@ -6,5 +6,6 @@ export interface Metadata {
   image: string;
   previewImage?: string;
   description: string;
+  category: string;
   attributes: Attribute[];
 }

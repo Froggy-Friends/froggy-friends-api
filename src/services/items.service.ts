@@ -25,4 +25,8 @@ export class ItemsService {
 
     return items[index];
   }
+
+  getItems(): Metadata[] {
+    return items;
+  }
 }

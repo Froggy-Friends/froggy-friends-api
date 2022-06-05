@@ -11,4 +11,9 @@ export class ItemsController {
   getItem(@Param('id') id: string): Metadata {
     return this.itemsService.getItem(id);
   }
+
+  @Get('/items')
+  getItems(): Metadata[] {
+    return this.itemsService.getItems();
+  }
 }
