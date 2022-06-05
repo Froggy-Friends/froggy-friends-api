@@ -225,5 +225,83 @@ export const items: Metadata[] = [
         value: 'Collab'
       }
     ]
+  },
+  {
+    id: 10,
+    name: 'Squishiverse Friend',
+    image: '',
+    previewImage: '',
+    description: 'Squishiverse Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 5
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 11,
+    name: 'CryptoMorie Friend',
+    image: '',
+    previewImage: '',
+    description: 'CryptoMorie Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 5
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 11,
+    name: 'Kaiju King Friend',
+    image: '',
+    previewImage: '',
+    description: 'Kaiju King Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
   }
 ];
