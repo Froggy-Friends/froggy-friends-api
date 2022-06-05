@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Metadata } from "src/models/metadata";
 import { items } from '../data/items';
-
+import { metadata } from '../data/contract-metadata';
+import { ContractMetadata } from './../models/ContractMetadata';
 
 @Injectable()
 export class ItemsService {
@@ -28,5 +29,9 @@ export class ItemsService {
 
   getItems(): Metadata[] {
     return items;
+  }
+
+  getContractMetadata(): ContractMetadata {
+    return metadata;
   }
 }
