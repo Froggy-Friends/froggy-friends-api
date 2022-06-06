@@ -5,7 +5,7 @@ export interface RibbitItem extends Metadata {
   percentage: number;
   minted: number;
   supply: number;
+  walletLimit: number;
   isBoost: boolean;
   isOnSale: boolean;
-  walletLimit: number;
 }

@@ -6,6 +6,7 @@ import { metadata } from '../data/contract-metadata';
 import { ContractMetadata } from './../models/ContractMetadata';
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import * as ribbitAbi from '../abii-items.json';
+import { ethers } from "ethers";
 require('dotenv').config();
 const { ALCHEMY_API_URL, RIBBIT_ITEM_ADDRESS } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
@@ -51,24 +52,25 @@ export class ItemsService {
         const details  = await ribbitItemContract.methods.item(item.id).call();
         const price = details['0'];
         const percent = details['1'];
-        const supply = details['2'];
-        const isBoost = details['3'];
-        const minted = details['4'];
-        const isOnSale = details['5'];
-        const walletLimit = details['6'];
+        const minted = details['2'];
+        const supply = details['3'];
+        const walletLimit = details['4'];
+        const isBoost = details['5'];
+        const isOnSale = details['6'];
+
+        const etherPrice = +ethers.utils.formatEther(price);
 
         let ribbitItem: RibbitItem = {
-          price: price,
-          percentage: percent,
-          minted: minted,
-          supply: supply,
+          ...item,
+          price: etherPrice,
+          percentage: +percent,
+          minted: +minted,
+          supply: +supply,
+          walletLimit: +walletLimit,
           isBoost: isBoost,
           isOnSale: isOnSale,
-          walletLimit: walletLimit,
-          ...item
         }
         
-        console.log("ribbit item: ", ribbitItem);
         ribbitItems.push(ribbitItem);
       } catch (error) {
         console.log("get contract details error: ", error);
