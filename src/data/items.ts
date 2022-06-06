@@ -186,7 +186,7 @@ export const items: Metadata[] = [
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/8.png',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmWmSmsLfFkF5C5Ce9LidduJd7JpMbwGNjDSaLfLBJWDoF/8.png',
     description: 'Bao Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
-    category: 'friends',
+    category: 'collabs',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -213,7 +213,7 @@ export const items: Metadata[] = [
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/9.png',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmWmSmsLfFkF5C5Ce9LidduJd7JpMbwGNjDSaLfLBJWDoF/9.png',
     description: 'Roo Troop Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
-    category: 'friends',
+    category: 'collabs',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -240,7 +240,7 @@ export const items: Metadata[] = [
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/10.png',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmWmSmsLfFkF5C5Ce9LidduJd7JpMbwGNjDSaLfLBJWDoF/10.png',
     description: 'Squishiverse Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
-    category: 'friends',
+    category: 'collabs',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -263,11 +263,11 @@ export const items: Metadata[] = [
   },
   {
     id: 11,
-    name: 'CryptoMories Friend',
+    name: 'Morie Friend',
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/11.png',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmWmSmsLfFkF5C5Ce9LidduJd7JpMbwGNjDSaLfLBJWDoF/11.png',
     description: 'CryptoMories Friend is our collab friend that pairs with your froggy pfp and provides a 5% staking boost',
-    category: 'friends',
+    category: 'collabs',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -294,7 +294,7 @@ export const items: Metadata[] = [
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/12.png',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmWmSmsLfFkF5C5Ce9LidduJd7JpMbwGNjDSaLfLBJWDoF/12.png',
     description: 'Kaiju Kings Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
-    category: 'friends',
+    category: 'collabs',
     attributes: [
       {
         trait_type: 'Rarity',
