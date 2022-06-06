@@ -1,4 +1,4 @@
-import { Attribute } from "./Froggy";
+import { Attribute } from "./Attribute";
 
 export interface Metadata {
   id: number;
