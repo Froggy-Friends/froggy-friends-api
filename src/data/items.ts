@@ -172,7 +172,7 @@ export const items: Metadata[] = [
       {
         display_type: 'boost_percentage',
         trait_type: 'Boost Percentage',
-        value: 30
+        value: 35
       },
       {
         trait_type: 'Friend Origin',
