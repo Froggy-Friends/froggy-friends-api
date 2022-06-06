@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { Metadata } from "../models/metadata";
 import { RibbitItem } from '../models/RibbitItem';
 import { items } from '../data/items';
@@ -15,6 +15,7 @@ const ribbitItemContract = new web3.eth.Contract(ribbitItemAbi, RIBBIT_ITEM_ADDR
 
 @Injectable()
 export class ItemsService {
+  private readonly logger = new Logger(ItemsService.name);
 
   constructor() {
 
@@ -73,7 +74,7 @@ export class ItemsService {
         
         ribbitItems.push(ribbitItem);
       } catch (error) {
-        console.log("get contract details error: ", error);
+        this.logger.error("Get item details error: " + error);
       }
     }
 
