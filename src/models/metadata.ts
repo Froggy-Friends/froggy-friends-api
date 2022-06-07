@@ -7,5 +7,6 @@ export interface Metadata {
   previewImage?: string;
   description: string;
   category: string;
+  collabId?: number;
   attributes: Attribute[];
 }
