@@ -317,14 +317,14 @@ export const items: Metadata[] = [
   },
   {
     id: 13,
-    name: 'Froggy Friends Raffle',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/13.gif',
-    description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
-    category: 'raffles',
+    name: 'Froggy Friends Shirt',
+    image: '',
+    description: 'Limited edition Ribbit Prime exclusive Froggy Friends Shirt',
+    category: 'merch',
     attributes: [
       {
         trait_type: 'Rarity',
-        value: 'Common'
+        value: 'Epic'
       },
       {
         trait_type: 'Boost',
@@ -334,10 +334,10 @@ export const items: Metadata[] = [
   },
   {
     id: 14,
-    name: 'Froggy Friends Raffle',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/14.gif',
-    description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
-    category: 'raffles',
+    name: 'Froggy Friend #2917',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/2917.png',
+    description: 'Purchase Froggy Friend #2917 with $RIBBIT',
+    category: 'nfts',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -351,10 +351,10 @@ export const items: Metadata[] = [
   },
   {
     id: 15,
-    name: 'Froggy Friends Raffle',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/15.gif',
-    description: 'Purchase a raffle ticket to win a Froggy Friends NFT',
-    category: 'raffles',
+    name: 'Froggy Friend #2598',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/2598.png',
+    description: 'Purchase Froggy Friend #2598 with $RIBBIT',
+    category: 'nfts',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -368,14 +368,14 @@ export const items: Metadata[] = [
   },
   {
     id: 16,
-    name: 'Froggy Friends NFT',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/16.gif',
-    description: 'Purchase a random Froggy Friends NFT',
+    name: 'Froggy Friend #7',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/7.png',
+    description: 'Purchase Froggy Friend #7 with $RIBBIT',
     category: 'nfts',
     attributes: [
       {
         trait_type: 'Rarity',
-        value: 'Common'
+        value: 'Uncommon'
       },
       {
         trait_type: 'Boost',
@@ -385,10 +385,27 @@ export const items: Metadata[] = [
   },
   {
     id: 17,
-    name: 'Froggy Friends NFT',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/17.gif',
-    description: 'Purchase a random Froggy Friends NFT',
+    name: 'Froggy Friend #28',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/28.png',
+    description: 'Purchase Froggy Friend #28 with $RIBBIT',
     category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Legendary'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 18,
+    name: 'Froggy Friend Raffle #1',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmetN5mRpMhEfKcBgXo3vm21ENBugMUhWjm2pDqGU4gvbX',
+    description: 'Purchase a random community owned Froggy Friends NFT',
+    category: 'raffles',
     attributes: [
       {
         trait_type: 'Rarity',
@@ -401,11 +418,28 @@ export const items: Metadata[] = [
     ]
   },
   {
-    id: 18,
-    name: 'Froggy Friends NFT',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmUzU6dpBLJo2SPNXotKZ5CVkHcEKCJFwCYLb6PmX5wQw5/18.gif',
-    description: 'Purchase a random Froggy Friends NFT',
-    category: 'nfts',
+    id: 19,
+    name: 'Froggy Friend Raffle #2',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmetN5mRpMhEfKcBgXo3vm21ENBugMUhWjm2pDqGU4gvbX',
+    description: 'Purchase a random community owned Froggy Friends NFT',
+    category: 'raffles',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 20,
+    name: 'Froggy Friend Raffle #3',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmetN5mRpMhEfKcBgXo3vm21ENBugMUhWjm2pDqGU4gvbX',
+    description: 'Purchase a random community owned Froggy Friends NFT',
+    category: 'raffles',
     attributes: [
       {
         trait_type: 'Rarity',
