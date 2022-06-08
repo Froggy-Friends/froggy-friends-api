@@ -8,5 +8,7 @@ export interface Metadata {
   description: string;
   category: string;
   collabId?: number;
+  twitter?: string;
+  discord?: string;
   attributes: Attribute[];
 }

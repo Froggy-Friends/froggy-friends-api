@@ -323,7 +323,7 @@ export const items: Metadata[] = [
   {
     id: 13,
     name: 'Froggy Friends Shirt',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmdkEpe9cRncUxzqANTU22dDhNymtKfWgNzcaDpJzV3xea',
     description: 'Limited edition Ribbit Prime exclusive Froggy Friends Shirt',
     category: 'merch',
     attributes: [
@@ -449,6 +449,24 @@ export const items: Metadata[] = [
       {
         trait_type: 'Rarity',
         value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 21,
+    name: 'KikiVerse',
+    image: 'https://i.imgur.com/39Uq9F0.jpg',
+    description: 'Purchase a KikiVerse allowlist spot',
+    category: 'allowlists',
+    twitter: 'https://twitter.com/KikiVerseNFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
       },
       {
         trait_type: 'Boost',
