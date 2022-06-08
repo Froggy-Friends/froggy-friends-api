@@ -460,13 +460,31 @@ export const items: Metadata[] = [
     id: 21,
     name: 'KikiVerse',
     image: 'https://i.imgur.com/39Uq9F0.jpg',
-    description: 'Purchase a KikiVerse allowlist spot',
+    description: 'The inclusive and diverse world of 6942 cute Kikis',
     category: 'allowlists',
     twitter: 'https://twitter.com/KikiVerseNFT',
     attributes: [
       {
         trait_type: 'Rarity',
         value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 22,
+    name: 'TrophyHunters',
+    image: 'https://pbs.twimg.com/media/FR87_coXIAASw-2?format=jpg&name=large',
+    description: 'Completely decentralized evolution playing card game',
+    category: 'allowlists',
+    twitter: 'https://twitter.com/TrophyHunters_',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Legendary'
       },
       {
         trait_type: 'Boost',
