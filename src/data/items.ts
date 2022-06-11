@@ -498,6 +498,7 @@ export const items: Metadata[] = [
     image: 'https://pbs.twimg.com/profile_images/1519672438908497926/M89C_HEW_400x400.jpg',
     description: "Purchase a Bentley's PJ Club NFT with $RIBBIT",
     category: 'nfts',
+    twitter: 'https://twitter.com/bentleyspjclub',
     attributes: [
       {
         trait_type: 'Rarity',
