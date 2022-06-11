@@ -515,10 +515,11 @@ export const items: Metadata[] = [
     image: 'https://pbs.twimg.com/profile_images/1513768407790989315/QX11zboR_400x400.jpg',
     description: "World's first fully playable, customizable RPG collection.",
     category: 'allowlists',
+    twitter: 'https://twitter.com/GenDungeon',
     attributes: [
       {
         trait_type: 'Rarity',
-        value: 'Legendary'
+        value: 'Rare'
       },
       {
         trait_type: 'Boost',
