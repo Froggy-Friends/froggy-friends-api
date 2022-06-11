@@ -508,5 +508,22 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 24,
+    name: 'Generative Dungeon',
+    image: 'https://pbs.twimg.com/profile_images/1513768407790989315/QX11zboR_400x400.jpg',
+    description: "World's first fully playable, fully customizable, community-driven RPG collection.",
+    category: 'allowlists',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Legendary'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
