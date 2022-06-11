@@ -513,7 +513,7 @@ export const items: Metadata[] = [
     id: 24,
     name: 'Generative Avatars',
     image: 'https://pbs.twimg.com/profile_images/1513768407790989315/QX11zboR_400x400.jpg',
-    description: "World's first fully playable, fully customizable RPG collection.",
+    description: "World's first fully playable, customizable RPG collection.",
     category: 'allowlists',
     attributes: [
       {
