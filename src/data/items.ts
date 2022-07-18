@@ -527,5 +527,23 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 25,
+    name: 'Angry Dinos',
+    image: 'https://pbs.twimg.com/profile_images/1540387452719927297/bKT-9RGR_400x400.jpg',
+    description: 'Free Mint - No promises, no roadmap (maybe), just vibes!',
+    category: 'allowlists',
+    twitter: 'https://twitter.com/AngryDinosNFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
