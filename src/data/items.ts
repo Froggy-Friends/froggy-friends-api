@@ -530,7 +530,7 @@ export const items: Metadata[] = [
   },
   {
     id: 25,
-    name: 'Angry Dinos',
+    name: 'Angry Dinos Allowlist',
     image: 'https://pbs.twimg.com/profile_images/1540387452719927297/bKT-9RGR_400x400.jpg',
     description: 'Free Mint - No promises, no roadmap (maybe), just vibes!',
     category: 'allowlists',
@@ -539,6 +539,24 @@ export const items: Metadata[] = [
       {
         trait_type: 'Rarity',
         value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 26,
+    name: 'Tushi Pals Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1543435978723201025/iBcYhidv_400x400.jpg',
+    description: '4444 Tushis are all that survived the Dark Void into the Blockchain!',
+    category: 'allowlists',
+    twitter: 'https://twitter.com/TushiPals',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
       },
       {
         trait_type: 'Boost',
