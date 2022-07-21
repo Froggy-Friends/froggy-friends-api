@@ -531,7 +531,7 @@ export const items: Metadata[] = [
   {
     id: 25,
     name: 'Allowlist Archived',
-    image: 'ipfs://QmXmwcBUmJ7PToojYYRtKaBqd49v3vJYWGosXJcgUQYjLx',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmXmwcBUmJ7PToojYYRtKaBqd49v3vJYWGosXJcgUQYjLx',
     description: '',
     category: 'allowlists',
     attributes: [
