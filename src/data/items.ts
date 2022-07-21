@@ -530,11 +530,10 @@ export const items: Metadata[] = [
   },
   {
     id: 25,
-    name: 'Angry Dinos Allowlist',
-    image: 'https://pbs.twimg.com/profile_images/1540387452719927297/bKT-9RGR_400x400.jpg',
-    description: 'Free Mint - No promises, no roadmap (maybe), just vibes!',
+    name: 'Allowlist Archived',
+    image: 'ipfs://QmXmwcBUmJ7PToojYYRtKaBqd49v3vJYWGosXJcgUQYjLx',
+    description: '',
     category: 'allowlists',
-    twitter: 'https://twitter.com/AngryDinosNFT',
     attributes: [
       {
         trait_type: 'Rarity',
