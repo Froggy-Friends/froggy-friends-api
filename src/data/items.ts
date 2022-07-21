@@ -476,7 +476,7 @@ export const items: Metadata[] = [
   },
   {
     id: 22,
-    name: 'TrophyHunters',
+    name: 'TrophyHunters Allowlist',
     image: 'https://pbs.twimg.com/media/FR87_coXIAASw-2?format=jpg&name=large',
     description: 'Completely decentralized evolution playing card game',
     category: 'allowlists',
