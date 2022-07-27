@@ -562,5 +562,23 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 27,
+    name: 'DreamWorld Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1534336540893143041/ICJjK4RU_400x400.jpg',
+    description: 'A dream come true 💫 - Reputable Team, Real Utility, And Wonderful Art',
+    category: 'allowlists',
+    twitter: 'https://twitter.com/DreamWorldNFT_',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
