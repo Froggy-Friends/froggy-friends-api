@@ -583,9 +583,9 @@ export const items: Metadata[] = [
   },
   {
     id: 28,
-    name: 'Carrotz Free Mint Allowlist',
+    name: 'Carrotz Allowlist',
     image: 'https://pbs.twimg.com/profile_images/1548639215977746432/wA-keeIU_400x400.jpg',
-    description: '𝐂𝐀𝐑𝐑𝐎𝐓𝐙 🥕 𝐫𝐞𝐚𝐝𝐲 𝐭𝐨 𝐟𝐢𝐠𝐡𝐭 𝐚𝐠𝐚𝐢𝐧𝐬𝐭 𝐩𝐨𝐭𝐚𝐭𝐨𝐳. 𝐖𝐞 𝐰𝐢𝐥𝐥 𝐛𝐞 𝐤𝐢𝐧𝐠 𝐨𝐟 𝐭𝐡𝐞 𝐠𝐚𝐫𝐝𝐞𝐧🌱',
+    description: '𝐂𝐀𝐑𝐑𝐎𝐓𝐙 🥕 𝐫𝐞𝐚𝐝𝐲 𝐭𝐨 𝐟𝐢𝐠𝐡𝐭 𝐚𝐠𝐚𝐢𝐧𝐬𝐭 𝐩𝐨𝐭𝐚𝐭𝐨𝐳 (Free Mint)',
     category: 'allowlists',
     twitter: 'https://twitter.com/CarrotzNFTs',
     attributes: [
