@@ -10,5 +10,6 @@ export interface Metadata {
   collabId?: number;
   twitter?: string;
   discord?: string;
+  community?: boolean;
   attributes: Attribute[];
 }
