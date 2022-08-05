@@ -1140,5 +1140,23 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 56,
+    name: 'Froggy Friends Patches',
+    image: 'https://pbs.twimg.com/media/FS1mZkJWAAAITu3?format=jpg&name=medium',
+    description: 'Custom Quality Patches for Your Favorite NFTs | DM for Commissions',
+    category: 'merch',
+    twitter: 'https://twitter.com/MeepMerpPatches',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
