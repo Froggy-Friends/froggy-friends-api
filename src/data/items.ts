@@ -992,5 +992,113 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 48,
+    name: 'Tycoon Empires Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1550241289421131779/L83cGSDV_400x400.jpg',
+    description: "Utility Land Plot on Ethereum. Randomly generated Land NFTs, for you to build on. Claim a land plot and start the journey to become a Tycoon. Discord: Closed.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/tycoonempires',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 49,
+    name: 'Always Tired Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1511375691975168005/ENW9F64N_400x400.jpg',
+    description: "MINTING  September 3rd / 4th Building the biggest tired family in the Metaverse and raising awareness for ME/CFS Founder: @sibu_nft Artist: @Sleepy_Eyes_nft",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/alwaystirednfts',
+    discord: 'https://discord.gg/alwaystirednfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 50,
+    name: 'Tiny Frogs Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1554660614517161985/rxFeCeUn_400x400.png',
+    description: "Just some tiny frogs on a big blockchain. #freemint without the BS. Instant reveal, cc0 and frog. Made by @0xgoob",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/tinyfrogsnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 51,
+    name: 'Discord Nitro',
+    image: 'https://blog.offgamers.com/wp-content/uploads/2021/09/1-1.jpg',
+    description: 'One month of Discord Nitro',
+    category: 'merch',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 52,
+    name: 'Ledger Nano',
+    image: 'https://cdn.shopify.com/s/files/1/2974/4858/products/01_4f10d168-302a-47b3-b79f-e0a6b6da7a48.png?v=1644216184',
+    description: 'Raffle ticket for a Ledger Nano',
+    category: 'raffles',
+    endDate: 1660320000000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 53,
+    name: 'Apple Watch SE',
+    image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MN323ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO?wid=400&hei=400&fmt=jpeg&qlt=95&fit=constrain&.v=1645128327874%2C1630712417000',
+    description: 'Raffle ticket for a Apple Watch SE',
+    category: 'raffles',
+    endDate: 1660320000000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
