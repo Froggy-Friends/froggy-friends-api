@@ -898,5 +898,99 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 43,
+    name: 'Dopeys Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1532614932113547264/sD5beJrB_400x400.png',
+    description: "Dopeys is an art and utility focused, community driven, collectible NFT project created by artist @nicemusicdude 🥑│🎟 Supply: 5555 | 📆 Mint Date: August 17",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/dopeysnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 44,
+    name: 'KOPOKO Verse Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1525151605527568384/K98Yl4D6_400x400.jpg',
+    description: "By @kopokostudio http://kopokoverse.com",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/kopokoverse',
+    discord: 'http://discord.gg/kopokomafia',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 45,
+    name: 'Satori Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1536028169974718465/uSM47U_D_400x400.jpg',
+    description: "Exceed your limits... Alpha Calls | Trading tools | Analytics Platform on #Solana",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/NFT_Satori',
+    discord: 'https://discord.gg/besatori',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 46,
+    name: 'Floaties Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1553291127259729920/j1MZETXG_400x400.jpg',
+    description: "Everyone can $FLOAT for FREE! | http://premint.xyz/floaties",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/ProjectFloaties',
+    discord: 'https://discord.gg/floaties',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 47,
+    name: 'Kaitu Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1514377108545486849/vdIpFzpO_400x400.jpg',
+    description: "777 GENESIS | He who knows others is wise. He who knows Kaitu is 'something greater'",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/ProjectKaitu',
+    discord: 'https://discord.gg/kaitu',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
