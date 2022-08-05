@@ -598,5 +598,162 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 29,
+    name: '30 minute call with Fonzy',
+    image: 'https://lh3.googleusercontent.com/6sPJsoDOMv4nU0uuGlKlaN4BVeaPB1QAmP2sUZhqLtfTbOugsa5IhLXwhaug1j0k5vp5P_n8Y9MMVG6GOz1IDEKWC-j1RBCxM9O1sQ=w197',
+    description: '30 minute call with Fonzy',
+    category: 'allowlists',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 30,
+    name: 'Cosmic Cat Friend',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmaSLvkY9gmkkZCxobFbofQKFvLcMdcniUCjtgrCcnN9aJ',
+    previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmX7zP3v4zSYUGoEQu8UtTv8RNJFifSGFnhujbQSymrZQa',
+    description: 'Cosmic Cat Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    category: 'collabs',
+    collabId: 6,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 31,
+    name: 'Little Lemon Friend',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmZ1xujVcVs9seZLrdQVMjUMb5tJUsTodtMmUeiZynviFf',
+    previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmU6bCYD3iAVEPQiXMHugiinScvkVFq3sHGLDMkoL3VYfB',
+    description: 'Little Lemon Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    category: 'collabs',
+    collabId: 7,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 32,
+    name: 'FishyFam Friend',
+    image: '',
+    previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmbWJwBscCfpWeXcBpZtCPFzzexqKZ2NYoQhDtUFUBsNpT',
+    description: 'FishyFam Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    category: 'collabs',
+    collabId: 8,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 33,
+    name: 'Sunnies Friend',
+    image: '',
+    previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmejugfwJWqzNs9FJMwdRcwXSbHVMnSGJwLADHbEn3s2YK',
+    description: 'Sunnies Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    category: 'collabs',
+    collabId: 9,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
+  },
+  {
+    id: 34,
+    name: 'Cool Dog Friend',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmTWiZiUZFyuajdTJwdPfMBD29AA1D6e2fdJRo6dsvAMVK',
+    previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmUKRXGBZib2xErZioo1fW59vaHKRyozmx7Tv3L1eamUkW',
+    description: 'Cool Dog Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
+    category: 'collabs',
+    collabId: 10,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'Yes'
+      },
+      {
+        display_type: 'boost_percentage',
+        trait_type: 'Boost Percentage',
+        value: 10
+      },
+      {
+        trait_type: 'Friend Origin',
+        value: 'Collab'
+      }
+    ]
   }
 ];
