@@ -11,5 +11,6 @@ export interface Metadata {
   twitter?: string;
   discord?: string;
   community?: boolean;
+  endDate?: number;
   attributes: Attribute[];
 }
