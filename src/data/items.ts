@@ -762,6 +762,7 @@ export const items: Metadata[] = [
     image: 'https://lh3.googleusercontent.com/kBc2qVN1TadwKkjp88oBRag-GIEStS3-x3ZFQ73JMa0rOz74VbCHIvJUVNHlOqXOtgxS_uHVolBGt86y-v1ega1E0chjmqS0UqSBiw=w197',
     description: 'Raffle ticket for Cosmic Cat #4816',
     category: 'raffles',
+    endDate: 1660320000000, // unix time in milleseconds
     attributes: [
       {
         trait_type: 'Rarity',
@@ -779,6 +780,7 @@ export const items: Metadata[] = [
     image: 'https://lh3.googleusercontent.com/SyojCEB9Mw8ugQGaHrgFIwec4Zxpe-PczLxw2WSXOxz1NwFCt5Ao7pEpwoD5BmouRs-WTT03fOVFLUPt66kDiLZWRBhy86Hx5A9V=w197',
     description: 'Raffle ticket for Little Lemon #4781',
     category: 'raffles',
+    endDate: 1660320000000,
     attributes: [
       {
         trait_type: 'Rarity',
@@ -793,9 +795,10 @@ export const items: Metadata[] = [
   {
     id: 37,
     name: 'FishyFam #4518 Raffle',
-    image: 'https://img.seadn.io/files/38058752be841d13078a00130bb1383d.png?fit=max&auto=format&w=197',
+    image: 'https://img.seadn.io/files/38058752be841d13078a00130bb1383d.png',
     description: 'Raffle ticket for FishyFam #4518',
     category: 'raffles',
+    endDate: 1660320000000,
     attributes: [
       {
         trait_type: 'Rarity',
@@ -813,6 +816,7 @@ export const items: Metadata[] = [
     image: 'https://lh3.googleusercontent.com/ceynwt8-fDWipK4eru9pW2pXfLRJo--kjFK4Lsbc2b4N94C7tnQSGG5P31XhQzTdlg0p9NlgcRLD20UKVcLZDDUcwyiQ2QR-TsgKwA=w197',
     description: 'Raffle ticket for Sunnie #8962',
     category: 'raffles',
+    endDate: 1660320000000,
     attributes: [
       {
         trait_type: 'Rarity',
@@ -830,6 +834,7 @@ export const items: Metadata[] = [
     image: 'https://lh3.googleusercontent.com/7XyUBZbvz0eH2FDVHZ37mPysrq_AB7ix9arT9FSftgcDMidH6yizrl1D-nOs-3mYS1bH3ka9OaTP8ntzdyh1u5eg6-XdLCFJp-v4=w197',
     description: 'Raffle ticket for Cool Dog #2342',
     category: 'raffles',
+    endDate: 1660320000000,
     attributes: [
       {
         trait_type: 'Rarity',
@@ -842,6 +847,3 @@ export const items: Metadata[] = [
     ]
   },
 ];
-
-// community: true,
-// endDate: 1660320000000,
