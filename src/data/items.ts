@@ -850,8 +850,44 @@ export const items: Metadata[] = [
     id: 40,
     name: 'Ribbit Radio Guest Spot',
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmVnH1SovRtLaWyz49RuvNsocjEs9dKcX41q4WonCi5MX8',
-    description: 'Purchase a guest spot on Ribbit Radio',
+    description: 'Secure a guest spot',
     category: 'allowlists',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 41,
+    name: 'Moonfish Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1549657836866523136/lb2k4H2y_400x400.jpg',
+    description: '𝗜𝗻 𝘁𝗵𝗲 𝗱𝗲𝗲𝗽𝗲𝘀𝘁 𝗱𝗲𝗽𝘁𝗵𝘀 𝗼𝗳 𝘁𝗵𝗲 𝗼𝗰𝗲𝗮𝗻, 𝘁𝗵𝗲𝗿𝗲 𝗶𝘀 𝗼𝗻𝗹𝘆 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲 𝗱𝗮𝗿𝗸𝗻𝗲𝘀𝘀 𝗮𝗻𝗱 𝗮 𝗳𝗶𝘀𝗵 🐟',
+    category: 'allowlists',
+    twitter: 'https://twitter.com/MoonfishNFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 42,
+    name: 'Smashverse Allowlist',
+    image: 'https://pbs.twimg.com/media/FZPsGPqXkAIFCro?format=jpg&name=4096x4096',
+    description: "It's just a PFP.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/Smashverse_XYZ',
     attributes: [
       {
         trait_type: 'Rarity',
