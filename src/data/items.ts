@@ -846,4 +846,21 @@ export const items: Metadata[] = [
       }
     ]
   },
+  {
+    id: 40,
+    name: 'Ribbit Radio Guest Spot',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmVnH1SovRtLaWyz49RuvNsocjEs9dKcX41q4WonCi5MX8',
+    description: 'Purchase a guest spot on Ribbit Radio',
+    category: 'allowlists',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  }
 ];
