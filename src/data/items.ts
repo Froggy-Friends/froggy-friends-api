@@ -1103,12 +1103,32 @@ export const items: Metadata[] = [
   },
   {
     id: 54,
-    name: '1/1 Huephoria NFT Raffle',
+    name: 'Huephoria Raffle',
     image: 'https://lh3.googleusercontent.com/NJGxTJNE4Jg_CojexpG_jdQbKTAYgMHQLkfmdXzttO7Dao-VZi3wPrdE2-dVsZ3MgX6UsVJU59pK10plCHoHYcBNepYB8q8RPjHKHA=w600',
     description: 'I wish to evoke a sense of Huephoria (feeling of great happiness through Colourful tones) to the viewers. @crazydoc96 | Dr Abstract',
     category: 'raffles',
     twitter: 'https://twitter.com/Crazydoc96',
-    discord: 'https://discord.gg/vqSZGttE',
+    community: true,
+    endDate: 1660320000000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 55,
+    name: 'Soullage #5',
+    image: 'https://lh3.googleusercontent.com/b_Ox3n0HWOgF0gp8_bbr1HiftU4ivaChsIzcTX8nOnJaBdY-TNncnMxvgXIJgvFm8c_9AjxrmJg-7KgNWg3PHt2bCscyMd4c6qudLB4=w600',
+    description: "human friend, music maker & digital artist • @therandomsnft & @froggyfriendnft • creator: @DreamscapeGen & @SoullageNFT",
+    category: 'raffles',
+    twitter: 'https://twitter.com/prodbakcward',
+    community: true,
     endDate: 1660320000000,
     attributes: [
       {
