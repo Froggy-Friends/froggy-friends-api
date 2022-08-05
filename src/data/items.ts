@@ -1050,7 +1050,7 @@ export const items: Metadata[] = [
   },
   {
     id: 51,
-    name: 'Discord Nitro',
+    name: 'Discord Nitro Sub',
     image: 'https://blog.offgamers.com/wp-content/uploads/2021/09/1-1.jpg',
     description: 'One month of Discord Nitro',
     category: 'merch',
@@ -1067,7 +1067,7 @@ export const items: Metadata[] = [
   },
   {
     id: 52,
-    name: 'Ledger Nano',
+    name: 'Ledger Nano Raffle',
     image: 'https://cdn.shopify.com/s/files/1/2974/4858/products/01_4f10d168-302a-47b3-b79f-e0a6b6da7a48.png?v=1644216184',
     description: 'Raffle ticket for a Ledger Nano',
     category: 'raffles',
@@ -1085,10 +1085,30 @@ export const items: Metadata[] = [
   },
   {
     id: 53,
-    name: 'Apple Watch SE',
+    name: 'Apple Watch SE Raffle',
     image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MN323ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO?wid=400&hei=400&fmt=jpeg&qlt=95&fit=constrain&.v=1645128327874%2C1630712417000',
     description: 'Raffle ticket for a Apple Watch SE',
     category: 'raffles',
+    endDate: 1660320000000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 54,
+    name: '1/1 Huephoria NFT Raffle',
+    image: 'https://lh3.googleusercontent.com/NJGxTJNE4Jg_CojexpG_jdQbKTAYgMHQLkfmdXzttO7Dao-VZi3wPrdE2-dVsZ3MgX6UsVJU59pK10plCHoHYcBNepYB8q8RPjHKHA=w600',
+    description: 'I wish to evoke a sense of Huephoria (feeling of great happiness through Colourful tones) to the viewers. @crazydoc96 | Dr Abstract',
+    category: 'raffles',
+    twitter: 'https://twitter.com/Crazydoc96',
+    discord: 'https://discord.gg/vqSZGttE',
     endDate: 1660320000000,
     attributes: [
       {
