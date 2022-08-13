@@ -1158,5 +1158,138 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 57,
+    name: 'Blocktones',
+    image: 'https://pbs.twimg.com/profile_images/1503495190375456770/jP2ZnsgU_400x400.jpg',
+    description: "music for the metaverse 💽 an immersive generative audio project from the future. founders: @ginotheghost 🛠 @_michaelmauro",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/blocktones',
+    discord: 'https://discord.com/invite/blocktones',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 58,
+    name: 'MoonCrocs',
+    image: 'https://pbs.twimg.com/profile_images/1555368646754840577/zN7pPvUt_400x400.jpg',
+    description: "ᴏɴ ᴍᴏᴏɴꜰᴀʟʟ, ᴛʜᴇ ᴄʀᴏᴄꜱ ᴡɪʟʟ ʀɪꜱᴇ... 🌑 ʙᴜɪʟᴅɪɴɢ ᴀɴ ᴇ𝚡ᴄʟᴜꜱɪᴠᴇ ʀᴇᴘᴛɪʟɪᴀɴ ᴄʟᴜʙ ᴏɴ ᴇᴛʜ",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/mooncrocsxyz',
+    discord: 'https://discord.gg/U7XS4TFD7y',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 59,
+    name: 'Experiment X',
+    image: 'https://pbs.twimg.com/profile_images/1557219497337143296/UeKzQ9oc_400x400.png',
+    description: "The Genesis Collection from Anti Labs, expect the unexpected. 777 Slayers, 2400 Zombies & 23 Legendaries.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/X_periment_X',
+    discord: 'https://discord.gg/antilabs',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 60,
+    name: 'Dininho',
+    image: 'https://pbs.twimg.com/profile_images/1555367206262906880/uQXyarex_400x400.jpg',
+    description: "Demo is Live on our Website | Created by @dinobonoide🦖",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/DininhoNFT',
+    discord: 'https://dininhoadventures.com',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 61,
+    name: 'Happy Campers',
+    image: 'https://pbs.twimg.com/profile_images/1538621928465997826/jvWWa6Id_400x400.jpg',
+    description: "Peace, Love & Happy Camping ☮️ ♥️🏕️ Collect our campers and be a part of a real world impact.🌳",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/HappyCamperNFT',
+    discord: 'https://discord.gg/happycampernft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 62,
+    name: 'Divergence',
+    image: 'https://pbs.twimg.com/profile_images/1545098108031455232/hBimUt8S_400x400.jpg',
+    description: "Things aren't always as they seem. 84 1/1s and 4800 generative pieces dropping in August. World's first beta group. By @buzzybeecrypto.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/divergenceclub',
+    discord: 'https://divergence.club/',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 63,
+    name: 'Go Milky',
+    image: 'https://pbs.twimg.com/profile_images/1494919895670091777/o2t-Uzdj_400x400.jpg',
+    description: "Using the power of Web3 to raise awareness for premature babies and maternal health on behalf of @MarchOfDimes. Women led. Discord: https://discord.gg/gomilky",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/GoMilkyNFT',
+    discord: 'https://discord.gg/gomilky',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
