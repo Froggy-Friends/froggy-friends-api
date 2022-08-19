@@ -1456,5 +1456,62 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 73,
+    name: 'Green Frog Keychain Raffle',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmV3cciQ2GjJS2r5mwLE6xx77wjsCjYgJLtUdLexiQZ5FV',
+    description: "Glow in the dark green frog keychain by froggy holder Maxime",
+    category: 'raffles',
+    community: true,
+    endDate: 1661504400000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 74,
+    name: 'Gray Frog Keychain Raffle',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmTFJksCXnb45ntV8h6t4PVE3NWbMBDujhy2QG31XeGJMn',
+    description: "Gray frog keychain by froggy holder Maxime",
+    category: 'raffles',
+    community: true,
+    endDate: 1661504400000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 75,
+    name: 'Gold Frog Keychain Raffle',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmeGVCx2i2XGNVwtMtvZnQ26wjukc4rZMkUCekxrd7zmsR',
+    description: "Gold frog keychain by froggy holder Maxime",
+    category: 'raffles',
+    community: true,
+    endDate: 1661504400000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
