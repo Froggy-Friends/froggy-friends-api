@@ -1291,5 +1291,129 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 64,
+    name: 'a KID called BEAST',
+    image: 'https://pbs.twimg.com/profile_images/1513990519545896963/jCrEwX9e_400x400.jpg',
+    description: "10,000 3D NFTs | 20 Unique Beasthoods | 1 Formidable Web3 Brand & Culture 👀™️  Unleashing Summer ‘22",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/akidcalledbeast',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 65,
+    name: 'Shrubbies',
+    image: 'https://pbs.twimg.com/profile_images/1550511521209503744/I6gJnyXF_400x400.jpg',
+    description: "Helping our home one tree at a time | Founded by @_munnzy & @NFTmeshy",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/ShrubbieNFT',
+    discord: 'https://discord.gg/CmTcvdG3xZ',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 66,
+    name: 'The Rabbles',
+    image: 'https://pbs.twimg.com/profile_images/1557950569440051202/EmdpGoit_400x400.png',
+    description: "| 𝙴𝚇𝚃𝚁𝙰𝙲𝚃𝙸𝙽𝙶 #𝙼𝙰𝚇𝚅𝙰𝙻𝚄𝙴… | 𝙼𝙸𝙽𝚃 𝙸𝙽𝙵𝙾 & 𝚂𝙸𝚃𝙴 𝙲𝙾𝙼𝙸𝙽𝙶 𝚂𝙾𝙾𝙽. | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 @jacylabs |",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/TheRabblesNFT',
+    discord: 'https://discord.gg/therabbles',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 67,
+    name: 'Froggy Friend #2950',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/2950.png',
+    description: 'Purchase Froggy Friend #2950 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 68,
+    name: 'Froggy Friend #2692',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/2692.png',
+    description: 'Purchase Froggy Friend #2692 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 69,
+    name: 'Froggy Friend #1393',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/1393.png',
+    description: 'Purchase Froggy Friend #1393 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 70,
+    name: 'Froggy Friend #21 Raffle',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/21.png',
+    description: 'Purchase a raffle ticket for Froggy Friend #21',
+    category: 'raffles',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
