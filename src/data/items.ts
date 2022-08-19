@@ -1419,7 +1419,7 @@ export const items: Metadata[] = [
   },
   {
     id: 71,
-    name: 'Discover Earth #004 Raffle',
+    name: 'Discover Earth Raffle',
     image: 'https://lh3.googleusercontent.com/mLjzI-PzmS-9IvAokmahzpLzE1h1-RHVOyKsf107ug3pUAIJ0QSfIVUptIZH3HeDVwzL8iJsl4_If7-jxiPusBDZ1i2sOH3seO3XJg=s0',
     description: 'A dreamy and magical side of Taj Mahal in India',
     category: 'raffles',
