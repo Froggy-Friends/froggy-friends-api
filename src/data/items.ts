@@ -1405,10 +1405,51 @@ export const items: Metadata[] = [
     image: 'https://froggyfriends.mypinata.cloud/ipfs/QmNqUXJJNgJRqC9hDcjJQr4v6P8jWX49VqoQ4gb1KA7Z7k/21.png',
     description: 'Purchase a raffle ticket for Froggy Friend #21',
     category: 'raffles',
+    endDate: 1661504400000,
     attributes: [
       {
         trait_type: 'Rarity',
         value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 71,
+    name: 'Discover Earth #004 Raffle',
+    image: 'https://lh3.googleusercontent.com/mLjzI-PzmS-9IvAokmahzpLzE1h1-RHVOyKsf107ug3pUAIJ0QSfIVUptIZH3HeDVwzL8iJsl4_If7-jxiPusBDZ1i2sOH3seO3XJg=s0',
+    description: 'A dreamy and magical side of Taj Mahal in India',
+    category: 'raffles',
+    twitter: 'https://twitter.com/RaflorsNFT',
+    community: true,
+    endDate: 1661504400000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 72,
+    name: 'Five Colour Lake Raffle',
+    image: 'https://lh3.googleusercontent.com/2VyK25hlk7zQmT9EO2apExrNMl7fdVKFACBlTgC7h5NvDEBmtAQheHBiQONNFmuEQWA3agxyYpvUhhkTT8yF_nyFpXaLwKSHgvaSDA=s0',
+    description: "Jiuzhaigou is an tourism place in China. They're famous with an amazing scenery of nature. Jiuzhaigou has become one of the UNESCO World Heritage. They called it Five Colour Lake because the color of the lake is very rich.",
+    category: 'raffles',
+    twitter: 'https://twitter.com/Paxoloto',
+    community: true,
+    endDate: 1661504400000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
       },
       {
         trait_type: 'Boost',
