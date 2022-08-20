@@ -27,11 +27,15 @@ export class StakingService {
   }
 
   async initLeaderboard() {
-    this.logger.log("Creating new leaderboard");
-    const stakers = await this.getStakingHoldersAllTime();
-    const leaderboard = await this.getStakersLeaderboard(stakers);
-    this.logger.log("Leaderboard holders processed: " + leaderboard.length);
-    this.leaderboard = leaderboard;
+    try {
+      this.logger.log("Creating new leaderboard");
+      const stakers = await this.getStakingHoldersAllTime();
+      const leaderboard = await this.getStakersLeaderboard(stakers);
+      this.logger.log("Leaderboard holders processed: " + leaderboard.length);
+      this.leaderboard = leaderboard;
+    } catch (error) {
+      console.log("init leaderboard error: ", error);
+    }
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_6AM, { name: "leaderboard", timeZone: "America/Los_Angeles"})

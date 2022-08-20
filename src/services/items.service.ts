@@ -41,6 +41,50 @@ export class ItemsService {
     return items;
   }
 
+  async getOwnedItems(account: string): Promise<RibbitItem[]> {
+    try {
+      // get item balances for account
+      const accounts = new Array(items.length).fill(account);
+      const itemIds = Array.from({length: accounts.length}, (_, i) => i + 1);
+      const itemBalances: string[] = await ribbitItemContract.methods.balanceOfBatch(accounts, itemIds).call();
+      // fetch metadata for items with balances
+      let itemsOwned: RibbitItem[] = [];
+      let index = 0;
+      for (const balance of itemBalances) {
+        const itemId = index + 1;
+        if (+balance) {
+          const details  = await ribbitItemContract.methods.item(itemId).call();
+          const price = details['0'];
+          const percent = details['1'];
+          const minted = details['2'];
+          const supply = details['3'];
+          const walletLimit = details['4'];
+          const isBoost = details['5'];
+          const isOnSale = details['6'];
+
+          const etherPrice = +ethers.utils.formatEther(price);
+
+          let ribbitItem: RibbitItem = {
+            ...items[index],
+            price: etherPrice,
+            percentage: +percent,
+            minted: +minted,
+            supply: +supply,
+            walletLimit: +walletLimit,
+            isBoost: isBoost,
+            isOnSale: isOnSale,
+          }
+          itemsOwned.push(ribbitItem);
+        }
+        index++;
+      }
+      return itemsOwned;
+    } catch (error) {
+      console.log("get items owned error: ", error);
+      return [];
+    }
+  }
+
   getContractMetadata(): ContractMetadata {
     return metadata;
   }

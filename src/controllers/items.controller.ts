@@ -28,4 +28,9 @@ export class ItemsController {
   getContractMetadata(): ContractMetadata {
     return this.itemsService.getContractMetadata();
   }
+
+  @Get('/owned/:account')
+  async getOwnedItems(@Param('account') account: string): Promise<RibbitItem[]> {
+    return this.itemsService.getOwnedItems(account);
+  }
 }
