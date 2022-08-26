@@ -675,7 +675,7 @@ export const items: Metadata[] = [
   {
     id: 32,
     name: 'FishyFam Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmbWJwBscCfpWeXcBpZtCPFzzexqKZ2NYoQhDtUFUBsNpT',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmbWJwBscCfpWeXcBpZtCPFzzexqKZ2NYoQhDtUFUBsNpT',
     description: 'FishyFam Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     category: 'collabs',
