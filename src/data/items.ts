@@ -1513,5 +1513,43 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 76,
+    name: 'Bubblies Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1550423379676696581/DJnr9It6_400x400.jpg',
+    description: "🫧 blub! welcome to the Bubblieverse.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/bubbliesIO',
+    discord: 'https://discord.gg/bubblies',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 77,
+    name: '3D Frog Raffle',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmQGnfy1Pv7WePPZx1xjHnsCom67tbZYcSuZWLt6KSTWtD',
+    description: "Get a custom frog designed by Cole & Panther",
+    category: 'raffles',
+    community: true,
+    endDate: 1662134400000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
