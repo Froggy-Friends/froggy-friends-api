@@ -703,7 +703,7 @@ export const items: Metadata[] = [
   {
     id: 33,
     name: 'Sunnies Friend',
-    image: '',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmVzxYHwFumnNDBDTmcjvPG6TY7y1QXg6EyWM5s9rV2j2X',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmejugfwJWqzNs9FJMwdRcwXSbHVMnSGJwLADHbEn3s2YK',
     description: 'Sunnies Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     category: 'collabs',
