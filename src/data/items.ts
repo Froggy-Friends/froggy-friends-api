@@ -1312,7 +1312,7 @@ export const items: Metadata[] = [
   },
   {
     id: 65,
-    name: 'Shrubbies',
+    name: 'Shrubbies Allowlist',
     image: 'https://pbs.twimg.com/profile_images/1550511521209503744/I6gJnyXF_400x400.jpg',
     description: "Helping our home one tree at a time | Founded by @_munnzy & @NFTmeshy",
     category: 'allowlists',
@@ -1331,7 +1331,7 @@ export const items: Metadata[] = [
   },
   {
     id: 66,
-    name: 'The Rabbles',
+    name: 'The Rabbles Allowlist',
     image: 'https://pbs.twimg.com/profile_images/1557950569440051202/EmdpGoit_400x400.png',
     description: "| 𝙴𝚇𝚃𝚁𝙰𝙲𝚃𝙸𝙽𝙶 #𝙼𝙰𝚇𝚅𝙰𝙻𝚄𝙴… | 𝙼𝙸𝙽𝚃 𝙸𝙽𝙵𝙾 & 𝚂𝙸𝚃𝙴 𝙲𝙾𝙼𝙸𝙽𝙶 𝚂𝙾𝙾𝙽. | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 @jacylabs |",
     category: 'allowlists',
