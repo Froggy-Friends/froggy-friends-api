@@ -21,7 +21,7 @@ export class ItemsService {
 
   }
 
-  getItem(id: string): Metadata {
+  private parseItem(id: string): { index: number, itemId: number} {
     const itemId = parseInt(id);
 
     if (isNaN(itemId)) {
@@ -33,8 +33,14 @@ export class ItemsService {
     if (index === -1) {
       throw new HttpException('Item ID invalid', HttpStatus.BAD_REQUEST);
     }
+    return {
+      index, itemId
+    };
+  }
 
-    return items[index];
+  getItem(id: string): Metadata {
+    const item = this.parseItem(id);
+    return items[item.index];
   }
 
   getItems(): Metadata[] {
@@ -123,5 +129,23 @@ export class ItemsService {
     }
 
     return ribbitItems;
+  }
+
+  async getItemOwners(id: string): Promise<string[]> {
+    const item = this.parseItem(id);
+    return await ribbitItemContract.methods.itemHolders(item.itemId).call();
+  }
+
+  async getRaffleTickets(id: string): Promise<string[]> {
+    const item = this.parseItem(id);
+    const owners = await ribbitItemContract.methods.itemHolders(item.itemId).call();
+    const tickets = [];
+    for (const owner of owners) {
+      const balance = await ribbitItemContract.methods.balanceOf(owner, item.itemId).call();
+      for (let i = 0; i < balance; i++) {
+        tickets.push(owner);
+      }
+    }
+    return tickets;
   }
 }

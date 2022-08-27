@@ -33,4 +33,14 @@ export class ItemsController {
   async getOwnedItems(@Param('account') account: string): Promise<RibbitItem[]> {
     return this.itemsService.getOwnedItems(account);
   }
+
+  @Get('/:id/owners')
+  getItemOwners(@Param('id') id: string) {
+    return this.itemsService.getItemOwners(id); 
+  }
+
+  @Get('/:id/tickets')
+  getRaffleTickets(@Param('id') id: string) {
+    return this.itemsService.getRaffleTickets(id);
+  }
 }
