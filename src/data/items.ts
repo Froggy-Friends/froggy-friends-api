@@ -996,7 +996,7 @@ export const items: Metadata[] = [
   {
     id: 48,
     name: 'Tycoon Empires Allowlist',
-    image: 'https://pbs.twimg.com/profile_images/1550241289421131779/L83cGSDV_400x400.jpg',
+    image: 'https://pbs.twimg.com/profile_images/1557815940095549448/DLB2hoUh_400x400.jpg',
     description: "Utility Land Plot on Ethereum. Randomly generated Land NFTs, for you to build on. Claim a land plot and start the journey to become a Tycoon. Discord: Closed.",
     category: 'allowlists',
     twitter: 'https://twitter.com/tycoonempires',
@@ -1014,7 +1014,7 @@ export const items: Metadata[] = [
   {
     id: 49,
     name: 'Always Tired Allowlist',
-    image: 'https://pbs.twimg.com/profile_images/1511375691975168005/ENW9F64N_400x400.jpg',
+    image: 'https://pbs.twimg.com/profile_images/1565470056393461760/YNv6GuO3_400x400.jpg',
     description: "MINTING  September 3rd / 4th Building the biggest tired family in the Metaverse and raising awareness for ME/CFS Founder: @sibu_nft Artist: @Sleepy_Eyes_nft",
     category: 'allowlists',
     twitter: 'https://twitter.com/alwaystirednfts',
@@ -1033,7 +1033,7 @@ export const items: Metadata[] = [
   {
     id: 50,
     name: 'Tiny Frogs Allowlist',
-    image: 'https://pbs.twimg.com/profile_images/1554660614517161985/rxFeCeUn_400x400.png',
+    image: 'https://pbs.twimg.com/profile_images/1556102034650267648/WbnSTlhX_400x400.png',
     description: "Just some tiny frogs on a big blockchain. #freemint without the BS. Instant reveal, cc0 and frog. Made by @0xgoob",
     category: 'allowlists',
     twitter: 'https://twitter.com/tinyfrogsnft',
@@ -1181,7 +1181,7 @@ export const items: Metadata[] = [
   {
     id: 58,
     name: 'MoonCrocs',
-    image: 'https://pbs.twimg.com/profile_images/1555368646754840577/zN7pPvUt_400x400.jpg',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmXmwcBUmJ7PToojYYRtKaBqd49v3vJYWGosXJcgUQYjLx',
     description: "ᴏɴ ᴍᴏᴏɴꜰᴀʟʟ, ᴛʜᴇ ᴄʀᴏᴄꜱ ᴡɪʟʟ ʀɪꜱᴇ... 🌑 ʙᴜɪʟᴅɪɴɢ ᴀɴ ᴇ𝚡ᴄʟᴜꜱɪᴠᴇ ʀᴇᴘᴛɪʟɪᴀɴ ᴄʟᴜʙ ᴏɴ ᴇᴛʜ",
     category: 'allowlists',
     twitter: 'https://twitter.com/mooncrocsxyz',
@@ -1200,7 +1200,7 @@ export const items: Metadata[] = [
   {
     id: 59,
     name: 'Experiment X',
-    image: 'https://pbs.twimg.com/profile_images/1557219497337143296/UeKzQ9oc_400x400.png',
+    image: 'https://pbs.twimg.com/profile_images/1561107534836105221/gGvaIzOt_400x400.png',
     description: "The Genesis Collection from Anti Labs, expect the unexpected. 777 Slayers, 2400 Zombies & 23 Legendaries.",
     category: 'allowlists',
     twitter: 'https://twitter.com/X_periment_X',
@@ -1332,7 +1332,7 @@ export const items: Metadata[] = [
   {
     id: 66,
     name: 'The Rabbles Allowlist',
-    image: 'https://pbs.twimg.com/profile_images/1557950569440051202/EmdpGoit_400x400.png',
+    image: 'https://pbs.twimg.com/profile_images/1566037962407673857/pMQ93tVD_400x400.jpg',
     description: "| 𝙴𝚇𝚃𝚁𝙰𝙲𝚃𝙸𝙽𝙶 #𝙼𝙰𝚇𝚅𝙰𝙻𝚄𝙴… | 𝙼𝙸𝙽𝚃 𝙸𝙽𝙵𝙾 & 𝚂𝙸𝚃𝙴 𝙲𝙾𝙼𝙸𝙽𝙶 𝚂𝙾𝙾𝙽. | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 @jacylabs |",
     category: 'allowlists',
     twitter: 'https://twitter.com/TheRabblesNFT',
@@ -1545,6 +1545,136 @@ export const items: Metadata[] = [
       {
         trait_type: 'Rarity',
         value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 78,
+    name: 'Vivity Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1550886461821829121/raqP4u4N_400x400.jpg',
+    description: "Embark the Expedition of Vivity; A Gamified Experience ✨ A Curation from web3 artists, for the web3 individuals.❤️ ✏️: @alienstolemytea",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/VivityNFT',
+    discord: 'https://discord.gg/vivity',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 79,
+    name: 'Dapper Dogs Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1561279592127684609/CUb5H4Sf_400x400.png',
+    description: "🐶 𝓕𝓡𝓔𝓔 𝓜𝓲𝓷𝓽 - 𝓝𝓸 𝓭𝓲𝓼𝓬𝓸𝓻𝓭, 𝓷𝓸 𝓻𝓸𝓪𝓭𝓶𝓪𝓹 (𝓶𝓪𝔂𝓫𝓮), 𝓳𝓾𝓼𝓽 𝓿𝓲𝓫𝓮𝓼!",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/DapperDogs_NFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 80,
+    name: 'WizardJump Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1563481998026452992/UuAZ_DVh_400x400.jpg',
+    description: "Platformer P2E game on Ethereum Blockchain (ERC-721A) Supply: 10,000 NFT",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/WizardJumpNFT',
+    discord: 'https://discord.gg/wizardjump',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 81,
+    name: 'Cosme Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1562613532817969152/ktXsaq7D_400x400.jpg',
+    description: "Our story begins in a small cosplay store in the city of Kishiro Falls... From chaos, six heroes were born... 𝗝𝗼𝗶𝗻 𝗧𝗵𝗲 𝗔𝘄𝗮𝗸𝗲𝗻𝗲𝗱!",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/CosmeNFT',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 82,
+    name: 'Pop Cult Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1561788282094108676/Kynz-pGQ_400x400.jpg',
+    description: "777 Pop Cult Genesis NFT's Reveal: Friday 23 September 2022",
+    category: 'allowlists',
+    twitter: 'https://mobile.twitter.com/popcult_nft',
+    discord: 'https://discord.gg/popcult',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 83,
+    name: 'BakedBuds Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1524298532550848512/xjreHMrz_400x400.jpg',
+    description: "Where all the Web3 stoners hang out /// Minting on September 30th at 0.03 ETH",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/BakedBudsHQ',
+    discord: 'https://discord.gg/bakedbuds',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 84,
+    name: 'Aniborgz Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1568168655367585792/a9fkIcVx_400x400.jpg',
+    description: "6236 cybernetics animals🐶🐭🐱 Fighting for a better place into the Aniverse! Public Raffle: http://premint.xyz/aniborgz/",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/Aniborgz',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Legendary'
       },
       {
         trait_type: 'Boost',
