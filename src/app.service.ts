@@ -88,9 +88,12 @@ export class AppService {
     const baseUrl: string = await contract.methods.froggyUrl().call();
     const froggy = (await axios.get<Froggy>(baseUrl + id)).data;
     const ownerOf: string = await contract.methods.ownerOf(id).call();
+    const proof = this.getStakeProof([+id]);
+    const rewardRate = await stakingContract.methods.getTokenRewardRate(id, proof[0]).call();
     froggy.isStaked = ownerOf == STAKING_CONTRACT_ADDRESS;
     froggy.ribbit = this.getRibbit(froggy.edition);
     froggy.rarity = this.getRarity(froggy.edition);
+    froggy.isPaired = rewardRate > froggy.ribbit;
     return froggy;
   }
 

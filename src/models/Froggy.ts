@@ -9,6 +9,7 @@ export interface Froggy {
   date?: number;
   attributes?: Attribute[];
   isStaked: boolean;
+  isPaired?: boolean;
   ribbit: number;
   rarity?: string;
 }
