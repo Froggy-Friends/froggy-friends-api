@@ -14,7 +14,7 @@ const keccak = require("keccak256");
 import axios from 'axios';
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
@@ -94,6 +94,8 @@ export class AppService {
     froggy.ribbit = this.getRibbit(froggy.edition);
     froggy.rarity = this.getRarity(froggy.edition);
     froggy.isPaired = rewardRate > froggy.ribbit;
+    froggy.imagePixel = `${PIXEL_IMAGE_URL}/${froggy.edition}.png`;
+    froggy.image3d = '';
     return froggy;
   }
 

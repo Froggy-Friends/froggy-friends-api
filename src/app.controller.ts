@@ -34,8 +34,8 @@ export class AppController {
   }
 
   @Post('/frog/:id')
-  async getFrog(@Param('id') id: number, @Body() frogRequest: FrogRequest ): Promise<Froggy> {
-    return this.appService.getFroggy(id, frogRequest.account);
+  async getFrog(@Param('id') id: number): Promise<Froggy> {
+    return this.appService.getFroggy(id);
   }
 
   @Post('/stake')
