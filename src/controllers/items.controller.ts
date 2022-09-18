@@ -20,7 +20,7 @@ export class ItemsController {
   }
 
   @Get('/:id')
-  getItem(@Param('id') id: string): Metadata {
+  getItem(@Param('id') id: string): Promise<Metadata> {
     return this.itemsService.getItem(id);
   }
 
