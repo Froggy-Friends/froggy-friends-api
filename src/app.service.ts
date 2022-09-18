@@ -11,7 +11,7 @@ import { OwnedResponse } from './models/OwnedResponse';
 import { Froggy } from './models/Froggy';
 const Moralis = require("moralis/node");
 const keccak = require("keccak256");
-const axios = require('axios');
+import axios from 'axios';
 require('dotenv').config();
 const { keccak256 } = utils;
 const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL } = process.env;
@@ -30,7 +30,6 @@ export class AppService {
 
   constructor() {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
-    console.log("froggylist root: ", this.froggylist.getHexRoot());
     const common = rarity.common.map(tokenId => `${tokenId}20`);
     const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
     const rare = rarity.rare.map(tokenId => `${tokenId}40`);
@@ -38,11 +37,42 @@ export class AppService {
     const epic = rarity.epic.map(tokenId => `${tokenId}150`);
     const tokensWithRarity = [...common, ...uncommon, ...rare, ...legendary, ...epic];
     this.rarities = new MerkleTree(tokensWithRarity.map(token => keccak(token)), keccak, { sortPairs: true});
-    console.log("rarities root: ", this.rarities.getHexRoot());
   }
 
   getProof(address: string): string[] {
     return this.froggylist.getHexProof(keccak256(address));
+  }
+
+  getRarity(edition: number): string {
+    if (rarity.common.includes(edition)) {
+      return "common";
+    } else if (rarity.uncommon.includes(edition)) {
+      return "uncommon";
+    } else if (rarity.rare.includes(edition)) {
+      return "rare";
+    } else if (rarity.legendary.includes(edition)) {
+      return "legendary";
+    } else if (rarity.epic.includes(edition)) {
+      return "epic";
+    } else {
+      return "common";
+    }
+  }
+
+  getRibbit(edition: number): number {
+    if (rarity.common.includes(edition)) {
+      return 20;
+    } else if (rarity.uncommon.includes(edition)) {
+      return 30;
+    } else if (rarity.rare.includes(edition)) {
+      return 40;
+    } else if (rarity.legendary.includes(edition)) {
+      return 75;
+    } else if (rarity.epic.includes(edition)) {
+      return 150;
+    } else {
+      return 0;
+    }
   }
 
   async getIsOnFroggylist(address: string): Promise<boolean> {
@@ -52,6 +82,16 @@ export class AppService {
     } catch (error) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async getFroggy(id: number): Promise<Froggy> {
+    const baseUrl: string = await contract.methods.froggyUrl().call();
+    const froggy = (await axios.get<Froggy>(baseUrl + id)).data;
+    const ownerOf: string = await contract.methods.ownerOf(id).call();
+    froggy.isStaked = ownerOf == STAKING_CONTRACT_ADDRESS;
+    froggy.ribbit = this.getRibbit(froggy.edition);
+    froggy.rarity = this.getRarity(froggy.edition);
+    return froggy;
   }
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
@@ -114,17 +154,7 @@ export class AppService {
           ribbit: 0
         }
         
-        if (rarity.common.includes(froggy.edition)) {
-          froggy.ribbit = 20;
-        } else if (rarity.uncommon.includes(froggy.edition)) {
-          froggy.ribbit = 30;
-        } else if (rarity.rare.includes(froggy.edition)) {
-          froggy.ribbit = 40;
-        } else if (rarity.legendary.includes(froggy.edition)) {
-          froggy.ribbit = 75;
-        } else if (rarity.epic.includes(froggy.edition)) {
-          froggy.ribbit = 150;
-        }
+        froggy.ribbit = this.getRibbit(tokenId);
         froggies.push(froggy);
         totalRibbit += froggy.ribbit;
       }

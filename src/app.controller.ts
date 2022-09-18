@@ -1,5 +1,6 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Froggy } from './models/Froggy';
 import { OwnedRequest } from './models/OwnedRequest';
 import { OwnedResponse } from './models/OwnedResponse';
 import { ProofRequest } from './models/ProofRequest';
@@ -29,6 +30,11 @@ export class AppController {
   @Post('/owned')
   async getFroggiesOwned(@Body() ownedRequest: OwnedRequest): Promise<OwnedResponse> {
     return this.appService.getFroggiesOwned(ownedRequest.account);
+  }
+
+  @Get('/frog/:id')
+  async getFrog(@Param('id') id: number): Promise<Froggy> {
+    return this.appService.getFroggy(id);
   }
 
   @Post('/stake')
