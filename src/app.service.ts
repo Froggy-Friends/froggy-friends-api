@@ -12,6 +12,7 @@ import { Froggy } from './models/Froggy';
 const Moralis = require("moralis/node");
 const keccak = require("keccak256");
 import axios from 'axios';
+import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 require('dotenv').config();
 const { keccak256 } = utils;
 const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL } = process.env;
@@ -27,6 +28,7 @@ const ribbitContract = new web3.eth.Contract(ribbitAbiItem, RIBBIT_CONTRACT_ADDR
 export class AppService {
   froggylist: MerkleTree;
   rarities: MerkleTree;
+  alchemy: Alchemy;
 
   constructor() {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
@@ -37,6 +39,10 @@ export class AppService {
     const epic = rarity.epic.map(tokenId => `${tokenId}150`);
     const tokensWithRarity = [...common, ...uncommon, ...rare, ...legendary, ...epic];
     this.rarities = new MerkleTree(tokensWithRarity.map(token => keccak(token)), keccak, { sortPairs: true});
+    this.alchemy = new Alchemy({
+      apiKey: `${process.env.ALCHEMY_API_KEY}`,
+      network: Network.ETH_MAINNET
+    });
   }
 
   getProof(address: string): string[] {
@@ -171,6 +177,11 @@ export class AppService {
       console.log("Get Froggies Owned Error: ", error);
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {
+    const nfts = await this.alchemy.nft.getNftsForOwner(account);
+    return nfts.ownedNfts.filter(nft => nft.contract.address.toLowerCase() == contract.toLowerCase());
   }
 
   getStakeProof(tokenIds: number[]): string[] {
