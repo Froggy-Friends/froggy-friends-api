@@ -13,12 +13,13 @@ export class ItemsController {
     return this.itemsService.getItems();
   }
 
-  // get item metadata from cache plus live contract info
+  // endpoint used by website
   @Get('/contract')
   getContractItems(): Promise<RibbitItem[]> {
     return this.itemsService.getContractItems();
   }
 
+  // endpoint used by contract to get item metadata
   @Get('/:id')
   getItem(@Param('id') id: string): Promise<Metadata> {
     return this.itemsService.getItem(id);
