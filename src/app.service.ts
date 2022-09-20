@@ -66,15 +66,15 @@ export class AppService {
   }
 
   getRibbit(edition: number): number {
-    if (rarity.common.includes(edition)) {
+    if (rarity.common.includes(+edition)) {
       return 20;
-    } else if (rarity.uncommon.includes(edition)) {
+    } else if (rarity.uncommon.includes(+edition)) {
       return 30;
-    } else if (rarity.rare.includes(edition)) {
+    } else if (rarity.rare.includes(+edition)) {
       return 40;
-    } else if (rarity.legendary.includes(edition)) {
+    } else if (rarity.legendary.includes(+edition)) {
       return 75;
-    } else if (rarity.epic.includes(edition)) {
+    } else if (rarity.epic.includes(+edition)) {
       return 150;
     } else {
       return 0;
@@ -141,19 +141,8 @@ export class AppService {
           ribbit: 0
         };
         
-        if (rarity.common.includes(froggy.edition)) {
-          froggy.ribbit = 20;
-        } else if (rarity.uncommon.includes(froggy.edition)) {
-          froggy.ribbit = 30;
-        } else if (rarity.rare.includes(froggy.edition)) {
-          froggy.ribbit = 40;
-        } else if (rarity.legendary.includes(froggy.edition)) {
-          froggy.ribbit = 75;
-        } else if (rarity.epic.includes(froggy.edition)) {
-          froggy.ribbit = 150;
-        }
+        froggy.ribbit = this.getRibbit(froggy.edition);
         froggies.push(froggy);
-        totalRibbit += froggy.ribbit;
       }
 
       for (const tokenId of tokensStaked) {
@@ -165,7 +154,7 @@ export class AppService {
           ribbit: 0
         }
         
-        froggy.ribbit = this.getRibbit(tokenId);
+        froggy.ribbit = this.getRibbit(froggy.edition);
         froggies.push(froggy);
         totalRibbit += froggy.ribbit;
       }
