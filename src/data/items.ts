@@ -1858,7 +1858,7 @@ export const items: Metadata[] = [
   {
     id: 95,
     name: 'Froggy x Randoms Shirt',
-    image: 'https://gateway.pinata.cloud/ipfs/QmajKpWc4yPEabrdfCEKi2fw2HaM57dCg4B5SmXUNUAe4e',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmajKpWc4yPEabrdfCEKi2fw2HaM57dCg4B5SmXUNUAe4e',
     description: 'Official Froggy Friends x The Randoms shirt.',
     category: 'merch',
     twitter: 'https://twitter.com/therandomsnft',
@@ -1876,7 +1876,7 @@ export const items: Metadata[] = [
   {
     id: 96,
     name: 'Random Frog Shirt',
-    image: 'https://gateway.pinata.cloud/ipfs/QmdLHHXoG5CmBvjUfFg2fBCcuPzvvZSFUoW8GiwGpHssxq',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmdLHHXoG5CmBvjUfFg2fBCcuPzvvZSFUoW8GiwGpHssxq',
     description: 'Official Random Frog shirt.',
     category: 'merch',
     twitter: 'https://twitter.com/therandomsnft',
@@ -1894,7 +1894,7 @@ export const items: Metadata[] = [
   {
     id: 97,
     name: 'The Froggy Friends Shirt',
-    image: 'https://gateway.pinata.cloud/ipfs/QmcjVBrazqxbvbYQbGGiuMXXRkrV38hbpeJg3cNiysPT5w',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmcjVBrazqxbvbYQbGGiuMXXRkrV38hbpeJg3cNiysPT5w',
     description: 'Official The Froggy Friends shirt.',
     category: 'merch',
     twitter: 'https://twitter.com/therandomsnft',
