@@ -1800,5 +1800,62 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 92,
+    name: 'The Randoms #5939 Raffle',
+    image: 'https://i.seadn.io/gae/a6PYfb3uHRpGTjEx0N8oH4-n3dJGZgF4bRCb2-3ZWpKNkjtV_KV78MxVQgxY9oIgUgeMAXF3JsbTRxmwl5Ly74bYrZo4khpnxSnI1Q?auto=format&w=1000',
+    description: "Purchase raffle tickets for The Randoms #5939",
+    category: 'raffles',
+    community: true,
+    endDate: 1664553600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 93,
+    name: 'The Randoms #5895 Raffle',
+    image: 'https://i.seadn.io/gae/6b7nDDFyDrepdXM-zcjCccWxZZahSaEyF6NvuWi5QjJSkci9kIN7tQoh0elfs6xD_6AJ-D8Rnil5BR0rp-4Io5ekT1UXvWpMsbox1w?auto=format&w=1000',
+    description: "Purchase raffle tickets for The Randoms #5895",
+    category: 'raffles',
+    community: true,
+    endDate: 1664553600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 94,
+    name: 'The Randoms #7260 Raffle',
+    image: 'https://i.seadn.io/gae/TgilTCe5wamTdsgO5EPYIw8IHjEHxd4pGSTWIe6gWmjuz2TVcToaGOcEMR7mTmklA7fB9CX93WPZM5o57G70bVDq1eQ9N5fton0d?auto=format&w=1000',
+    description: "Purchase raffle tickets for The Randoms #7260",
+    category: 'raffles',
+    community: true,
+    endDate: 1664553600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
