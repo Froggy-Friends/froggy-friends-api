@@ -1681,5 +1681,306 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 85,
+    name: 'The Randoms #8503',
+    image: 'https://i.seadn.io/gae/uRtD8iMZQ_pbq34nWez5N2yXUF-cAuWp4nSV6Wag8lW-KnNcNt_CcaK0jZZdHz6XD8yYj9G5ynmaZNhngkRse7pkpJpK_uV3lDzs?auto=format&w=1000',
+    description: 'Purchase The Randoms #8503 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 86,
+    name: 'The Randoms #8500',
+    image: 'https://i.seadn.io/gae/MW6EdeyX28W6vTPPJda0U-OxcLPa-9U4s_02hEVreXxTgymNjYwYKdOApFLmiL8R3pCYbmSWuAYedJHxlmJ1PkelC3aiC7EwEnCA?auto=format&w=1000',
+    description: 'Purchase The Randoms #8500 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 87,
+    name: 'The Randoms #2748',
+    image: 'https://i.seadn.io/gae/dDb1UNVwre7F71HBiIvLL6w7WVlgL2rk8CGBw9uHyD3L4JQQyicv0RUoTE7-YLrvHqtOfrS8Qm2NEPAE6l90crL5Dry7PokAj8ZM?auto=format&w=1000',
+    description: 'Purchase The Randoms #2748 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 88,
+    name: 'The Randoms #4850',
+    image: 'https://i.seadn.io/gae/NbtVKjNsOkNeZo4eYGhMBKwN0Qv-_EyzhRkhGkxu_ZyDqewS_Mnag9vAnQDI9KI5yWFVsDONs8omBN5iMQXwh-F3wpgl9SUWaDl-qQ?auto=format&w=1000',
+    description: 'Purchase The Randoms #4850 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 89,
+    name: 'The Randoms #5146',
+    image: 'https://i.seadn.io/gae/rOuQVQGI1wf0nN-1CUwy9HgGqfTUqbA94jv4FDLW-j2vPVmpI_IRWaLVoIm7GlXG0lNYO-C2BYrq7AK4jgDyAyUiz8xffQyA9Vs5NVc?auto=format&w=1000',
+    description: 'Purchase The Randoms #5146 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 90,
+    name: 'The Randoms #5714',
+    image: 'https://i.seadn.io/gae/Cp9sRUpBJsnU-hpG_lJpsFyyvuvgbEJzGSaaSQmMyTow0sSOyVvoPM_ZsqGa7F6i_HKcChfMfJiQaBpIBhdNKjFSEcTlrodCIVyGuQ?auto=format&w=1000',
+    description: 'Purchase The Randoms #5714 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 91,
+    name: 'The Randoms #7259',
+    image: 'https://i.seadn.io/gae/_Rz4tqp329jCasw6r0DqRKERQkGuYeOk6238Re8FPH21kG0uBne8D9NEP35m6UOP6OSBnKA_NY7_qzwys--WC_v7m-p6TTvq_bA?auto=format&w=1000',
+    description: 'Purchase The Randoms #7259 with $RIBBIT',
+    category: 'nfts',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 92,
+    name: 'The Randoms #5939 Raffle',
+    image: 'https://i.seadn.io/gae/a6PYfb3uHRpGTjEx0N8oH4-n3dJGZgF4bRCb2-3ZWpKNkjtV_KV78MxVQgxY9oIgUgeMAXF3JsbTRxmwl5Ly74bYrZo4khpnxSnI1Q?auto=format&w=1000',
+    description: "Purchase raffle tickets for The Randoms #5939",
+    category: 'raffles',
+    endDate: 1664553600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 93,
+    name: 'The Randoms #5895 Raffle',
+    image: 'https://i.seadn.io/gae/6b7nDDFyDrepdXM-zcjCccWxZZahSaEyF6NvuWi5QjJSkci9kIN7tQoh0elfs6xD_6AJ-D8Rnil5BR0rp-4Io5ekT1UXvWpMsbox1w?auto=format&w=1000',
+    description: "Purchase raffle tickets for The Randoms #5895",
+    category: 'raffles',
+    endDate: 1664553600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 94,
+    name: 'The Randoms #7260 Raffle',
+    image: 'https://i.seadn.io/gae/TgilTCe5wamTdsgO5EPYIw8IHjEHxd4pGSTWIe6gWmjuz2TVcToaGOcEMR7mTmklA7fB9CX93WPZM5o57G70bVDq1eQ9N5fton0d?auto=format&w=1000',
+    description: "Purchase raffle tickets for The Randoms #7260",
+    category: 'raffles',
+    endDate: 1664553600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 95,
+    name: 'Froggy x Randoms Shirt',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmajKpWc4yPEabrdfCEKi2fw2HaM57dCg4B5SmXUNUAe4e',
+    description: 'Official Froggy Friends x The Randoms shirt.',
+    category: 'merch',
+    twitter: 'https://twitter.com/therandomsnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 96,
+    name: 'Random Frog Shirt',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmdLHHXoG5CmBvjUfFg2fBCcuPzvvZSFUoW8GiwGpHssxq',
+    description: 'Official Random Frog shirt.',
+    category: 'merch',
+    twitter: 'https://twitter.com/therandomsnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 97,
+    name: 'The Froggy Friends Shirt',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmcjVBrazqxbvbYQbGGiuMXXRkrV38hbpeJg3cNiysPT5w',
+    description: 'Official The Froggy Friends shirt.',
+    category: 'merch',
+    twitter: 'https://twitter.com/therandomsnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 98,
+    name: 'Zipsharks Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1572004072865280000/VOEXwQOO_400x400.jpg',
+    description: "an Artist built and ran nft collection , focused on community & creating 🦈 by @d3fb0t 🦈fishing license SOLD OUT 🦈 Zipsharks collection minting Oct 2022",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/zipsharks',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 99,
+    name: 'Scribbles Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1526978345027739649/Fu5Ox7qo_400x400.jpg',
+    description: "coming to a sketchbook near you✏️🖤 scribbled by @ehretwins",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/thescribblesnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 100,
+    name: 'Devious Dead Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1562302111274131456/csnizj8U_400x400.jpg',
+    description: "A collection of 6,666 Convicts coming to ETH | Mental Health Support | Physical Wellness | Educational Access | #ApeSpaces",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/Devious_deadNFT',
+    discord: 'http://discord.gg/h6ec47gCna',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 101,
+    name: 'Bearverse Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1507835850482229259/9acmlIS4_400x400.png',
+    description: "Bearverse is a competitive F2P gaming ecosystem with interoperable rewards. Midcore team battler with NFT collectibles in a frost-punk world.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/bearversegame',
+    discord: 'https://discord.gg/EYDpETTBFQ',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];

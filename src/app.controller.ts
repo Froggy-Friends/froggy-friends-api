@@ -1,5 +1,8 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { OwnedNft } from 'alchemy-sdk';
 import { AppService } from './app.service';
+import { Froggy } from './models/Froggy';
+import { OwnedNftsRequest } from './models/OwnedNftsRequest';
 import { OwnedRequest } from './models/OwnedRequest';
 import { OwnedResponse } from './models/OwnedResponse';
 import { ProofRequest } from './models/ProofRequest';
@@ -29,6 +32,16 @@ export class AppController {
   @Post('/owned')
   async getFroggiesOwned(@Body() ownedRequest: OwnedRequest): Promise<OwnedResponse> {
     return this.appService.getFroggiesOwned(ownedRequest.account);
+  }
+
+  @Post('/owned/nfts')
+  async getNFTsOwned(@Body() ownedNftsRequest: OwnedNftsRequest): Promise<OwnedNft[]> {
+    return this.appService.getNftsOwned(ownedNftsRequest.account, ownedNftsRequest.contract);
+  }
+
+  @Post('/frog/:id')
+  async getFrog(@Param('id') id: number): Promise<Froggy> {
+    return this.appService.getFroggy(id);
   }
 
   @Post('/stake')

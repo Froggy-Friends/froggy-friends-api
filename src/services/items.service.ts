@@ -38,9 +38,37 @@ export class ItemsService {
     };
   }
 
-  getItem(id: string): Metadata {
+  async getItem(id: string): Promise<Metadata> {
     const item = this.parseItem(id);
-    return items[item.index];
+    const ribbitItem = items[item.index];
+
+    try {
+      const details  = await ribbitItemContract.methods.item(ribbitItem.id).call();
+      const price = details['0'];
+      const percent = details['1'];
+      const minted = details['2'];
+      const supply = details['3'];
+      const walletLimit = details['4'];
+      const isBoost = details['5'];
+      const isOnSale = details['6'];
+
+      const etherPrice = +ethers.utils.formatEther(price);
+
+      let finalRibbitItem: RibbitItem = {
+        ...ribbitItem,
+        price: etherPrice,
+        percentage: +percent,
+        minted: +minted,
+        supply: +supply,
+        walletLimit: +walletLimit,
+        isBoost: isBoost,
+        isOnSale: isOnSale,
+      }
+      return finalRibbitItem;
+    } catch (error) {
+      this.logger.error("Get item details error: " + error);
+      throw new HttpException("Get item error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   getItems(): Metadata[] {
