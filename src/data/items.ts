@@ -1908,5 +1908,79 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 98,
+    name: 'Zipsharks Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1572004072865280000/VOEXwQOO_400x400.jpg',
+    description: "an Artist built and ran nft collection , focused on community & creating 🦈 by @d3fb0t 🦈fishing license SOLD OUT 🦈 Zipsharks collection minting Oct 2022",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/zipsharks',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 99,
+    name: 'Scribbles Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1526978345027739649/Fu5Ox7qo_400x400.jpg',
+    description: "coming to a sketchbook near you✏️🖤 scribbled by @ehretwins",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/thescribblesnft',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 100,
+    name: 'Devious Dead Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1562302111274131456/csnizj8U_400x400.jpg',
+    description: "A collection of 6,666 Convicts coming to ETH | Mental Health Support | Physical Wellness | Educational Access | #ApeSpaces",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/Devious_deadNFT',
+    discord: 'http://discord.gg/h6ec47gCna',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 101,
+    name: 'Bearverse Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1507835850482229259/9acmlIS4_400x400.png',
+    description: "Bearverse is a competitive F2P gaming ecosystem with interoperable rewards. Midcore team battler with NFT collectibles in a frost-punk world.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/bearversegame',
+    discord: 'https://discord.gg/EYDpETTBFQ',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Rare'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
