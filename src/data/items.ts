@@ -1982,5 +1982,24 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 102,
+    name: 'Gummy Invasions Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1551091055902220288/ip0QQqZO_400x400.jpg',
+    description: "Bringing Chewing Gum into WEB3! 🌐 X 🍬 - An INVSN Project.",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/Gummyinvasions',
+    discord: 'https://discord.gg/qUBAvrDmPR',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Common'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
