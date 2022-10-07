@@ -2001,5 +2001,63 @@ export const items: Metadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 103,
+    name: 'Asparas Allowlist',
+    image: 'https://media.discordapp.net/attachments/1027167413608914964/1027167452305559654/20221005_180837.jpg?width=935&height=935',
+    description: "The first batch of 452 works sold out in 100 minutes! 🚀",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/apsarasnft',
+    discord: 'https://discord.gg/UaEYzCGbwq',
+    endDate: 1665201600000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 104,
+    name: 'JungleParty Allowlist',
+    image: 'https://media.discordapp.net/attachments/1027765758492672022/1027980325151838258/unknown.png',
+    description: "📈 New liquidity model for NFT and Token --- Tigercoin",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/Jungleking_NFT',
+    discord: 'https://discord.gg/fFPpeQyjQu',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 105,
+    name: 'Rotten Eggs Allowlist',
+    image: 'https://media.discordapp.net/attachments/1027330176155123773/1027981795108601906/20221007_093133.jpg',
+    description: "📺: Animated Series 🥚: 10,000 eggs on @solana 🤢: @brennankarem",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/rotteneggseww',
+    discord: 'https://discord.com/invite/rotteneggs',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
