@@ -16,7 +16,7 @@ import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
@@ -162,6 +162,22 @@ export class AppService {
       console.log("Get Froggies Owned Error: ", error);
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async getFriendsOwned(address: string) {
+    let options = { chain: this.chain, address: address, token_address: RIBBIT_ITEM_ADDRESS};
+    const friends = (await Moralis.EvmApi.nft.getWalletNFTs(options))
+      .result
+      .filter(token => {
+        const nft = token.format();
+        return token.tokenAddress.lowercase === RIBBIT_ITEM_ADDRESS.toLowerCase() && nft.metadata.isBoost;
+      })
+      .map(token => {
+        const nft = token.format();
+        return nft.metadata;
+      });
+
+    return friends;
   }
 
   async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {
