@@ -9,7 +9,8 @@ import * as ribbitAbi from './abi-ribbit.json';
 import * as rarity from '../rarityBands.json';
 import { OwnedResponse } from './models/OwnedResponse';
 import { Froggy } from './models/Froggy';
-const Moralis = require("moralis/node");
+import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/evm-utils';
 const keccak = require("keccak256");
 import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
@@ -29,6 +30,7 @@ export class AppService {
   froggylist: MerkleTree;
   rarities: MerkleTree;
   alchemy: Alchemy;
+  chain: EvmChain;
 
   constructor() {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
@@ -43,6 +45,7 @@ export class AppService {
       apiKey: `${process.env.ALCHEMY_API_KEY}`,
       network: Network.ETH_MAINNET
     });
+    this.chain = process.env.NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
   }
 
   getProof(address: string): string[] {
@@ -107,61 +110,54 @@ export class AppService {
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
-      // get staking token ids
-      const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
+      // get staked tokens
+      const stakedTokens: number[] = await stakingContract.methods.deposits(address).call();
 
-      // get unstaking token ids
-      const options = {
-        chain: "Eth",
-        address: address,
-        token_address: CONTRACT_ADDRESS
-      };
-      const unstaked = await Moralis.Web3API.account.getNFTsForContract(options);
-      const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
-      const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+      // get unstaked tokens
+      const options = { chain: this.chain, address: address, token_address: CONTRACT_ADDRESS};
+      const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options))
+        .result
+        .filter(token=> {
+          const nft = token.format();
+          return nft.tokenAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase();
+        });
 
-      const ownedResponse: OwnedResponse = {
-        froggies: [],
-        totalRibbit: 0,
-        allowance: +allowance,
-        isStakingApproved: isStakingApproved
-      };
       const froggies = [];
       let totalRibbit = 0;
 
-      // remove staked tokens from unstaked moralis list
-      const results = unstaked.result.filter((nft: any) => !tokensStaked.includes(nft.token_id));
-
-      for(const result of results) {
-        const froggy: Froggy = {
-          name: `Froggy #${result.token_id}`,
-          image: `${IPFS_IMAGE_URL}/${result.token_id}.png`,
-          edition: +result.token_id,
-          isStaked: false,
-          ribbit: 0
-        };
-        
-        froggy.ribbit = this.getRibbit(froggy.edition);
-        froggies.push(froggy);
-      }
-
-      for (const tokenId of tokensStaked) {
-        const froggy: Froggy = {
+      for (const tokenId of stakedTokens) {
+        const ribbit = this.getRibbit(+tokenId)
+        froggies.push({
           name: `Froggy #${tokenId}`,
           image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
           edition: +tokenId,
           isStaked: true,
-          ribbit: 0
-        }
-        
-        froggy.ribbit = this.getRibbit(froggy.edition);
-        froggies.push(froggy);
-        totalRibbit += froggy.ribbit;
+          ribbit: ribbit
+        });
+        totalRibbit += ribbit;
       }
 
-      ownedResponse.froggies = froggies;
-      ownedResponse.totalRibbit = totalRibbit;
-      return ownedResponse;
+      for (const token of unstakedTokens) {
+        const nft = token.format();
+        const { tokenId } = nft;
+        froggies.push({
+          name: `Froggy #${tokenId}`,
+          image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
+          edition: +tokenId,
+          isStaked: false,
+          ribbit: 0
+        });
+      }
+
+      const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
+      const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+
+      return {
+        froggies: froggies,
+        totalRibbit: totalRibbit,
+        allowance: +allowance,
+        isStakingApproved: isStakingApproved
+      };
     } catch (error) {
       console.log("Get Froggies Owned Error: ", error);
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
