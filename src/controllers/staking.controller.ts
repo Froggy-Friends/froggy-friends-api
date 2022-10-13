@@ -9,7 +9,7 @@ export class StakingController {
 
   @Get("/staking")
   getStakingHolders() {
-    return this.stakingService.getStakingHolders();
+    return this.stakingService.getStakers();
   }
 
   @Get("/leaderboard")
