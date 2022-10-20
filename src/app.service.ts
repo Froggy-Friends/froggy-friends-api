@@ -11,6 +11,7 @@ import { OwnedResponse } from './models/OwnedResponse';
 import { Froggy } from './models/Froggy';
 import Moralis from 'moralis';
 import { EvmChain } from '@moralisweb3/evm-utils';
+import { Params } from 'node_modules/@moralisweb3/evm-api/lib/resolvers/nft/getWalletNFTs';
 const keccak = require("keccak256");
 import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
@@ -114,13 +115,8 @@ export class AppService {
       const stakedTokens: number[] = await stakingContract.methods.deposits(address).call();
 
       // get unstaked tokens
-      const options = { chain: this.chain, address: address, token_address: CONTRACT_ADDRESS};
-      const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options))
-        .result
-        .filter(token=> {
-          const nft = token.format();
-          return nft.tokenAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase();
-        });
+      const options: Params = { chain: this.chain, address: address, tokenAddresses: [CONTRACT_ADDRESS] };
+      const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
 
       const froggies = [];
       let totalRibbit = 0;
@@ -139,11 +135,8 @@ export class AppService {
 
       for (const token of unstakedTokens) {
         const nft = token.format();
-        const { tokenId } = nft;
         froggies.push({
-          name: `Froggy #${tokenId}`,
-          image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
-          edition: +tokenId,
+          ...nft.metadata,
           isStaked: false,
           ribbit: 0
         });
