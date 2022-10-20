@@ -34,6 +34,11 @@ export class AppController {
     return this.appService.getFroggiesOwned(ownedRequest.account);
   }
 
+  @Post('/owned/friends')
+  async getFriendsOwned(@Body() ownedRequest: OwnedRequest) {
+    return this.appService.getFriendsOwned(ownedRequest.account);
+  }
+
   @Post('/owned/nfts')
   async getNFTsOwned(@Body() ownedNftsRequest: OwnedNftsRequest): Promise<OwnedNft[]> {
     return this.appService.getNftsOwned(ownedNftsRequest.account, ownedNftsRequest.contract);

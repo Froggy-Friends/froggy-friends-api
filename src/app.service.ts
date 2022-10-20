@@ -11,12 +11,13 @@ import { OwnedResponse } from './models/OwnedResponse';
 import { Froggy } from './models/Froggy';
 import Moralis from 'moralis';
 import { EvmChain } from '@moralisweb3/evm-utils';
+import { Params } from 'node_modules/@moralisweb3/evm-api/lib/resolvers/nft/getWalletNFTs';
 const keccak = require("keccak256");
 import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
@@ -114,13 +115,8 @@ export class AppService {
       const stakedTokens: number[] = await stakingContract.methods.deposits(address).call();
 
       // get unstaked tokens
-      const options = { chain: this.chain, address: address, token_address: CONTRACT_ADDRESS};
-      const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options))
-        .result
-        .filter(token=> {
-          const nft = token.format();
-          return nft.tokenAddress.toLowerCase() === CONTRACT_ADDRESS.toLowerCase();
-        });
+      const options: Params = { chain: this.chain, address: address, tokenAddresses: [CONTRACT_ADDRESS] };
+      const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
 
       const froggies = [];
       let totalRibbit = 0;
@@ -139,11 +135,8 @@ export class AppService {
 
       for (const token of unstakedTokens) {
         const nft = token.format();
-        const { tokenId } = nft;
         froggies.push({
-          name: `Froggy #${tokenId}`,
-          image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
-          edition: +tokenId,
+          ...nft.metadata,
           isStaked: false,
           ribbit: 0
         });
@@ -162,6 +155,22 @@ export class AppService {
       console.log("Get Froggies Owned Error: ", error);
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async getFriendsOwned(address: string) {
+    let options = { chain: this.chain, address: address, token_address: RIBBIT_ITEM_ADDRESS};
+    const friends = (await Moralis.EvmApi.nft.getWalletNFTs(options))
+      .result
+      .filter(token => {
+        const nft = token.format();
+        return token.tokenAddress.lowercase === RIBBIT_ITEM_ADDRESS.toLowerCase() && nft.metadata.isBoost;
+      })
+      .map(token => {
+        const nft = token.format();
+        return nft.metadata;
+      });
+
+    return friends;
   }
 
   async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {
