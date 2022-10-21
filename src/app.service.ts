@@ -104,6 +104,7 @@ export class AppService {
     froggy.ribbit = this.getRibbit(froggy.edition);
     froggy.rarity = this.getRarity(froggy.edition);
     froggy.isPaired = rewardRate > froggy.ribbit;
+    froggy.image = `${IPFS_IMAGE_URL}/${froggy.edition}.png`;
     froggy.imagePixel = `${PIXEL_IMAGE_URL}/${froggy.edition}.png`;
     froggy.image3d = `${FROG_3D_URL}/${froggy.edition}.png`;
     return froggy;
