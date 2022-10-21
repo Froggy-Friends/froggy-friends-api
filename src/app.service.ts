@@ -125,7 +125,9 @@ export class AppService {
         const ribbit = this.getRibbit(+tokenId)
         froggies.push({
           name: `Froggy #${tokenId}`,
-          image: `${FROG_3D_URL}/${tokenId}.png`,
+          image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
+          imagePixel: `${PIXEL_IMAGE_URL}/${tokenId}.png`,
+          image3d: `${FROG_3D_URL}/${tokenId}.png`,
           edition: +tokenId,
           isStaked: true,
           ribbit: ribbit
@@ -137,7 +139,9 @@ export class AppService {
         const nft = token.format();
         froggies.push({
           ...nft.metadata,
-          image: `${FROG_3D_URL}/${nft.tokenId}.png`,
+          image: `${IPFS_IMAGE_URL}/${nft.tokenId}.png`,
+          imagePixel: `${PIXEL_IMAGE_URL}/${nft.tokenId}.png`,
+          image3d: `${FROG_3D_URL}/${nft.tokenId}.png`,
           isStaked: false,
           ribbit: 0
         });
