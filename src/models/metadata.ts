@@ -8,5 +8,7 @@ export interface Metadata {
     imagePixel: string;
     edition: number;
     date: string;
+    ribbit: number;
+    rarity: string;
     attributes: Attribute[];
   }

@@ -116,7 +116,11 @@ export class AppService {
 
       let totalRibbit = 0;
       const froggies: Froggy[] = [];
-      let tokens = [...stakedTokens, ...unstakedTokens.map(t => Number(t.format().tokenId))];
+      let tokens: number[] = [
+        ...stakedTokens.map(t => Number(t)), 
+        ...unstakedTokens.map(t => Number(t.format().tokenId))
+      ];
+      tokens.sort();
 
       for (const tokenId of tokens) {
         const frog = await this.getFroggy(tokenId);
