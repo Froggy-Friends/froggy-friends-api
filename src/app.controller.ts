@@ -29,9 +29,9 @@ export class AppController {
     return this.appService.getIsOnFroggylist(proofRequest.wallet);
   }
 
-  @Post('/owned')
-  async getFroggiesOwned(@Body() ownedRequest: OwnedRequest): Promise<OwnedResponse> {
-    return this.appService.getFroggiesOwned(ownedRequest.account);
+  @Get('/owned/:account')
+  async getFroggiesOwned(@Param('account') account: string ): Promise<OwnedResponse> {
+    return this.appService.getFroggiesOwned(account);
   }
 
   @Post('/owned/friends')
@@ -44,7 +44,7 @@ export class AppController {
     return this.appService.getNftsOwned(ownedNftsRequest.account, ownedNftsRequest.contract);
   }
 
-  @Post('/frog/:id')
+  @Get('/frog/:id')
   async getFrog(@Param('id') id: number): Promise<Froggy> {
     return this.appService.getFroggy(id);
   }
