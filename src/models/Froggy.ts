@@ -1,17 +1,6 @@
-import { Attribute } from "./Attribute";
+import { Metadata } from "./Metadata";
 
-export interface Froggy {
-  name: string;
-  image: string;
-  imagePixel?: string;
-  image3d?: string;
-  edition: number;
-  description?: string;
-  dna?: string;
-  date?: number;
-  attributes?: Attribute[];
+export interface Froggy extends Metadata {
   isStaked: boolean;
-  isPaired?: boolean;
-  ribbit: number;
-  rarity?: string;
+  isPaired: boolean;
 }
