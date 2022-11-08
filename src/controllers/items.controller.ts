@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { ItemsService } from "../services/items.service";
-import { Metadata } from './../models/metadata';
+import { ItemMetadata } from '../models/ItemMetadata';
 import { ContractMetadata } from '../models/ContractMetadata';
 import { RibbitItem } from "../models/RibbitItem";
 
@@ -9,7 +9,7 @@ export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
   @Get()
-  getItems(): Metadata[] {
+  getItems(): ItemMetadata[] {
     return this.itemsService.getItems();
   }
 
@@ -21,7 +21,7 @@ export class ItemsController {
 
   // endpoint used by contract to get item metadata
   @Get('/:id')
-  getItem(@Param('id') id: string): Promise<Metadata> {
+  getItem(@Param('id') id: string): Promise<ItemMetadata> {
     return this.itemsService.getItem(id);
   }
 
