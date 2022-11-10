@@ -18,7 +18,7 @@ import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 import { Metadata } from './models/Metadata';
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL, FROG_3D_URL } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
