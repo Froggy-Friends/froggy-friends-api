@@ -34,9 +34,9 @@ export class AppController {
     return this.appService.getFroggiesOwned(account);
   }
 
-  @Post('/owned/friends')
-  async getFriendsOwned(@Body() ownedRequest: OwnedRequest) {
-    return this.appService.getFriendsOwned(ownedRequest.account);
+  @Get('/owned/friends/:account')
+  async getFriendsOwned(@Param('account') account: string) {
+    return this.appService.getFriendsOwned(account);
   }
 
   @Post('/owned/nfts')
