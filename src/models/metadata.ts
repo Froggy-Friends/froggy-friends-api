@@ -5,6 +5,7 @@ export interface Metadata {
   name: string;
   image: string;
   previewImage?: string;
+  imageTransparent?: string;
   description: string;
   category: string;
   collabId?: number;
