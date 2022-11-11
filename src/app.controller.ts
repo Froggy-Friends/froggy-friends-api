@@ -34,6 +34,11 @@ export class AppController {
     return this.appService.getFroggiesOwned(account);
   }
 
+  @Get('/owned/unstaked/:account')
+  async getUnstakedFroggiesOwned(@Param('account') account: string): Promise<OwnedResponse> {
+    return this.appService.getUnstakedFroggies(account);
+  }
+
   @Get('/owned/friends/:account')
   async getFriendsOwned(@Param('account') account: string) {
     return this.appService.getFriendsOwned(account);

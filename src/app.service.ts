@@ -148,6 +148,35 @@ export class AppService {
     }
   }
 
+  async getUnstakedFroggies(address: string): Promise<OwnedResponse> {
+    const options: Params = { chain: this.chain, address: address, tokenAddresses: [CONTRACT_ADDRESS] };
+    const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
+    let totalRibbit = 0;
+    const froggies: Froggy[] = [];
+    let tokens: number[] = [
+      ...unstakedTokens.map(t => Number(t.format().tokenId))
+    ];
+    tokens.sort();
+    for (const tokenId of tokens) {
+      const frog = await this.getFroggy(tokenId);
+      if (frog.isStaked === true) {
+        const ribbit = frog.attributes.find(trait => trait.trait_type === 'Ribbit Per Day');
+        totalRibbit += Number(ribbit.value);
+      }
+      froggies.push(frog);
+    }
+
+    const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
+    const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+
+    return {
+      froggies: froggies,
+      totalRibbit: totalRibbit,
+      allowance: +allowance,
+      isStakingApproved: isStakingApproved
+    };
+  }
+
   async getFriendsOwned(address: string) {
     let options = { chain: this.chain, address: address, tokenAddresses: [RIBBIT_ITEM_ADDRESS]};
     const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
