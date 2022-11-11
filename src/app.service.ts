@@ -16,6 +16,8 @@ const keccak = require("keccak256");
 import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 import { Metadata } from './models/Metadata';
+import { ItemsService } from './services/items.service';
+import { RibbitItem } from './models/RibbitItem';
 require('dotenv').config();
 const { keccak256 } = utils;
 const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS } = process.env;
@@ -34,7 +36,7 @@ export class AppService {
   alchemy: Alchemy;
   chain: EvmChain;
 
-  constructor() {
+  constructor(private readonly itemService: ItemsService) {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
     const common = rarity.common.map(tokenId => `${tokenId}20`);
     const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
@@ -147,19 +149,17 @@ export class AppService {
   }
 
   async getFriendsOwned(address: string) {
-    let options = { chain: this.chain, address: address, token_address: RIBBIT_ITEM_ADDRESS};
-    const friends = (await Moralis.EvmApi.nft.getWalletNFTs(options))
-      .result
-      .filter(token => {
-        const nft = token.format();
-        return token.tokenAddress.lowercase === RIBBIT_ITEM_ADDRESS.toLowerCase() && nft.metadata.isBoost;
-      })
-      .map(token => {
-        const nft = token.format();
-        return nft.metadata;
-      });
+    let options = { chain: this.chain, address: address, tokenAddresses: [RIBBIT_ITEM_ADDRESS]};
+    const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
+    let owned: RibbitItem[] = [];
+    for (const ribbitItem of ribbitItems) {
+      const metadata =  await this.itemService.getItem(String(ribbitItem.tokenId));
+      if (metadata.isBoost) {
+        owned.push(metadata);
+      }
+    }
 
-    return friends;
+    return owned.sort((friendOne, friendTwo) => friendOne.id - friendTwo.id);
   }
 
   async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {

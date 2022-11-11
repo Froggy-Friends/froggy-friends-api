@@ -38,7 +38,7 @@ export class ItemsService {
     };
   }
 
-  async getItem(id: string): Promise<ItemMetadata> {
+  async getItem(id: string): Promise<RibbitItem> {
     const item = this.parseItem(id);
     const ribbitItem = items[item.index];
 
