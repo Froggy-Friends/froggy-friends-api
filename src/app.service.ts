@@ -15,9 +15,12 @@ import { Params } from 'node_modules/@moralisweb3/evm-api/lib/resolvers/nft/getW
 const keccak = require("keccak256");
 import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
+import { Metadata } from './models/Metadata';
+import { ItemsService } from './services/items.service';
+import { RibbitItem } from './models/RibbitItem';
 require('dotenv').config();
 const { keccak256 } = utils;
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS, IPFS_IMAGE_URL, PIXEL_IMAGE_URL, FROG_3D_URL } = process.env;
+const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS } = process.env;
 const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
 const abiItem: any = abi;
 const stakingAbiItem: any = stakingAbi;
@@ -33,7 +36,7 @@ export class AppService {
   alchemy: Alchemy;
   chain: EvmChain;
 
-  constructor() {
+  constructor(private readonly itemService: ItemsService) {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
     const common = rarity.common.map(tokenId => `${tokenId}20`);
     const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
@@ -94,58 +97,40 @@ export class AppService {
     }
   }
 
-  async getFroggy(id: number): Promise<Froggy> {
-    const baseUrl: string = await contract.methods.froggyUrl().call();
-    const froggy = (await axios.get<Froggy>(baseUrl + id)).data;
-    const ownerOf: string = await contract.methods.ownerOf(id).call();
-    const proof = this.getStakeProof([+id]);
-    const rewardRate = await stakingContract.methods.getTokenRewardRate(id, proof[0]).call();
-    froggy.isStaked = ownerOf == STAKING_CONTRACT_ADDRESS;
-    froggy.ribbit = this.getRibbit(froggy.edition);
-    froggy.rarity = this.getRarity(froggy.edition);
-    froggy.isPaired = rewardRate > froggy.ribbit;
-    froggy.image = `${IPFS_IMAGE_URL}/${froggy.edition}.png`;
-    froggy.imagePixel = `${PIXEL_IMAGE_URL}/${froggy.edition}.png`;
-    froggy.image3d = `${FROG_3D_URL}/${froggy.edition}.png`;
+  async getFroggy(tokenId: number): Promise<Froggy> {
+    const metadataUrl: string = await contract.methods.froggyUrl().call();
+    const metadata = (await axios.get<Metadata>(metadataUrl + tokenId)).data;
+    const ownerOf: string = await contract.methods.ownerOf(tokenId).call();
+    const isPaired = metadata.attributes.some(trait => trait.trait_type === 'Paired' && trait.value === 'Yes');
+    let froggy: Froggy = {
+      ...metadata,
+      isStaked: ownerOf == STAKING_CONTRACT_ADDRESS,
+      isPaired: isPaired
+    }
     return froggy;
   }
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
-      // get staked tokens
       const stakedTokens: number[] = await stakingContract.methods.deposits(address).call();
-
-      // get unstaked tokens
       const options: Params = { chain: this.chain, address: address, tokenAddresses: [CONTRACT_ADDRESS] };
       const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
 
-      const froggies = [];
       let totalRibbit = 0;
+      const froggies: Froggy[] = [];
+      let tokens: number[] = [
+        ...stakedTokens.map(t => Number(t)), 
+        ...unstakedTokens.map(t => Number(t.format().tokenId))
+      ];
+      tokens.sort();
 
-      for (const tokenId of stakedTokens) {
-        const ribbit = this.getRibbit(+tokenId)
-        froggies.push({
-          name: `Froggy #${tokenId}`,
-          image: `${IPFS_IMAGE_URL}/${tokenId}.png`,
-          imagePixel: `${PIXEL_IMAGE_URL}/${tokenId}.png`,
-          image3d: `${FROG_3D_URL}/${tokenId}.png`,
-          edition: +tokenId,
-          isStaked: true,
-          ribbit: ribbit
-        });
-        totalRibbit += ribbit;
-      }
-
-      for (const token of unstakedTokens) {
-        const nft = token.format();
-        froggies.push({
-          ...nft.metadata,
-          image: `${IPFS_IMAGE_URL}/${nft.tokenId}.png`,
-          imagePixel: `${PIXEL_IMAGE_URL}/${nft.tokenId}.png`,
-          image3d: `${FROG_3D_URL}/${nft.tokenId}.png`,
-          isStaked: false,
-          ribbit: 0
-        });
+      for (const tokenId of tokens) {
+        const frog = await this.getFroggy(tokenId);
+        if (frog.isStaked === true) {
+          const ribbit = frog.attributes.find(trait => trait.trait_type === 'Ribbit Per Day');
+          totalRibbit += Number(ribbit.value);
+        }
+        froggies.push(frog);
       }
 
       const isStakingApproved = await contract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
@@ -164,19 +149,17 @@ export class AppService {
   }
 
   async getFriendsOwned(address: string) {
-    let options = { chain: this.chain, address: address, token_address: RIBBIT_ITEM_ADDRESS};
-    const friends = (await Moralis.EvmApi.nft.getWalletNFTs(options))
-      .result
-      .filter(token => {
-        const nft = token.format();
-        return token.tokenAddress.lowercase === RIBBIT_ITEM_ADDRESS.toLowerCase() && nft.metadata.isBoost;
-      })
-      .map(token => {
-        const nft = token.format();
-        return nft.metadata;
-      });
+    let options = { chain: this.chain, address: address, tokenAddresses: [RIBBIT_ITEM_ADDRESS]};
+    const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
+    let owned: RibbitItem[] = [];
+    for (const ribbitItem of ribbitItems) {
+      const metadata =  await this.itemService.getItem(String(ribbitItem.tokenId));
+      if (metadata.isBoost) {
+        owned.push(metadata);
+      }
+    }
 
-    return friends;
+    return owned.sort((friendOne, friendTwo) => friendOne.id - friendTwo.id);
   }
 
   async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {

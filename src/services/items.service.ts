@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
-import { Metadata } from "../models/metadata";
+import { ItemMetadata } from "../models/ItemMetadata";
 import { RibbitItem } from '../models/RibbitItem';
 import { items } from '../data/items';
 import { metadata } from '../data/contract-metadata';
@@ -38,7 +38,7 @@ export class ItemsService {
     };
   }
 
-  async getItem(id: string): Promise<Metadata> {
+  async getItem(id: string): Promise<RibbitItem> {
     const item = this.parseItem(id);
     const ribbitItem = items[item.index];
 
@@ -71,7 +71,7 @@ export class ItemsService {
     }
   }
 
-  getItems(): Metadata[] {
+  getItems(): ItemMetadata[] {
     return items;
   }
 

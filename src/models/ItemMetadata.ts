@@ -1,6 +1,6 @@
 import { Attribute } from "./Attribute";
 
-export interface Metadata {
+export interface ItemMetadata {
   id: number;
   name: string;
   image: string;
@@ -15,3 +15,4 @@ export interface Metadata {
   endDate?: number;
   attributes: Attribute[];
 }
+
