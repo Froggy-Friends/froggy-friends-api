@@ -713,7 +713,7 @@ export const items: ItemMetadata[] = [
         value: 'Collab'
       }
     ]
-  }
+  },
   {
     id: 33,
     name: 'Sunnies Friend',
