@@ -688,8 +688,8 @@ export const items: ItemMetadata[] = [
   {
     id: 32,
     name: 'FishyFam Friend',
-    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmbWJwBscCfpWeXcBpZtCPFzzexqKZ2NYoQhDtUFUBsNpT',
-    imageTransparent: 'https://froggyfriends.mypinata.cloud/ipfs/QmWgPfAF7y8g9VJmYM4SRYDWLHgbdPVryRcAEUNsQvw6LT/2d/Friends/32.png',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmT7r4CbHuTCi4jLTjMDL8Tm4VoQDXc6V8Lk6bhYejCVTJ',
+    imageTransparent: 'https://froggyfriends.mypinata.cloud/ipfs/QmRJWMT177XGmbw7F6b6j1XBZL6wfQo4X7x2Pn4RVRYXwv/2d/Friends/32.png',
     previewImage: 'https://froggyfriends.mypinata.cloud/ipfs/QmbWJwBscCfpWeXcBpZtCPFzzexqKZ2NYoQhDtUFUBsNpT',
     description: 'FishyFam Friend is our collab friend that pairs with your froggy pfp and provides a 10% staking boost',
     category: 'collabs',
@@ -713,7 +713,7 @@ export const items: ItemMetadata[] = [
         value: 'Collab'
       }
     ]
-  },
+  }
   {
     id: 33,
     name: 'Sunnies Friend',
