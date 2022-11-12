@@ -1,6 +1,6 @@
-import { ItemMetadata } from "./ItemMetadata";
+import { Item } from "src/item/item.entity";
 
-export interface RibbitItem extends ItemMetadata {
+export interface RibbitItem extends Item {
   price: number;
   percentage: number;
   minted: number;

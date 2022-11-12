@@ -16,8 +16,8 @@ const keccak = require("keccak256");
 import axios from 'axios';
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 import { Metadata } from './models/Metadata';
-import { ItemsService } from './services/items.service';
 import { RibbitItem } from './models/RibbitItem';
+import { ItemService } from './item/item.service';
 require('dotenv').config();
 const { keccak256 } = utils;
 const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, RIBBIT_ITEM_ADDRESS } = process.env;
@@ -36,7 +36,7 @@ export class AppService {
   alchemy: Alchemy;
   chain: EvmChain;
 
-  constructor(private readonly itemService: ItemsService) {
+  constructor(private readonly itemService: ItemService) {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
     const common = rarity.common.map(tokenId => `${tokenId}20`);
     const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
@@ -182,7 +182,7 @@ export class AppService {
     const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
     let owned: RibbitItem[] = [];
     for (const ribbitItem of ribbitItems) {
-      const metadata =  await this.itemService.getItem(String(ribbitItem.tokenId));
+      const metadata =  await this.itemService.getItem(+ribbitItem.tokenId);
       if (metadata.isBoost) {
         owned.push(metadata);
       }

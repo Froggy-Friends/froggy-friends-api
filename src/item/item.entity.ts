@@ -1,3 +1,4 @@
+import { Attribute } from "src/models/Attribute";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity({ name: 'Item', synchronize: false})
@@ -23,4 +24,5 @@ export class Item {
   @Column() boost: number;
   @Column() friendOrigin: string;
   @Column() traitLayer: string;
+  attributes: Attribute[];
 }

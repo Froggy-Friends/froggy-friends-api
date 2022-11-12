@@ -1,6 +1,4 @@
-import { ItemMetadata } from '../models/ItemMetadata';
-
-export const items: ItemMetadata[] = [
+export const items: any[] = [
   {
     id: 1,
     name: 'Golden Lily Pad',
