@@ -13,7 +13,7 @@ export class ItemService {
 
   }
 
-  getItems(id: number): Promise<Item[]> {
+  getItems(): Promise<Item[]> {
    return this.itemRepo.find({ 
       where: { 
         id: Not(null)
