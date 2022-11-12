@@ -21,6 +21,10 @@ export class ItemService {
     });
   }
 
+  getItem(id: number): Promise<Item> {
+    return this.itemRepo.findOneBy({ id: id });
+  }
+
   async saveItem(
     itemNumbers: ItemNumbers,
     itemStrings: ItemStrings,
