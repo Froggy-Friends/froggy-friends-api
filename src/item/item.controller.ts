@@ -11,11 +11,6 @@ export class ItemsController {
     return this.itemService.getAllItems();
   }
 
-  @Get('/refresh')
-  refresh() {
-    return this.itemService.refreshItems();
-  }
-
   @Get(':id')
   getItem(@Param('id') id: number): Promise<Item> {
     return this.itemService.getItem(id);

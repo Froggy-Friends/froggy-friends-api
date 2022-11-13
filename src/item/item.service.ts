@@ -7,8 +7,7 @@ import { ItemBooleans } from './ItemBooleans';
 import { ItemNumbers } from './ItemNumbers';
 import { ItemStrings } from './ItemStrings';
 
-import { HttpException, HttpStatus, Logger } from "@nestjs/common";
-import { RibbitItem } from '../models/RibbitItem';
+import { Logger } from "@nestjs/common";
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import * as ribbitAbi from '../abii-items.json';
 import { ethers } from "ethers";
@@ -68,7 +67,7 @@ export class ItemService {
         const item =  await this.getItem(Number(nft.tokenId));
         owned.push(item);
       }
-      return owned;
+      return owned.sort((a,b) => a.id - b.id);
     } catch (error) {
       console.log("get items owned error: ", error);
       return [];
