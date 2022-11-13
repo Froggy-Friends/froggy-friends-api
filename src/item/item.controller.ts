@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Post } from "@nestjs/common";
-import { RibbitItem } from "../models/RibbitItem";
+import { Controller, Get, Param } from "@nestjs/common";
+import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
 
 @Controller('/items')
@@ -7,12 +7,22 @@ export class ItemsController {
   constructor(private readonly itemService: ItemService) {} 
 
   @Get()
-  getContractItems(): Promise<RibbitItem[]> {
+  getContractItems(): Promise<Item[]> {
     return this.itemService.getAllItems();
   }
 
+  @Get('/refresh')
+  refresh() {
+    return this.itemService.refreshItems();
+  }
+
+  @Get(':id')
+  getItem(@Param('id') id: number): Promise<Item> {
+    return this.itemService.getItem(id);
+  }
+
   @Get('/owned/:account')
-  async getOwnedItems(@Param('account') account: string): Promise<RibbitItem[]> {
+  async getOwnedItems(@Param('account') account: string): Promise<Item[]> {
     return this.itemService.getOwnedItems(account);
   }
 
@@ -23,6 +33,6 @@ export class ItemsController {
 
   @Get('/:id/tickets')
   getRaffleTickets(@Param('id') id: number) {
-    return this.itemService.getRaffleTickets(id);
+    return this.itemService.getRaffleTicketOwners(id);
   }
 }

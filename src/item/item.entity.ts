@@ -24,5 +24,11 @@ export class Item {
   @Column() boost: number;
   @Column() friendOrigin: string;
   @Column() traitLayer: string;
+  @Column() price: number;
+  @Column() percent: number;
+  @Column() minted: number;
+  @Column() supply: number;
+  @Column() walletLimit: number;
+  @Column() isOnSale: boolean;
   attributes: Attribute[];
 }
