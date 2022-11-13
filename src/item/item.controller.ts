@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, Post } from "@nestjs/common";
 import { RibbitItem } from "../models/RibbitItem";
 import { ItemService } from "./item.service";
 
@@ -8,7 +8,7 @@ export class ItemsController {
 
   @Get()
   getContractItems(): Promise<RibbitItem[]> {
-    return this.itemService.getContractItems();
+    return this.itemService.getAllItems();
   }
 
   @Get('/owned/:account')
