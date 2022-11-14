@@ -7,7 +7,8 @@ export class SpacesService {
   client: Client;
 
   constructor(private readonly configs: ConfigService) {
-    this.client = new Client("MY-BEARER-TOKEN");
+    const token = configs.get<string>('TWITTER_TOKEN');
+    this.client = new Client(token);
   }
 
   async getSpacesForHost(twitterUsername: string) {
@@ -21,7 +22,12 @@ export class SpacesService {
       throw new HttpException("Invalid twitter username", HttpStatus.BAD_REQUEST);
     }
 
-    const spaces = await this.client.spaces.findSpacesByCreatorIds({ user_ids: [user.data.id]});
+    const spaces = await this.client.spaces.findSpacesByCreatorIds(
+      { 
+        user_ids: [user.data.id],
+        "space.fields": ['scheduled_start', 'state', 'title']
+      }
+    );
     if (spaces.errors) {
       console.log("error fetching spaces for user: ", spaces.errors);
       throw new HttpException("Invalid twitter username", HttpStatus.INTERNAL_SERVER_ERROR);
