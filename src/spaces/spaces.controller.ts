@@ -9,8 +9,14 @@ export class SpacesController {
     
   }
 
-  @Get('/:id')
-  getSpacesForHost(@Param('id') host: string) {
-    return this.spacesService.getShowsForHost(host);
+  @Get()
+  getSpacesForHost() {
+    return this.spacesService.getSpaces();
+  }
+
+  @Get('/refresh')
+  async refreshSpaces() {
+    const refreshed = await this.spacesService.refreshSpaces();
+    return refreshed;
   }
 }

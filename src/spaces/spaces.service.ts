@@ -1,46 +1,60 @@
 import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { Client } from "twitter-api-sdk";
 import { ConfigService } from "@nestjs/config";
-import { ScheduledShow } from "./spaces.data";
 import { spaces } from './spaces.data';
+import { Space, SpaceHost, SpaceShow } from "./spaces.models";
 @Injectable()
 export class SpacesService {
   private readonly logger = new Logger(SpacesService.name);
   client: Client;
-  scheduledShows: ScheduledShow[];
+  spaces: Space[];
 
   constructor(private readonly configs: ConfigService) {
     const token = configs.get<string>('TWITTER_TOKEN');
     this.client = new Client(token);
-    this.scheduledShows = [];
+    this.spaces = [];
   }
 
-  async getScheduledShows() {
+  getSpaces() {
+    return this.spaces;
+  }
+
+  async refreshSpaces() {
+    let spacesUpdated: Space[] = [];
     for (const space of spaces) {
-      const shows = await this.getShowsForHost(space.handle);
-      
+      const shows = await this.getShowsForHost(space.host);
+      spacesUpdated.push({
+        ...space,
+        shows: shows
+      });
     }
+    this.spaces = spacesUpdated;
+    return true;
   }
 
-  async getShowsForHost(twitterUsername: string): Promise<ScheduledShow[]> {
+  async getShowsForHost(host: SpaceHost): Promise<SpaceShow[]> {
     try {
-      let scheduledShows: ScheduledShow[] = [];
-      const user = await this.client.users.findUserByUsername(twitterUsername);
-      const spaces = await this.client.spaces.findSpacesByCreatorIds({ 
+      let spaceShows: SpaceShow[] = [];
+      const user = await this.client.users.findUserByUsername(host.twitterHandle);
+      setTimeout(() => {}, 5000);
+      const scheduledSpaces = await this.client.spaces.findSpacesByCreatorIds({ 
           user_ids: [user.data.id],
           "space.fields": ['scheduled_start', 'state', 'title']
       });
+      setTimeout(() => {}, 5000);
 
-      for (const space of spaces.data) {
-        scheduledShows.push({
-          id: space.id,
-          title: space.title,
-          state: space.state,
-          scheduledStart: space.scheduled_start
-        });
+      if (scheduledSpaces.data) {
+        for (const space of scheduledSpaces.data) {
+          spaceShows.push({
+            id: space.id,
+            title: space.title,
+            state: space.state,
+            scheduledStart: space.scheduled_start
+          });
+        }
       }
 
-      return scheduledShows;
+      return spaceShows;
     } catch (error) {
       this.logger.error(`fetching spaces error ${error}`);
       throw new HttpException("Error fetching scheduled spaces", HttpStatus.INTERNAL_SERVER_ERROR);
