@@ -15,6 +15,10 @@ export class SpacesService {
     this.spaces = [];
   }
 
+  private timeout(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   getSpaces() {
     return this.spaces;
   }
@@ -25,7 +29,7 @@ export class SpacesService {
       const shows = await this.getShowsForHost(space.host);
       spacesUpdated.push({
         ...space,
-        shows: shows
+        scheduledShows: shows
       });
     }
     this.spaces = spacesUpdated;
@@ -36,12 +40,12 @@ export class SpacesService {
     try {
       let spaceShows: SpaceShow[] = [];
       const user = await this.client.users.findUserByUsername(host.twitterHandle);
-      setTimeout(() => {}, 5000);
+      await this.timeout(1000);
       const scheduledSpaces = await this.client.spaces.findSpacesByCreatorIds({ 
           user_ids: [user.data.id],
           "space.fields": ['scheduled_start', 'state', 'title']
       });
-      setTimeout(() => {}, 5000);
+      await this.timeout(1000);
 
       if (scheduledSpaces.data) {
         for (const space of scheduledSpaces.data) {

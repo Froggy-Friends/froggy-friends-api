@@ -17,7 +17,7 @@ export const spaces: Space[] = [
         kst: '6am KST (Tue)'
       },
       day: 'Wednesday',
-      shows: []
+      scheduledShows: []
     },
     {
       name: 'Late Night with Bek',
@@ -35,7 +35,7 @@ export const spaces: Space[] = [
         kst: '6am KST (Tue)'
       },
       day: 'Monday',
-      shows: []
+      scheduledShows: []
     },
     {
       name: 'Froggy Friday',
@@ -53,6 +53,6 @@ export const spaces: Space[] = [
         aest: '4am AEDT (Sat)',
         kst: '2am KST (Sat)'
       },
-      shows: []
+      scheduledShows: []
     }
   ]

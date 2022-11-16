@@ -27,5 +27,5 @@ export interface Space {
   host: SpaceHost;
   day: SpaceDay;
   times: SpaceTimes;
-  shows: SpaceShow[];
+  scheduledShows: SpaceShow[];
 }
