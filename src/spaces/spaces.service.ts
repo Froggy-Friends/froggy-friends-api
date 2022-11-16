@@ -3,6 +3,7 @@ import { Client } from "twitter-api-sdk";
 import { ConfigService } from "@nestjs/config";
 import { spaces as spacesData } from './spaces.data';
 import { Space, SpaceHost, SpaceShow } from "./spaces.models";
+import { Cron, CronExpression } from "@nestjs/schedule";
 @Injectable()
 export class SpacesService {
   private readonly logger = new Logger(SpacesService.name);
@@ -21,6 +22,11 @@ export class SpacesService {
 
   getSpaces() {
     return this.spaces;
+  }
+
+  @Cron(CronExpression.EVERY_12_HOURS, { name: "spaces", timeZone: "America/Los_Angeles"})
+  async refreshSpaces() {
+    this.initSpaces();
   }
 
   async initSpaces() {
@@ -47,16 +53,13 @@ export class SpacesService {
   }
 
   async getShowsForHost(host: SpaceHost): Promise<SpaceShow[]> {
-    this.logger.log("get shows for host: " + host.twitterHandle);
     let spaceShows: SpaceShow[] = [];
     const user = await this.client.users.findUserByUsername(host.twitterHandle);
-    this.logger.log("fetched user: " + user.data);
     await this.timeout(1000);
     const scheduledSpaces = await this.client.spaces.findSpacesByCreatorIds({ 
         user_ids: [user.data.id],
         "space.fields": ['scheduled_start', 'state', 'title']
     });
-    this.logger.log("fetched scheduled spaces: " + scheduledSpaces.data);
     await this.timeout(1000);
 
     if (scheduledSpaces.data) {
