@@ -35,7 +35,7 @@ import { SpacesService } from './spaces/spaces.service';
     HistoryModule,
     SpacesModule
   ],
-  controllers: [AppController, StakingController, ItemsController, SpacesController],
-  providers: [AppService, StakingService, ItemsService, SpacesService],
+  controllers: [AppController, StakingController, ItemsController],
+  providers: [AppService, StakingService, ItemsService],
 })
 export class AppModule {}

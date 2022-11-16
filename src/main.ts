@@ -4,6 +4,7 @@ import { NotFoundExceptionFilter } from './filters/NotFoundExceptionFilter';
 import Moralis from 'moralis';
 import * as dotenv from "dotenv";
 import { StakingService } from './services/staking.service';
+import { SpacesService } from './spaces/spaces.service';
 
 dotenv.config();
 const { MORALIS_KEY } = process.env;
@@ -18,6 +19,8 @@ async function bootstrap() {
     app.useGlobalFilters(new NotFoundExceptionFilter());
     const stakingService = app.get(StakingService);
     stakingService.initLeaderboard();
+    const spacesService = app.get(SpacesService);
+    spacesService.initSpaces();
     
     // start server
     await app.listen(process.env.PORT || 8080);

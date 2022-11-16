@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [SpacesController],
-  providers: [SpacesService, ConfigService],
-  exports: [SpacesService, ConfigService]
+  providers: [SpacesService, ConfigService]
 })
 export class SpacesModule {}
