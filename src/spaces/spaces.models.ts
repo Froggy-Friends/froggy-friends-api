@@ -1,21 +1,18 @@
-export type SpaceDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-
-export interface SpaceShow {
+export interface ScheduledSpace {
     id: string;
     title: string;
     state: string;
     scheduledStart: string;
+    space: Space;
 }
 
-export interface SpaceTimes {
+export interface Times {
   pst: string;
   est: string;
-  bst: string;
-  aest: string;
-  kst: string;
+  gmt: string;
 }
 
-export interface SpaceHost {
+export interface Host {
   name: string;
   avatar: string;
   twitterUrl: string;
@@ -24,8 +21,16 @@ export interface SpaceHost {
 
 export interface Space {
   name: string;
-  host: SpaceHost;
-  day: SpaceDay;
-  times: SpaceTimes;
-  scheduledShows: SpaceShow[];
+  host: Host;
+  times: Times;
+}
+
+export interface SpacesCalendar {
+  monday: Space[];
+  tuesday: Space[];
+  wednesday: Space[];
+  thursday: Space[];
+  friday: Space[];
+  saturday: Space[];
+  sunday: Space[];
 }

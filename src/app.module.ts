@@ -12,7 +12,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { HistoryModule } from './history/history.module';
 import { History } from './history/history.entity';
 import { SpacesModule } from './spaces/spaces.module';
-import { SpacesService } from './spaces/spaces.service';
 
 @Module({
   imports: [

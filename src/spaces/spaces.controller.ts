@@ -13,4 +13,9 @@ export class SpacesController {
   getSpacesForHost() {
     return this.spacesService.getSpaces();
   }
+
+  @Get("/scheduled")
+  getScheduledSpaces() {
+    return this.spacesService.getScheduledSpaces();
+  }
 }
