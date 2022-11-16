@@ -17,6 +17,8 @@ export class SpacesController {
   @Get('/refresh')
   async refreshSpaces() {
     const refreshed = await this.spacesService.refreshSpaces();
-    return refreshed;
+    return {
+      refreshed: refreshed
+    }
   }
 }
