@@ -11,6 +11,6 @@ export class SpacesController {
 
   @Get('/:id')
   getSpacesForHost(@Param('id') host: string) {
-    return this.spacesService.getSpacesForHost(host);
+    return this.spacesService.getShowsForHost(host);
   }
 }
