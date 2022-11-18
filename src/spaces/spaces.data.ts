@@ -4,7 +4,7 @@ export const calendar: SpacesCalendar = {
     monday: [
       {
         name: 'Late Night with Bek',
-        bannerUrl: '',
+        bannerUrl: 'https://froggyfriends.mypinata.cloud/ipfs/QmTALmmbxW7sJzUcVJitH4wGuWRq5Ds7mxW5hvxteYduDE',
         host: {
           name: 'Bek',
           avatar: 'https://froggyfriends.mypinata.cloud/ipfs/Qmakmum943LT7Brf1C6G9rVoswhUZk65Renyav2zfPB5s2',
@@ -20,8 +20,8 @@ export const calendar: SpacesCalendar = {
     ],
     tuesday: [
       {
-        name: "Steezy's Space",
-        bannerUrl: '',
+        name: "Good Vibes",
+        bannerUrl: 'https://froggyfriends.mypinata.cloud/ipfs/QmVh4nJNfCB6YDwZgCP4mLdXdaRQW91bzjLQz1YV5qtLH4',
         host: {
           name: 'Steezy',
           avatar: 'https://froggyfriends.mypinata.cloud/ipfs/Qmc2DqfauwBpCKvopfc8HQ1wzEeuH1gqcz2h72Dac9rekz',
@@ -38,7 +38,7 @@ export const calendar: SpacesCalendar = {
     wednesday: [
       {
         name: 'Ollies Space',
-        bannerUrl: '',
+        bannerUrl: 'https://froggyfriends.mypinata.cloud/ipfs/QmRdWip8h8kNUD4LWoXGEsF2gYHdLmKrdoQ4W16sdU7T84',
         host: {
           name: 'Ollie',
           avatar: 'https://froggyfriends.mypinata.cloud/ipfs/QmdJoB8xdVieoCxgh34mF23TA6RFqdEZ1aRHZBcm1zVi7W',
