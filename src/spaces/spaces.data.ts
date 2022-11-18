@@ -17,7 +17,22 @@ export const calendar: SpacesCalendar = {
         }
       }
     ],
-    tuesday: [],
+    tuesday: [
+      {
+        name: "Steezy's Space",
+        host: {
+          name: 'Steezy',
+          avatar: 'https://froggyfriends.mypinata.cloud/ipfs/Qmc2DqfauwBpCKvopfc8HQ1wzEeuH1gqcz2h72Dac9rekz',
+          twitterUrl: 'https://twitter.com/_Steezyfresh_',
+          twitterHandle: '_Steezyfresh_',
+        },
+        times: {
+          pst: '7:30pm PST',
+          est: '10:30pm EST',
+          gmt: '3:30am GMT'
+        }
+      }
+    ],
     wednesday: [
       {
         name: 'Ollies Space',
@@ -28,13 +43,28 @@ export const calendar: SpacesCalendar = {
           twitterHandle: 'ollliieeeeee',
         },
         times: {
-          pst: '1pm PST',
-          est: '4pm EST',
-          gmt: '9pm GMT',
+          pst: '12pm PST',
+          est: '3pm EST',
+          gmt: '8pm GMT',
         }
       }
     ],
-    thursday: [],
+    thursday: [
+      {
+        name: 'Degen Vibes',
+        host: {
+          name: 'DegenDaddy',
+          avatar: 'https://froggyfriends.mypinata.cloud/ipfs/QmQ84djuQEEFUJuu66Lt3ehNk7PYJYpS9thvxVACaqjy17',
+          twitterUrl: 'https://twitter.com/realdegendad',
+          twitterHandle: 'realdegendad',
+        },
+        times: {
+          pst: '9am PST',
+          est: '12pm EST',
+          gmt: '5pm GMT',
+        }
+      }
+    ],
     friday: [
       {
         name: 'Froggy Friday',

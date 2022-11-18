@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { Client } from "twitter-api-sdk";
 import { ConfigService } from "@nestjs/config";
 import { calendar } from './spaces.data';
-import { Space, Host, SpacesCalendar, ScheduledSpace } from "./spaces.models";
+import { Space, SpacesCalendar, ScheduledSpace } from "./spaces.models";
 import { Cron, CronExpression } from "@nestjs/schedule";
 @Injectable()
 export class SpacesService {
