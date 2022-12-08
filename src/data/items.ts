@@ -2075,5 +2075,44 @@ export const items: ItemMetadata[] = [
         value: 'No'
       }
     ]
+  },
+  {
+    id: 106,
+    name: 'Zhou Village Allowlist',
+    image: 'https://pbs.twimg.com/profile_images/1593338726775676931/QLFCpQn6_400x400.jpg',
+    description: "🦊 3,000 Red Pandas protecting their village from the evil that lurks from the darkness. $BARK Marketplace 🦊",
+    category: 'allowlists',
+    twitter: 'https://twitter.com/ZhouVillage',
+    discord: 'https://discord.gg/aprZdYdcfS',
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Uncommon'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
+  },
+  {
+    id: 107,
+    name: '12 Days of Christmas Appearance',
+    image: 'https://froggyfriends.mypinata.cloud/ipfs/QmVj6R8Ef6rXaCzxVH5bKcegKCYUuvFVfRC6vMKyKZ6sRU',
+    description: "Reserve an appearance for your froggy friend in our 12 days of Christmas special.",
+    category: 'nfts',
+    twitter: 'https://twitter.com/froggyfriendnft',
+    community: true,
+    endDate: 1670778000000,
+    attributes: [
+      {
+        trait_type: 'Rarity',
+        value: 'Epic'
+      },
+      {
+        trait_type: 'Boost',
+        value: 'No'
+      }
+    ]
   }
 ];
