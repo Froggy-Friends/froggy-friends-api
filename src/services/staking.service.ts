@@ -40,7 +40,7 @@ export class StakingService {
       this.leaderboard = await this.processLeaderboard(this.stakers);
       this.logger.log("Leaderboard holders processed: " + this.leaderboard.length);
     } catch (error) {
-      console.log("init leaderboard error: ", error);
+      this.logger.log("init leaderboard error: " + error);
     }
   }
 

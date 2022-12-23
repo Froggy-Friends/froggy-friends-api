@@ -1,3 +1,4 @@
+import { SpacesController } from './spaces/spaces.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,6 +13,7 @@ import { History } from './history/history.entity';
 import { Item } from './item/item.entity';
 import { ItemModule } from './item/item.module';
 import { ItemService } from './item/item.service';
+import { SpacesModule } from './spaces/spaces.module';
 
 @Module({
   imports: [
@@ -32,7 +34,8 @@ import { ItemService } from './item/item.service';
       inject: [ConfigService]
     }),
     HistoryModule,
-    ItemModule
+    ItemModule,
+    SpacesModule
   ],
   controllers: [AppController, StakingController, ItemsController],
   providers: [AppService, StakingService, ItemService],
