@@ -30,7 +30,13 @@ export class FrogService {
   }
 
   async getFrog(id: number): Promise<Frog> {
-    return await this.frogRepo.findOneBy({ edition: id });
+    const frog = await this.frogRepo.findOneBy({ edition: id });
+    frog.cid2d = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cid2d}`;
+    frog.cid3d = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cid3d}`;
+    frog.cidPixel = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cidPixel}`;
+    frog.rarity = this.getFrogRarity(frog.edition);
+    frog.ribbit = this.getFrogRibbit(frog);
+    return frog;
   }
 
   async saveFrog(frog: Frog): Promise<Frog> {
