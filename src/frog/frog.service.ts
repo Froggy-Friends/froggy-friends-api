@@ -59,14 +59,8 @@ export class FrogService {
 
       for (const tokenId of tokens) {
         const frog = await this.getFrog(tokenId);
-        frog.rarity = this.getFrogRarity(frog.edition);
-        frog.cid2d = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cid2d}`;
-        frog.cid3d = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cid3d}`;
-        frog.cidPixel = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cidPixel}`;
-        const ribbit = this.getFrogRibbit(frog);
-        frog.ribbit = ribbit;
         if (frog.isStaked) {
-          totalRibbit += ribbit;
+          totalRibbit += frog.ribbit;
         }
         froggies.push(frog);
       }
@@ -97,7 +91,6 @@ export class FrogService {
     tokens.sort();
     for (const tokenId of tokens) {
       const frog = await this.getFrog(tokenId);
-      frog.rarity = this.getFrogRarity(frog.edition);
       froggies.push(frog);
     }
 
