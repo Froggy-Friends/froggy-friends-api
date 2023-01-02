@@ -88,7 +88,13 @@ export class ItemService {
 
   async listItem(item: Item) {
     // list item on contract
-    await this.contractService.ribbitItems.methods.listItem(item.id, item.price, item.supply, item.isOnSale, item.walletLimit).call();
+    await this.contractService.ribbitItems.methods.listItem(
+      item.id, 
+      item.price, 
+      item.supply, 
+      item.isOnSale, 
+      item.walletLimit
+    ).call();
 
     // save item metadata to database
     const savedItem = await this.itemRepo.save(item);
