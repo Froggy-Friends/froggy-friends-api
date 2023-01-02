@@ -1,4 +1,3 @@
-import { SpacesController } from './spaces/spaces.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,6 +15,7 @@ import { ItemService } from './item/item.service';
 import { SpacesModule } from './spaces/spaces.module';
 import { FrogModule } from './frog/frog.module';
 import { Frog } from './frog/frog.entity';
+import { ContractModule } from './contract/contract.module';
 
 @Module({
   imports: [
@@ -35,6 +35,7 @@ import { Frog } from './frog/frog.entity';
       }),
       inject: [ConfigService]
     }),
+    ContractModule,
     HistoryModule,
     ItemModule,
     FrogModule,
