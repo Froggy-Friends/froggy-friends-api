@@ -88,44 +88,15 @@ export class ItemService {
 
   async listItem(item: Item) {
     // list item on contract
-    
+    await this.contractService.ribbitItems.methods.listItem(item.id, item.price, item.supply, item.isOnSale, item.walletLimit).call();
 
     // save item metadata to database
+    const savedItem = await this.itemRepo.save(item);
   }
 
   async getAllItems(): Promise<Item[]> {
     const [items] = await this.itemRepo.findAndCount();
     return items.sort((a,b) => a.id - b.id);
   }
-
-  async saveItem(
-    itemNumbers: ItemNumbers,
-    itemStrings: ItemStrings,
-    itemBooleans: ItemBooleans
-  ): Promise<Item> {
-    const item = new Item();
-    item.endDate = itemNumbers.endDate;
-    item.collabId = itemNumbers.collabId;
-    item.boost = itemNumbers.boost;
-    item.name = itemStrings.name;
-    item.description = itemStrings.description;
-    item.category = itemStrings.category;
-    item.image = itemStrings.image;
-    item.imageTransparent = itemStrings.imageTransparent;
-    item.previewImage = itemStrings.previewImage;
-    item.twitter = itemStrings.twitter;
-    item.discord = itemStrings.discord;
-    item.website = itemStrings.website;
-    item.rarity = itemStrings.rarity;
-    item.friendOrigin = itemStrings.friendOrigin;
-    item.traitLayer = itemStrings.traitLayer;
-    item.isCommunity = itemBooleans.isCommunity;
-    item.isBoost = itemBooleans.isBoost;
-    item.isTrait = itemBooleans.isTrait;
-    item.isPhysical = itemBooleans.isPhysical;
-    item.isAllowlist = itemBooleans.isAllowlist;
-    return await this.itemRepo.save(item);
-  }
-
   
 }
