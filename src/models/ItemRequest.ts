@@ -1,6 +1,8 @@
+import { Item } from "src/item/item.entity";
+
 export interface ItemRequest {
-  id: number;
   admin: string;
   message: string;
-  value: string;
+  signature: string;
+  item: Item;
 }
