@@ -38,10 +38,18 @@ export class ItemsController {
   @Post()
   listItem(@Body() itemRequest: ItemRequest) {
     // verify wallet
-    const signer = ethers.utils.recoverAddress(hashMessage(itemRequest.message), itemRequest.value);
+    const signer = ethers.utils.recoverAddress(hashMessage(itemRequest.message), itemRequest.signature);
 
     if (!admins.includes(signer)) {
       throw new HttpException("Unauthorized admin", HttpStatus.BAD_REQUEST);
     }
+
+    const { message } = itemRequest;
+    const json = JSON.parse(message);
+    if (!json.list) {
+      throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
+    }
+
+    this.itemService.listItem(itemRequest.item);
   }
 }

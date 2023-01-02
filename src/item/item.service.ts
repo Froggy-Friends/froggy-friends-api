@@ -6,34 +6,26 @@ import { Item } from "./item.entity";
 import { ItemBooleans } from './ItemBooleans';
 import { ItemNumbers } from './ItemNumbers';
 import { ItemStrings } from './ItemStrings';
-
 import { Logger } from "@nestjs/common";
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import * as ribbitAbi from '../abii-items.json';
 import { ethers } from "ethers";
 import Moralis from 'moralis';
-import { EvmChain } from '@moralisweb3/evm-utils';
-require('dotenv').config();
-const { ALCHEMY_API_URL, RIBBIT_ITEM_ADDRESS } = process.env;
-const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
-const ribbitItemAbi: any = ribbitAbi;
-const ribbitItemContract = new web3.eth.Contract(ribbitItemAbi, RIBBIT_ITEM_ADDRESS);
+import { ContractService } from "src/contract/contract.service";
 
 @Injectable()
 export class ItemService {
   private readonly logger = new Logger(ItemService.name);
-  chain: EvmChain;
 
-  constructor(@InjectRepository(Item) private itemRepo: Repository<Item>) {
-    this.chain = process.env.NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
-  }
+  constructor(
+    @InjectRepository(Item) private itemRepo: Repository<Item>,
+    private contractService: ContractService    
+  ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_6AM, { name: "refreshItems", timeZone: "America/Los_Angeles"})
   async refreshItems() {
     const items = await this.getAllItems();
     for (const item of items) {
       const itemUpdated = {...item};
-      const details  = await ribbitItemContract.methods.item(item.id).call();
+      const details  = await this.contractService.ribbitItems.methods.item(item.id).call();
       const price = details['0'];
       const percent = details['1'];
       const minted = details['2'];
@@ -60,7 +52,11 @@ export class ItemService {
   async getOwnedItems(account: string): Promise<Item[]> {
     try {
       // get ribbit items from wallet
-      let options = { chain: this.chain, address: account, tokenAddresses: [RIBBIT_ITEM_ADDRESS]};
+      let options = { 
+        chain: this.contractService.chain, 
+        address: account, 
+        tokenAddresses: [this.contractService.ribbitItemsAddress]
+      };
       const nfts = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
       let owned: Item[] = [];
       for (const nft of nfts) {
@@ -75,19 +71,26 @@ export class ItemService {
   }
 
   async getItemOwners(id: number): Promise<string[]> {
-    return await ribbitItemContract.methods.itemHolders(id).call();
+    return await this.contractService.ribbitItems.methods.itemHolders(id).call();
   }
 
   async getRaffleTicketOwners(id: number): Promise<string[]> {
-    const owners = await ribbitItemContract.methods.itemHolders(id).call();
+    const owners = await this.contractService.ribbitItems.methods.itemHolders(id).call();
     const tickets = [];
     for (const owner of owners) {
-      const balance = await ribbitItemContract.methods.balanceOf(owner, id).call();
+      const balance = await this.contractService.ribbitItems.methods.balanceOf(owner, id).call();
       for (let i = 0; i < balance; i++) {
         tickets.push(owner);
       }
     }
     return tickets;
+  }
+
+  async listItem(item: Item) {
+    // list item on contract
+    
+
+    // save item metadata to database
   }
 
   async getAllItems(): Promise<Item[]> {
