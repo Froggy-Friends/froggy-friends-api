@@ -3,30 +3,19 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { OwnedResponse } from "src/models/OwnedResponse";
 import { Repository } from "typeorm";
 import { Frog } from "./frog.entity";
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import { EvmChain } from '@moralisweb3/evm-utils';
 import { Params } from 'node_modules/@moralisweb3/evm-api/lib/resolvers/nft/getWalletNFTs';
-import * as frogAbi from '../abi.json';
-import * as stakingAbi from '../abi-staking.json';
-import * as ribbitAbi from '../abi-ribbit.json';
 import * as rarity from '../../rarityBands.json';
 import Moralis from 'moralis';
-require('dotenv').config();
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS } = process.env;
-const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
-const stakingAbiItem: any = stakingAbi;
-const ribbitAbiItem: any = ribbitAbi;
-const frogAbiItem: any = frogAbi;
-const frogContract = new web3.eth.Contract(frogAbiItem, CONTRACT_ADDRESS);
-const stakingContract = new web3.eth.Contract(stakingAbiItem, STAKING_CONTRACT_ADDRESS);
-const ribbitContract = new web3.eth.Contract(ribbitAbiItem, RIBBIT_CONTRACT_ADDRESS);
+import { ContractService } from "src/contract/contract.service";
 
 @Injectable()
 export class FrogService {
-  chain: EvmChain;
   
-  constructor(@InjectRepository(Frog) private frogRepo: Repository<Frog>) {
-    this.chain = process.env.NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
+  constructor(
+    @InjectRepository(Frog) private frogRepo: Repository<Frog>,
+    private contractService: ContractService
+  ) {
+    
   }
 
   async getFrog(id: number): Promise<Frog> {
@@ -45,8 +34,8 @@ export class FrogService {
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
-      const stakedTokens: number[] = await stakingContract.methods.deposits(address).call();
-      const options: Params = { chain: this.chain, address: address, tokenAddresses: [CONTRACT_ADDRESS] };
+      const stakedTokens: number[] = await this.contractService.staking.methods.deposits(address).call();
+      const options: Params = { chain: this.contractService.chain, address: address, tokenAddresses: [this.contractService.froggyAddress] };
       const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
 
       let totalRibbit = 0;
@@ -65,8 +54,8 @@ export class FrogService {
         froggies.push(frog);
       }
 
-      const isStakingApproved = await frogContract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
-      const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+      const isStakingApproved = await this.contractService.froggy.methods.isApprovedForAll(address, this.contractService.stakingAddress).call();
+      const allowance: number = await this.contractService.ribbit.methods.allowance(address, this.contractService.stakingAddress).call();
 
       return {
         froggies: froggies,
@@ -81,7 +70,7 @@ export class FrogService {
   }
 
   async getUnstakedFroggies(address: string): Promise<OwnedResponse> {
-    const options: Params = { chain: this.chain, address: address, tokenAddresses: [CONTRACT_ADDRESS] };
+    const options: Params = { chain: this.contractService.chain, address: address, tokenAddresses: [this.contractService.froggyAddress] };
     const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
     let totalRibbit = 0;
     const froggies: Frog[] = [];
@@ -94,8 +83,8 @@ export class FrogService {
       froggies.push(frog);
     }
 
-    const isStakingApproved = await frogContract.methods.isApprovedForAll(address, STAKING_CONTRACT_ADDRESS).call();
-    const allowance: number = await ribbitContract.methods.allowance(address, STAKING_CONTRACT_ADDRESS).call();
+    const isStakingApproved = await this.contractService.froggy.methods.isApprovedForAll(address, this.contractService.stakingAddress).call();
+    const allowance: number = await this.contractService.ribbit.methods.allowance(address, this.contractService.stakingAddress).call();
 
     return {
       froggies: froggies,

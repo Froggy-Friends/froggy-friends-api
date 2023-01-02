@@ -3,32 +3,20 @@ require('dotenv').config();
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Leaderboard } from "src/models/Leaderboard";
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import * as froggyAbi from '../abi.json';
-import * as stakingAbi from '../abi-staking.json';
-import * as ribbitAbi from '../abi-ribbit.json';
 import { formatEther, parseEther, commify, } from "ethers/lib/utils";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import Moralis from 'moralis';
-const { ALCHEMY_API_URL, CONTRACT_ADDRESS, STAKING_CONTRACT_ADDRESS, RIBBIT_CONTRACT_ADDRESS, ETHERSCAN_API_KEY, NODE_ENV } = process.env;
-const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
-const froggyAbiItem: any = froggyAbi;
-const stakingAbiItem: any = stakingAbi;
-const ribbitAbiItem: any = ribbitAbi;
-const froggyContract = new web3.eth.Contract(froggyAbiItem, CONTRACT_ADDRESS);
-const stakingContract = new web3.eth.Contract(stakingAbiItem, STAKING_CONTRACT_ADDRESS);
-const ribbitContract = new web3.eth.Contract(ribbitAbiItem, RIBBIT_CONTRACT_ADDRESS);
+import { ContractService } from 'src/contract/contract.service';
+const { ETHERSCAN_API_KEY, NODE_ENV } = process.env;
 
 @Injectable()
 export class StakingService {
   private readonly logger = new Logger(StakingService.name);
   private stakers: string[];
   private leaderboard: Leaderboard[];
-  private chain: EvmChain;
 
-  constructor() {
-    this.chain = NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
+  constructor(private contractService: ContractService) {
     this.stakers = [];
     this.leaderboard = [];
   }
@@ -58,9 +46,9 @@ export class StakingService {
   }
 
   async processStakers(): Promise<string[]> {
-    const address = CONTRACT_ADDRESS.toLowerCase();
-    const stakingAddress = STAKING_CONTRACT_ADDRESS.toLowerCase();
-    let transfers = await Moralis.EvmApi.nft.getNFTContractTransfers({address: address, chain: this.chain})
+    const address = this.contractService.froggyAddress.toLowerCase();
+    const stakingAddress = this.contractService.stakingAddress.toLowerCase();
+    let transfers = await Moralis.EvmApi.nft.getNFTContractTransfers({address: address, chain: this.contractService.chain})
     let stakers = [
       ...transfers.result.filter(tx => tx.toAddress.lowercase === stakingAddress).map(tx => tx.fromAddress.lowercase)
     ];
@@ -80,8 +68,8 @@ export class StakingService {
 
     for (const address of stakers) {
       // balances in gwei string format
-      const stakingBalanceGwei: string = await stakingContract.methods.balanceOf(address).call();
-      const ribbitBalanceGwei: string = await ribbitContract.methods.balanceOf(address).call();
+      const stakingBalanceGwei: string = await this.contractService.staking.methods.balanceOf(address).call();
+      const ribbitBalanceGwei: string = await this.contractService.ribbit.methods.balanceOf(address).call();
 
       // convert balances to ether big number format to perform addition
       const stakingBalanceEther: BigNumber = parseEther(formatEther(stakingBalanceGwei));
@@ -94,7 +82,7 @@ export class StakingService {
       if (+total > 0) {
         let account = address;
         try {
-          const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: ALCHEMY_API_URL});
+          const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyKey});
           const name = await provider.lookupAddress(address);
           if (name) {
             account = name;
@@ -103,8 +91,8 @@ export class StakingService {
           this.logger.error("lookup ENS error: " + error);
         }
 
-        const tokensStaked: number[] = await stakingContract.methods.deposits(address).call();
-        const tokensUnstaked: number = await froggyContract.methods.balanceOf(address).call();
+        const tokensStaked: number[] = await this.contractService.staking.methods.deposits(address).call();
+        const tokensUnstaked: number = await this.contractService.froggy.methods.balanceOf(address).call();
         let tokenCount = tokensUnstaked;
         tokensStaked.forEach(t => tokenCount++);
 
