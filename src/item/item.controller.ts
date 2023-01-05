@@ -50,6 +50,7 @@ export class ItemsController {
       throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
     }
 
+    // TODO: upload images to pinata
     this.itemService.listItem(itemRequest.item);
   }
 }
