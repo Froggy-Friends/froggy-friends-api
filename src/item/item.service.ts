@@ -3,11 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Repository } from "typeorm";
 import { Item } from "./item.entity";
-import { ItemBooleans } from './ItemBooleans';
-import { ItemNumbers } from './ItemNumbers';
-import { ItemStrings } from './ItemStrings';
 import { Logger } from "@nestjs/common";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import Moralis from 'moralis';
 import { ContractService } from "src/contract/contract.service";
 
@@ -25,7 +22,7 @@ export class ItemService {
     const items = await this.getAllItems();
     for (const item of items) {
       const itemUpdated = {...item};
-      const details  = await this.contractService.ribbitItems.methods.item(item.id).call();
+      const details  = await this.contractService.ribbitItems.item(item.id);
       const price = details['0'];
       const percent = details['1'];
       const minted = details['2'];
@@ -71,14 +68,15 @@ export class ItemService {
   }
 
   async getItemOwners(id: number): Promise<string[]> {
-    return await this.contractService.ribbitItems.methods.itemHolders(id).call();
+    return await this.contractService.ribbitItems.itemHolders(id);
   }
 
   async getRaffleTicketOwners(id: number): Promise<string[]> {
-    const owners = await this.contractService.ribbitItems.methods.itemHolders(id).call();
+    const owners = await this.contractService.ribbitItems.itemHolders(id);
     const tickets = [];
     for (const owner of owners) {
-      const balance = await this.contractService.ribbitItems.methods.balanceOf(owner, id).call();
+      const balanceOfOwner: BigNumber = await this.contractService.ribbitItems.balanceOf(owner, id);
+      const balance = balanceOfOwner.toNumber();
       for (let i = 0; i < balance; i++) {
         tickets.push(owner);
       }
@@ -87,17 +85,8 @@ export class ItemService {
   }
 
   async listItem(item: Item) {
-    // list item on contract
-    await this.contractService.ribbitItems.methods.listItem(
-      item.id, 
-      item.price, 
-      item.supply, 
-      item.isOnSale, 
-      item.walletLimit
-    ).call();
-
-    // save item metadata to database
     const savedItem = await this.itemRepo.save(item);
+    return savedItem;
   }
 
   async getAllItems(): Promise<Item[]> {
