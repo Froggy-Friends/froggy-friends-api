@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post, HttpStatus, HttpException } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, HttpStatus, HttpException, UseInterceptors, UploadedFile } from "@nestjs/common";
 import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
 import { hashMessage } from "ethers/lib/utils";
 import { ethers } from "ethers";
 import { ItemRequest } from "src/models/ItemRequest";
 import { admins } from './item.admins';
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller('/items')
 export class ItemsController {
@@ -35,8 +36,11 @@ export class ItemsController {
     return this.itemService.getRaffleTicketOwners(id);
   }
 
-  @Post()
-  listItem(@Body() itemRequest: ItemRequest) {
+  // @Post() // create normal ribbit item
+
+  @Post('/friend') // create friend ribbit item
+  @UseInterceptors(FileInterceptor('file'))
+  listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
     // verify wallet
     const signer = ethers.utils.recoverAddress(hashMessage(itemRequest.message), itemRequest.signature);
 
@@ -50,7 +54,16 @@ export class ItemsController {
       throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
     }
 
+    console.log("file: ", file);
     // TODO: upload images to pinata
-    this.itemService.listItem(itemRequest.item);
+    // image: string;
+    // imageTransparent: string;
+    // previewImage: string;
+
+    const item = new Item();
+    
+
+    this.itemService.listItem(item);
   }
+
 }

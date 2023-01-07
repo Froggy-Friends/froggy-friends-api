@@ -1,4 +1,3 @@
-import { Attribute } from "src/models/Attribute";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity({ name: 'Item', synchronize: false})
@@ -30,5 +29,4 @@ export class Item {
   @Column() supply: number;
   @Column() walletLimit: number;
   @Column() isOnSale: boolean;
-  attributes: Attribute[];
 }
