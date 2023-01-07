@@ -34,6 +34,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/schedule": "^2.0.1",
     "@nestjs/typeorm": "^9.0.1",
+    "@pinata/sdk": "^2.1.0",
     "alchemy-sdk": "^2.0.4",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
