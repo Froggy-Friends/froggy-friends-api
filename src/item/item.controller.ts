@@ -1,15 +1,21 @@
-import { Body, Controller, Get, Param, Post, HttpStatus, HttpException, UseInterceptors, UploadedFile } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, HttpStatus, HttpException, UseInterceptors, UploadedFiles } from "@nestjs/common";
 import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
 import { hashMessage } from "ethers/lib/utils";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { ItemRequest } from "src/models/ItemRequest";
 import { admins } from './item.admins';
-import { FileInterceptor } from "@nestjs/platform-express";
+import { FileFieldsInterceptor } from "@nestjs/platform-express";
+import { ContractService } from 'src/contract/contract.service';
+import { PinService } from "src/pin/pin.service";
 
 @Controller('/items')
 export class ItemsController {
-  constructor(private readonly itemService: ItemService) {} 
+  constructor(
+    private readonly itemService: ItemService, 
+    private readonly pinService: PinService,
+    private readonly contractService: ContractService
+  ) {} 
 
   @Get()
   getContractItems(): Promise<Item[]> {
@@ -36,11 +42,15 @@ export class ItemsController {
     return this.itemService.getRaffleTicketOwners(id);
   }
 
-  // @Post() // create normal ribbit item
-
-  @Post('/friend') // create friend ribbit item
-  @UseInterceptors(FileInterceptor('file'))
-  listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+  @Post('/friend')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async listFriend(
+    @UploadedFiles() files: { image?: Express.Multer.File[], imageTransparent?: Express.Multer.File[]},
+    @Body() itemRequest: ItemRequest
+  ) {
     // verify wallet
     const signer = ethers.utils.recoverAddress(hashMessage(itemRequest.message), itemRequest.signature);
 
@@ -54,16 +64,50 @@ export class ItemsController {
       throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
     }
 
-    console.log("file: ", file);
-    // TODO: upload images to pinata
-    // image: string;
-    // imageTransparent: string;
-    // previewImage: string;
+    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    const itemId = totalListed.toNumber() + 1;
+    await this.contractService.ribbitItems.listFriend(
+      itemId,
+      itemRequest.percent,
+      itemRequest.price,
+      itemRequest.supply,
+      itemRequest.boost,
+      itemRequest.isOnSale,
+      itemRequest.walletLimit,
+    );
+
+    // upload files to pinata
+    const imageCID = await this.pinService.upload(itemRequest.name, files.image[0].buffer);
+    const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
 
     const item = new Item();
-    
-
-    this.itemService.listItem(item);
+    item.id = 13; //itemId;
+    item.name = itemRequest.name;
+    item.description = itemRequest.description;
+    item.category = itemRequest.category;
+    item.image = imageCID.IpfsHash;
+    item.imageTransparent = imageTransparentCID.IpfsHash;
+    item.twitter = itemRequest.twitter;
+    item.discord = itemRequest.discord;
+    item.website = itemRequest.website;
+    item.endDate = itemRequest.endDate;
+    item.collabId = itemRequest.collabId;
+    item.isCommunity = itemRequest.isCommunity;
+    item.isBoost = itemRequest.isBoost;
+    item.isTrait = itemRequest.isTrait;
+    item.isPhysical = itemRequest.isPhysical;
+    item.isAllowlist = itemRequest.isAllowlist;
+    item.rarity = itemRequest.rarity;
+    item.boost = itemRequest.boost;
+    item.friendOrigin = itemRequest.friendOrigin;
+    item.traitLayer = itemRequest.traitLayer;
+    item.price = itemRequest.price;
+    item.percent = itemRequest.percent;
+    item.minted = itemRequest.minted;
+    item.supply = itemRequest.supply;
+    item.walletLimit = itemRequest.walletLimit;
+    item.isOnSale = itemRequest.isOnSale;
+    const listedItem = await this.itemService.listItem(item);
+    return listedItem;
   }
-
 }

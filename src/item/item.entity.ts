@@ -8,7 +8,6 @@ export class Item {
   @Column() category: string;
   @Column() image: string;
   @Column() imageTransparent: string;
-  @Column() previewImage: string;
   @Column() twitter: string;
   @Column() discord: string;
   @Column() website: string;

@@ -82,7 +82,7 @@ export class StakingService {
       if (+total > 0) {
         let account = address;
         try {
-          const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyKey});
+          const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl});
           const name = await provider.lookupAddress(address);
           if (name) {
             account = name;
