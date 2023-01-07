@@ -75,9 +75,8 @@ export class ItemService {
     const owners = await this.contractService.ribbitItems.itemHolders(id);
     const tickets = [];
     for (const owner of owners) {
-      const balanceOfOwner: BigNumber = await this.contractService.ribbitItems.balanceOf(owner, id);
-      const balance = balanceOfOwner.toNumber();
-      for (let i = 0; i < balance; i++) {
+      const balance = await this.contractService.ribbitItems.balanceOf(owner, id);
+      for (let i = 0; i < +balance; i++) {
         tickets.push(owner);
       }
     }
