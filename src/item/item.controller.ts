@@ -50,7 +50,7 @@ export class ItemsController {
     this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
 
     const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
-    const itemId = totalListed.toNumber() + 1;
+    const itemId = +totalListed + 1;
 
     // save to contract
     await this.contractService.ribbitItems.listFriend(
