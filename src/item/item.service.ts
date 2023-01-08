@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Repository } from "typeorm";
@@ -7,6 +7,8 @@ import { Logger } from "@nestjs/common";
 import { BigNumber, ethers } from "ethers";
 import Moralis from 'moralis';
 import { ContractService } from "src/contract/contract.service";
+import { hashMessage } from "ethers/lib/utils";
+import { admins } from "./item.admins";
 
 @Injectable()
 export class ItemService {
@@ -93,4 +95,17 @@ export class ItemService {
     return items.sort((a,b) => a.id - b.id);
   }
   
+  validateAdmin(message: string, signature: string) {
+    // verify wallet
+    const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
+
+    if (!admins.includes(signer)) {
+      throw new HttpException("Unauthorized admin", HttpStatus.BAD_REQUEST);
+    }
+
+    const json = JSON.parse(message);
+    if (!json.list) {
+      throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
+    }
+  }
 }
