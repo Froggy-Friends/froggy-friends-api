@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, Post, HttpStatus, HttpException, UseInterceptors, UploadedFiles } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, HttpStatus, HttpException, UseInterceptors, UploadedFiles, Put, UploadedFile } from "@nestjs/common";
 import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
 import { hashMessage } from "ethers/lib/utils";
 import { BigNumber, ethers } from "ethers";
 import { ItemRequest } from "src/models/ItemRequest";
 import { admins } from './item.admins';
-import { FileFieldsInterceptor } from "@nestjs/platform-express";
+import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 import { ContractService } from 'src/contract/contract.service';
 import { PinService } from "src/pin/pin.service";
 
@@ -81,7 +81,7 @@ export class ItemsController {
     const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
 
     const item = new Item();
-    item.id = 13; //itemId;
+    item.id = itemId;
     item.name = itemRequest.name;
     item.description = itemRequest.description;
     item.category = itemRequest.category;
@@ -109,5 +109,28 @@ export class ItemsController {
     item.isOnSale = itemRequest.isOnSale;
     const listedItem = await this.itemService.listItem(item);
     return listedItem;
+  }
+
+  @Post()
+  @UseInterceptors(FileInterceptor('image'))
+  async listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+    // todo: add admin validation and save item in database
+  }
+
+  @Put('/:id')
+  updateItem(@Param('id') id: number, @Body() item: Item) {
+    // todo: add admin validation and update item in database
+  }
+
+  @Get('/presets')
+  getItemPresets() {
+    return {
+      categories: ['lilies', 'nfts', 'raffles', 'allowlists', 'friends', 'collabs', 'merch'],
+      collabIds: [1,2,3,4,5,6,7,8,9,10],
+      boosts: [5, 10, 15, 20, 30, 35],
+      rarities: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Epic'],
+      friendOrigins: ['Genesis', 'Collab'],
+      traitLayers: ['Background', 'Body', 'Eyes', 'Mouth', 'Hat', 'Shirt']
+    }
   }
 }
