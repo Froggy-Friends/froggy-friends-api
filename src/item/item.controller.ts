@@ -1,13 +1,12 @@
-import { Body, Controller, Get, Param, Post, HttpStatus, HttpException, UseInterceptors, UploadedFiles, Put, UploadedFile } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseInterceptors, UploadedFiles, Put, UploadedFile } from "@nestjs/common";
 import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
-import { hashMessage } from "ethers/lib/utils";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { ItemRequest } from "src/models/ItemRequest";
-import { admins } from './item.admins';
 import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 import { ContractService } from 'src/contract/contract.service';
 import { PinService } from "src/pin/pin.service";
+import { FriendFiles } from "src/models/FriendFiles";
 
 @Controller('/items')
 export class ItemsController {
@@ -47,25 +46,13 @@ export class ItemsController {
     { name: 'image', maxCount: 1 },
     { name: 'imageTransparent', maxCount: 1 },
   ]))
-  async listFriend(
-    @UploadedFiles() files: { image?: Express.Multer.File[], imageTransparent?: Express.Multer.File[]},
-    @Body() itemRequest: ItemRequest
-  ) {
-    // verify wallet
-    const signer = ethers.utils.recoverAddress(hashMessage(itemRequest.message), itemRequest.signature);
-
-    if (!admins.includes(signer)) {
-      throw new HttpException("Unauthorized admin", HttpStatus.BAD_REQUEST);
-    }
-
-    const { message } = itemRequest;
-    const json = JSON.parse(message);
-    if (!json.list) {
-      throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
-    }
+  async listFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
 
     const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
     const itemId = totalListed.toNumber() + 1;
+
+    // save to contract
     await this.contractService.ribbitItems.listFriend(
       itemId,
       itemRequest.percent,
@@ -80,33 +67,11 @@ export class ItemsController {
     const imageCID = await this.pinService.upload(itemRequest.name, files.image[0].buffer);
     const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
 
-    const item = new Item();
+    // save to database
+    const item = new Item(itemRequest);
     item.id = itemId;
-    item.name = itemRequest.name;
-    item.description = itemRequest.description;
-    item.category = itemRequest.category;
     item.image = imageCID.IpfsHash;
     item.imageTransparent = imageTransparentCID.IpfsHash;
-    item.twitter = itemRequest.twitter;
-    item.discord = itemRequest.discord;
-    item.website = itemRequest.website;
-    item.endDate = itemRequest.endDate;
-    item.collabId = itemRequest.collabId;
-    item.isCommunity = itemRequest.isCommunity;
-    item.isBoost = itemRequest.isBoost;
-    item.isTrait = itemRequest.isTrait;
-    item.isPhysical = itemRequest.isPhysical;
-    item.isAllowlist = itemRequest.isAllowlist;
-    item.rarity = itemRequest.rarity;
-    item.boost = itemRequest.boost;
-    item.friendOrigin = itemRequest.friendOrigin;
-    item.traitLayer = itemRequest.traitLayer;
-    item.price = itemRequest.price;
-    item.percent = itemRequest.percent;
-    item.minted = itemRequest.minted;
-    item.supply = itemRequest.supply;
-    item.walletLimit = itemRequest.walletLimit;
-    item.isOnSale = itemRequest.isOnSale;
     const listedItem = await this.itemService.listItem(item);
     return listedItem;
   }
@@ -114,12 +79,14 @@ export class ItemsController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
-    // todo: add admin validation and save item in database
+    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    // todo: save item in database
   }
 
   @Put('/:id')
-  updateItem(@Param('id') id: number, @Body() item: Item) {
-    // todo: add admin validation and update item in database
+  updateItem(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    // todo: update item in database
   }
 
   @Get('/presets')
