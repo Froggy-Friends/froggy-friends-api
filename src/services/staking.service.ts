@@ -45,6 +45,48 @@ export class StakingService {
     return this.leaderboard;
   }
 
+  async getUniqueHolders() {
+    let stakerList = [];
+    let nonStakerList = [];
+    let uniqueStakers = [];
+    let uniqueNonStakers = [];
+    let uniqueHolders = [];
+
+    // get most recent nft transfer by token id
+    for (let tokenId = 0; tokenId < 4444; tokenId++) {
+      try {
+        const response = await Moralis.EvmApi.nft.getNFTTransfers({
+          address: this.contractService.froggyAddress,
+          chain: EvmChain.ETHEREUM,
+          tokenId: tokenId.toString()
+        });
+
+        // latest transfer
+        const transfer = response.result[0];
+
+        if (transfer.toAddress.lowercase === this.contractService.stakingAddress.toLowerCase()) {
+          // transfer is to staking contract save person who staked
+          stakerList.push(transfer.fromAddress.lowercase);
+        } else {
+          // transfer is to person save new owner who is not staking
+          nonStakerList.push(transfer.toAddress.lowercase);
+        }
+
+        uniqueStakers = [...new Set(stakerList)];
+        uniqueNonStakers = [...new Set(nonStakerList)];
+        uniqueHolders = [...new Set(stakerList.concat(nonStakerList))]; 
+      } catch (error) {
+        console.log(`fetch unique holders error for token ${tokenId}: " error`);
+      }
+    }
+    
+    return {
+      uniqueStakers: uniqueStakers.length,
+      uniqueNonStakers: uniqueNonStakers.length,
+      uniqueHolders: uniqueHolders.length
+    };
+  }
+
   async processStakers(): Promise<string[]> {
     const address = this.contractService.froggyAddress.toLowerCase();
     const stakingAddress = this.contractService.stakingAddress.toLowerCase();

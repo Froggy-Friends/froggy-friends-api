@@ -16,4 +16,9 @@ export class StakingController {
   getLeaderboard() {
     return this.stakingService.getLeaderboard();
   }
+
+  @Get('/unique/holders')
+  getUniqueHolders() {
+    return this.stakingService.getUniqueHolders();
+  }
 }
