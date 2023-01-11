@@ -2,7 +2,6 @@ export interface ItemRequest {
   admin: string;
   message: string;
   signature: string;
-  id: number;
   name: string;
   description: string;
   category: string;
