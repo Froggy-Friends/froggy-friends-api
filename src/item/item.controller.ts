@@ -58,7 +58,7 @@ export class ItemsController {
       itemRequest.percent,
       itemRequest.price,
       itemRequest.supply,
-      itemRequest.boost,
+      itemRequest.isBoost,
       itemRequest.isOnSale,
       itemRequest.walletLimit,
     );
@@ -72,7 +72,7 @@ export class ItemsController {
     item.id = itemId;
     item.image = imageCID.IpfsHash;
     item.imageTransparent = imageTransparentCID.IpfsHash;
-    const listedItem = await this.itemService.listItem(item);
+    const listedItem = await this.itemService.save(item);
     return listedItem;
   }
 
@@ -80,13 +80,62 @@ export class ItemsController {
   @UseInterceptors(FileInterceptor('image'))
   async listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
     this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
-    // todo: save item in database
+    
+    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    const itemId = +totalListed + 1;
+
+    // save to contract
+    await this.contractService.ribbitItems.listFriend(
+      itemId,
+      itemRequest.percent,
+      itemRequest.price,
+      itemRequest.supply,
+      itemRequest.isBoost,
+      itemRequest.isOnSale,
+      itemRequest.walletLimit,
+    );
+
+    // upload files to pinata
+    const imageCID = await this.pinService.upload(itemRequest.name, file.buffer);
+
+    // save to database
+    const item = new Item(itemRequest);
+    item.id = itemId;
+    item.image = imageCID.IpfsHash; //todo: store hostname
+    const listedItem = await this.itemService.save(item);
+    return listedItem;
   }
 
   @Put('/:id')
-  updateItem(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
+  async updateItem(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
     this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
-    // todo: update item in database
+    
+    const item = await this.itemService.getItem(itemRequest.id);
+
+    if (item.percent !== itemRequest.percent) {
+      await this.contractService.ribbitItems.setPercent(itemRequest.percent);
+    }
+
+    if (item.price !== itemRequest.price) {
+      await this.contractService.ribbitItems.setPrice(itemRequest.price);
+    }
+
+    if (item.supply !== itemRequest.supply) {
+      await this.contractService.ribbitItems.setSupply(itemRequest.supply);
+    }
+    
+    if (item.isBoost !== itemRequest.isBoost) {
+      await this.contractService.ribbitItems.setIsBoost(itemRequest.isBoost);
+    }
+    
+    if (item.isOnSale !== itemRequest.isOnSale) {
+      await this.contractService.ribbitItems.setOnSale(itemRequest.isOnSale);
+    }
+
+    // save to database
+    const updatedItem = new Item(itemRequest);
+    const listedItem = await this.itemService.save(updatedItem);
+    return listedItem;
   }
 
   @Get('/presets')
