@@ -102,8 +102,7 @@ export class ItemsController {
     const item = new Item(itemRequest);
     item.id = itemId;
     item.image = imageCID.IpfsHash; //todo: store hostname
-    const listedItem = await this.itemService.save(item);
-    return listedItem;
+    return await this.itemService.save(item);
   }
 
   @Put('/:id/percent')
@@ -188,6 +187,20 @@ export class ItemsController {
     // save to database
     const item = new Item(itemRequest);
     item.id = id;
+    return await this.itemService.save(item);
+  }
+
+  @Put('/:id/image')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateImage(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    
+    // upload files to pinata
+    const imageCID = await this.pinService.upload(itemRequest.name, file.buffer);
+
+    // save to database
+    const item = await this.itemService.getItem(id);
+    item.image = imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
