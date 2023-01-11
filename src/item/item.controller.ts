@@ -72,8 +72,7 @@ export class ItemsController {
     item.id = itemId;
     item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
     item.imageTransparent = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageTransparentCID.IpfsHash;
-    const listedItem = await this.itemService.save(item);
-    return listedItem;
+    return await this.itemService.save(item);
   }
 
   @Post()
