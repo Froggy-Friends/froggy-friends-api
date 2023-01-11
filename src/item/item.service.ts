@@ -85,7 +85,7 @@ export class ItemService {
     return tickets;
   }
 
-  async listItem(item: Item) {
+  async save(item: Item) {
     const savedItem = await this.itemRepo.save(item);
     return savedItem;
   }

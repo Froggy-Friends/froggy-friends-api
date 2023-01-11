@@ -19,7 +19,6 @@ export class Item {
   @Column() isPhysical: boolean;
   @Column() isAllowlist: boolean;
   @Column() rarity: string;
-  @Column() boost: number;
   @Column() friendOrigin: string;
   @Column() traitLayer: string;
   @Column() price: number;
@@ -48,7 +47,6 @@ export class Item {
       this.isPhysical = item.isPhysical;
       this.isAllowlist = item.isAllowlist;
       this.rarity = item.rarity;
-      this.boost = item.boost;
       this.friendOrigin = item.friendOrigin;
       this.traitLayer = item.traitLayer;
       this.price = item.price;

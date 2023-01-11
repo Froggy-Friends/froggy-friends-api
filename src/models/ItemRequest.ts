@@ -2,6 +2,7 @@ export interface ItemRequest {
   admin: string;
   message: string;
   signature: string;
+  id: number;
   name: string;
   description: string;
   category: string;
@@ -16,7 +17,6 @@ export interface ItemRequest {
   isPhysical: boolean;
   isAllowlist: boolean;
   rarity: string;
-  boost: number;
   friendOrigin: string;
   traitLayer: string;
   price: number;
