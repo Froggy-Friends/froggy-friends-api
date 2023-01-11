@@ -181,6 +181,16 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
+  @Put('/:id/metadata')
+  async updateMetadata(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    
+    // save to database
+    const item = new Item(itemRequest);
+    item.id = id;
+    return await this.itemService.save(item);
+  }
+
   @Get('/presets')
   getItemPresets() {
     return {
