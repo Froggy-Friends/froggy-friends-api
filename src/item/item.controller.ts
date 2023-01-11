@@ -70,8 +70,8 @@ export class ItemsController {
     // save to database
     const item = new Item(itemRequest);
     item.id = itemId;
-    item.image = imageCID.IpfsHash;
-    item.imageTransparent = imageTransparentCID.IpfsHash;
+    item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
+    item.imageTransparent = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageTransparentCID.IpfsHash;
     const listedItem = await this.itemService.save(item);
     return listedItem;
   }
@@ -101,7 +101,7 @@ export class ItemsController {
     // save to database
     const item = new Item(itemRequest);
     item.id = itemId;
-    item.image = imageCID.IpfsHash; //todo: store hostname
+    item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
@@ -200,7 +200,7 @@ export class ItemsController {
 
     // save to database
     const item = await this.itemService.getItem(id);
-    item.image = imageCID.IpfsHash;
+    item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
