@@ -75,7 +75,7 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
-  @Post()
+  @Post('/item')
   @UseInterceptors(FileInterceptor('image'))
   async listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
     this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
