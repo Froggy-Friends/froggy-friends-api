@@ -104,77 +104,23 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
-  @Put('/:id/percent')
-  async updatePercent(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
+  @Put('/:id/contract')
+  async updateContract(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
     this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
     
     const item = await this.itemService.getItem(id);
 
-    if (item.percent !== itemRequest.percent) {
-      await this.contractService.ribbitItems.setPercent(itemRequest.percent);
-    }
+    await this.contractService.ribbitItems.setPercent(itemRequest.percent);
+    await this.contractService.ribbitItems.setPrice(itemRequest.price);
+    await this.contractService.ribbitItems.setSupply(itemRequest.supply);
+    await this.contractService.ribbitItems.setIsBoost(itemRequest.isBoost);
+    await this.contractService.ribbitItems.setOnSale(itemRequest.isOnSale);
 
     // save to database
     item.percent = itemRequest.percent;
-    return await this.itemService.save(item);
-  }
-
-  @Put('/:id/price')
-  async updatePrice(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
-    
-    const item = await this.itemService.getItem(id);
-
-    if (item.price !== itemRequest.price) {
-      await this.contractService.ribbitItems.setPrice(itemRequest.price);
-    }
-
-    // save to database
     item.price = itemRequest.price;
-    return await this.itemService.save(item);
-  }
-
-  @Put('/:id/supply')
-  async updateSupply(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
-    
-    const item = await this.itemService.getItem(id);
-
-    if (item.supply !== itemRequest.supply) {
-      await this.contractService.ribbitItems.setSupply(itemRequest.supply);
-    }
-
-    // save to database
     item.supply = itemRequest.supply;
-    return await this.itemService.save(item);
-  }
-
-  @Put('/:id/boost')
-  async updateIsBoost(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
-    
-    const item = await this.itemService.getItem(id);
-    
-    if (item.isBoost !== itemRequest.isBoost) {
-      await this.contractService.ribbitItems.setIsBoost(itemRequest.isBoost);
-    }
-    
-    // save to database
     item.isBoost = itemRequest.isBoost;
-    return await this.itemService.save(item);
-  }
-
-  @Put('/:id/sale')
-  async updateIsOnSale(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
-    
-    const item = await this.itemService.getItem(id);
-
-    if (item.isOnSale !== itemRequest.isOnSale) {
-      await this.contractService.ribbitItems.setOnSale(itemRequest.isOnSale);
-    }
-
-    // save to database
     item.isOnSale = itemRequest.isOnSale;
     return await this.itemService.save(item);
   }
