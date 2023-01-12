@@ -149,6 +149,20 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
+  @Put('/:id/image/transparent')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateTransparentImage(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    
+    // upload files to pinata
+    const imageCID = await this.pinService.upload(itemRequest.name, file.buffer);
+
+    // save to database
+    const item = await this.itemService.getItem(id);
+    item.imageTransparent = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
+    return await this.itemService.save(item);
+  }
+
   @Get('/presets')
   getItemPresets() {
     return {
