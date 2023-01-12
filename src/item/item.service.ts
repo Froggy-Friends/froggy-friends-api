@@ -108,4 +108,8 @@ export class ItemService {
       throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
     }
   }
+
+  getAdmins() {
+    return admins;
+  }
 }

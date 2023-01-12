@@ -41,6 +41,11 @@ export class ItemsController {
     return this.itemService.getRaffleTicketOwners(id);
   }
 
+  @Get('/admins')
+  getAdmins() {
+    return this.itemService.getAdmins();
+  }
+
   @Post('/friend')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'image', maxCount: 1 },
