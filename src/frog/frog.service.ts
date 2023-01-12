@@ -7,22 +7,25 @@ import { Params } from 'node_modules/@moralisweb3/evm-api/lib/resolvers/nft/getW
 import * as rarity from '../../rarityBands.json';
 import Moralis from 'moralis';
 import { ContractService } from "src/contract/contract.service";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class FrogService {
   
   constructor(
     @InjectRepository(Frog) private frogRepo: Repository<Frog>,
+    private configService: ConfigService,
     private contractService: ContractService
   ) {
     
   }
 
   async getFrog(id: number): Promise<Frog> {
+    const pinataUrl = this.configService.get<string>('PINATA_URL');
     const frog = await this.frogRepo.findOneBy({ edition: id });
-    frog.cid2d = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cid2d}`;
-    frog.cid3d = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cid3d}`;
-    frog.cidPixel = `https://froggyfriends.mypinata.cloud/ipfs/${frog.cidPixel}`;
+    frog.cid2d = `${pinataUrl}${frog.cid2d}`;
+    frog.cid3d = `${pinataUrl}${frog.cid3d}`;
+    frog.cidPixel = `${pinataUrl}${frog.cidPixel}`;
     frog.rarity = this.getFrogRarity(frog.edition);
     frog.ribbit = this.getFrogRibbit(frog);
     return frog;

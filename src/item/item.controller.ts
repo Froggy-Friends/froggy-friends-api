@@ -7,14 +7,20 @@ import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express
 import { ContractService } from 'src/contract/contract.service';
 import { PinService } from "src/pin/pin.service";
 import { FriendFiles } from "src/models/FriendFiles";
+import { ConfigService } from "@nestjs/config";
 
 @Controller('/items')
 export class ItemsController {
+  private pinataUrl: string;
+
   constructor(
     private readonly itemService: ItemService, 
     private readonly pinService: PinService,
-    private readonly contractService: ContractService
-  ) {} 
+    private readonly contractService: ContractService,
+    private readonly configService: ConfigService
+  ) {
+    this.pinataUrl = this.configService.get<string>('PINATA_URL');
+  } 
 
   @Get()
   getContractItems(): Promise<Item[]> {
@@ -75,8 +81,8 @@ export class ItemsController {
     // save to database
     const item = new Item(itemRequest);
     item.id = itemId;
-    item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
-    item.imageTransparent = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageTransparentCID.IpfsHash;
+    item.image = this.pinataUrl + imageCID.IpfsHash;
+    item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
@@ -105,7 +111,7 @@ export class ItemsController {
     // save to database
     const item = new Item(itemRequest);
     item.id = itemId;
-    item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
+    item.image = this.pinataUrl + imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
@@ -150,7 +156,7 @@ export class ItemsController {
 
     // save to database
     const item = await this.itemService.getItem(id);
-    item.image = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
+    item.image = this.pinataUrl + imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
@@ -164,7 +170,7 @@ export class ItemsController {
 
     // save to database
     const item = await this.itemService.getItem(id);
-    item.imageTransparent = 'https://froggyfriends.mypinata.cloud/ipfs/' + imageCID.IpfsHash;
+    item.imageTransparent = this.pinataUrl + imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 

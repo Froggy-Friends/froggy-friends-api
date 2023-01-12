@@ -44,7 +44,7 @@ export class ContractService {
         // provider
         this.alchemyProvider = new ethers.providers.AlchemyProvider(
             {
-                name: process.env.NODE_ENV === 'production' ? 'ethereum' : 'goerli',
+                name: process.env.NODE_ENV === 'production' ? 'homestead' : 'goerli',
                 chainId: Number(this.chain.apiId)
             },
             this.alchemyKey
