@@ -52,7 +52,7 @@ export class ItemsController {
     return this.itemService.getAdmins();
   }
 
-  @Post('/friend')
+  @Post('/image/multiple')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'image', maxCount: 1 },
     { name: 'imageTransparent', maxCount: 1 },
@@ -86,7 +86,7 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
-  @Post('/item')
+  @Post('/image/single')
   @UseInterceptors(FileInterceptor('image'))
   async listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
     this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
