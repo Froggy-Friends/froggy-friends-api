@@ -177,7 +177,7 @@ export class ItemsController {
   @Get('/presets')
   getItemPresets() {
     return {
-      categories: ['lilies', 'nfts', 'raffles', 'allowlists', 'friends', 'collabs', 'merch'],
+      categories: ['lilies', 'nfts', 'raffles', 'allowlists', 'friends', 'collabs', 'merch', 'traits'],
       collabIds: [1,2,3,4,5,6,7,8,9,10],
       boosts: [5, 10, 15, 20, 30, 35],
       rarities: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Epic'],
