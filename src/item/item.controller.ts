@@ -27,7 +27,7 @@ export class ItemsController {
     return this.itemService.getAllItems();
   }
 
-  @Get(':id')
+  @Get('/:id/details')
   getItem(@Param('id') id: number): Promise<Item> {
     return this.itemService.getItem(id);
   }
