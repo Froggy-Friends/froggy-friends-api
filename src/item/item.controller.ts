@@ -121,7 +121,7 @@ export class ItemsController {
       itemRequest.supply,
       itemRequest.isBoost,
       itemRequest.isOnSale,
-      itemRequest.walletLimit,
+      itemRequest.walletLimit
     );
 
     const item = new Item(itemRequest);
@@ -137,15 +137,26 @@ export class ItemsController {
   }
 
   @Post('/list/collab/friend')
-  @UseInterceptors(FileInterceptor('image'))
-  async listCollabFriend(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async listCollabFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
     
+    if (!files.image || !files.imageTransparent) {
+      throw new BadRequestException("Missing image files");
+    }
+
+    if (!itemRequest.friendOrigin || !itemRequest.collabId) {
+      throw new BadRequestException("Missing friend origin");
+    }
+
     const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
     const itemId = +totalListed + 1;
 
     // save to contract
-    await this.contractService.ribbitItems.listFriend(
+    await this.contractService.ribbitItems.listCollabFriend(
       itemId,
       itemRequest.percent,
       itemRequest.price,
@@ -153,15 +164,19 @@ export class ItemsController {
       itemRequest.isBoost,
       itemRequest.isOnSale,
       itemRequest.walletLimit,
+      itemRequest.collabAddress
     );
-
-    // upload files to pinata
-    const imageCID = await this.pinService.upload(itemRequest.name, file.buffer);
-
+    
     // save to database
     const item = new Item(itemRequest);
     item.id = itemId;
+
+    const imageCID = await this.pinService.upload(itemRequest.name, files.image[0].buffer);
     item.image = this.pinataUrl + imageCID.IpfsHash;
+
+    const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
+    item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+
     return await this.itemService.save(item);
   }
 

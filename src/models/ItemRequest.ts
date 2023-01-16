@@ -24,4 +24,5 @@ export interface ItemRequest {
   supply: number;
   walletLimit: number;
   isOnSale: boolean;
+  collabAddress: string;
 }
