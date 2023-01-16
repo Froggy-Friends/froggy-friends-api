@@ -57,7 +57,7 @@ export class ItemsController {
     { name: 'image', maxCount: 1 },
     { name: 'imageTransparent', maxCount: 1 },
   ]))
-  async listTrait(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+  async listItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
 
     if (!files.image) {
@@ -106,7 +106,7 @@ export class ItemsController {
       throw new BadRequestException("Missing image files");
     }
 
-    if (!itemRequest.friendOrigin) {
+    if (!itemRequest.isFriend) {
       throw new BadRequestException("Missing friend origin");
     }
 
@@ -119,7 +119,7 @@ export class ItemsController {
       itemRequest.percent,
       itemRequest.price,
       itemRequest.supply,
-      itemRequest.isBoost,
+      itemRequest.isFriend,
       itemRequest.isOnSale,
       itemRequest.walletLimit
     );
@@ -148,7 +148,7 @@ export class ItemsController {
       throw new BadRequestException("Missing image files");
     }
 
-    if (!itemRequest.friendOrigin || !itemRequest.collabId) {
+    if (!itemRequest.isCollabFriend || !itemRequest.collabId) {
       throw new BadRequestException("Missing friend origin");
     }
 
@@ -161,7 +161,7 @@ export class ItemsController {
       itemRequest.percent,
       itemRequest.price,
       itemRequest.supply,
-      itemRequest.isBoost,
+      itemRequest.isCollabFriend,
       itemRequest.isOnSale,
       itemRequest.walletLimit,
       itemRequest.collabAddress
@@ -189,14 +189,14 @@ export class ItemsController {
     await this.contractService.ribbitItems.setPercent(itemRequest.percent);
     await this.contractService.ribbitItems.setPrice(itemRequest.price);
     await this.contractService.ribbitItems.setSupply(itemRequest.supply);
-    await this.contractService.ribbitItems.setIsBoost(itemRequest.isBoost);
+    await this.contractService.ribbitItems.setIsBoost(itemRequest.isFriend || itemRequest.isCollabFriend);
     await this.contractService.ribbitItems.setOnSale(itemRequest.isOnSale);
 
     // save to database
     item.percent = itemRequest.percent;
     item.price = itemRequest.price;
     item.supply = itemRequest.supply;
-    item.isBoost = itemRequest.isBoost;
+    item.isBoost = itemRequest.isFriend || itemRequest.isCollabFriend;
     item.isOnSale = itemRequest.isOnSale;
     return await this.itemService.save(item);
   }

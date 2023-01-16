@@ -11,12 +11,12 @@ export interface ItemRequest {
   endDate: number;
   collabId: number;
   isCommunity: boolean;
-  isBoost: boolean;
+  isFriend: boolean;
+  isCollabFriend: boolean;
   isTrait: boolean;
   isPhysical: boolean;
   isAllowlist: boolean;
   rarity: string;
-  friendOrigin: string;
   traitLayer: string;
   price: number;
   percent: number;
