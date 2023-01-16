@@ -13,8 +13,11 @@ export class Item {
   @Column() website: string;
   @Column() endDate: number;
   @Column() collabId: number;
+  @Column() collabAddress: string;
   @Column() isCommunity: boolean;
   @Column() isBoost: boolean;
+  @Column() isFriend: boolean;
+  @Column() isCollabFriend: boolean;
   @Column() isTrait: boolean;
   @Column() isPhysical: boolean;
   @Column() isAllowlist: boolean;
@@ -41,8 +44,11 @@ export class Item {
       this.website = item.website;
       this.endDate = item.endDate;
       this.collabId = item.collabId;
+      this.collabAddress = item.collabAddress;
       this.isCommunity = item.isCommunity;
       this.isBoost = item.isBoost;
+      this.isFriend = item.isFriend;
+      this.isCollabFriend = item.isCollabFriend;
       this.isTrait = item.isTrait;
       this.isPhysical = item.isPhysical;
       this.isAllowlist = item.isAllowlist;

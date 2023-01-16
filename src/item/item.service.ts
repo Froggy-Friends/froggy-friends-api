@@ -96,7 +96,7 @@ export class ItemService {
     return items.sort((a,b) => a.id - b.id);
   }
   
-  validateRequest(message: string, signature: string, itemRequest: ItemRequest) {
+  validateRequest(message: string, signature: string, item: Item) {
     // validate admin
     const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
 
@@ -111,15 +111,14 @@ export class ItemService {
 
     // validate item
     if (
-      !itemRequest.name || 
-      !itemRequest.description ||
-      !itemRequest.category ||
-      !itemRequest.rarity ||
-      !itemRequest.price ||
-      !itemRequest.percent ||
-      !itemRequest.supply ||
-      !itemRequest.walletLimit ||
-      (itemRequest.isOnSale === undefined || itemRequest.isOnSale === null)
+      !item.name || 
+      !item.description ||
+      !item.category ||
+      !item.rarity ||
+      !item.price ||
+      !item.supply ||
+      !item.walletLimit ||
+      (item.isOnSale === undefined || item.isOnSale === null)
     ) {
       throw new BadRequestException("Missing item info");
     }
