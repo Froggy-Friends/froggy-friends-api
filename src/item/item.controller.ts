@@ -186,14 +186,21 @@ export class ItemsController {
 
     if (item.price !== dbItem.price) {
       await this.contractService.ribbitItems.setPrice(item.id, item.price);
-    } else if (item.percent !== dbItem.percent) {
+    }
+    if (item.percent !== dbItem.percent) {
       await this.contractService.ribbitItems.setPercent(item.id, item.percent);
-    } else if (item.supply !== dbItem.supply) {
+    }
+    if (item.supply !== dbItem.supply) {
       await this.contractService.ribbitItems.setSupply(item.id, item.supply);
-    } else if (item.isBoost !== dbItem.isBoost) {
+    }
+    if (item.isBoost !== dbItem.isBoost) {
       await this.contractService.ribbitItems.setIsBoost(item.id, item.isBoost);
-    } else if (item.isOnSale !== dbItem.isOnSale) {
+    }
+    if (item.isOnSale !== dbItem.isOnSale) {
       await this.contractService.ribbitItems.setOnSale(item.id, item.isOnSale);
+    }
+    if (item.walletLimit !== dbItem.walletLimit) {
+      await this.contractService.ribbitItems.setWalletLimit(item.id, item.walletLimit);
     }
 
     if (files.image && files.image.length) {
