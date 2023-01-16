@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Repository } from "typeorm";
@@ -9,6 +9,7 @@ import Moralis from 'moralis';
 import { ContractService } from "src/contract/contract.service";
 import { hashMessage } from "ethers/lib/utils";
 import { admins } from "./item.admins";
+import { ItemRequest } from "src/models/ItemRequest";
 
 @Injectable()
 export class ItemService {
@@ -95,8 +96,8 @@ export class ItemService {
     return items.sort((a,b) => a.id - b.id);
   }
   
-  validateAdmin(message: string, signature: string) {
-    // verify wallet
+  validateRequest(message: string, signature: string, itemRequest: ItemRequest) {
+    // validate admin
     const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
 
     if (!admins.includes(signer)) {
@@ -104,8 +105,23 @@ export class ItemService {
     }
 
     const json = JSON.parse(message);
-    if (!json.list) {
+    if (!json.listItem || !json.itemName) {
       throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
+    }
+
+    // validate item
+    if (
+      !itemRequest.name || 
+      !itemRequest.description ||
+      !itemRequest.category ||
+      !itemRequest.rarity ||
+      !itemRequest.price ||
+      !itemRequest.percent ||
+      !itemRequest.supply ||
+      !itemRequest.walletLimit ||
+      (itemRequest.isOnSale === undefined || itemRequest.isOnSale === null)
+    ) {
+      throw new BadRequestException("Missing item info");
     }
   }
 
