@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseInterceptors, UploadedFiles, Put, UploadedFile } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseInterceptors, UploadedFiles, Put, UploadedFile, BadRequestException } from "@nestjs/common";
 import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
 import { BigNumber } from "ethers";
@@ -52,13 +52,63 @@ export class ItemsController {
     return this.itemService.getAdmins();
   }
 
-  @Post('/image/multiple')
+  @Post('/list')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async listTrait(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
+
+    if (!files.image) {
+      throw new BadRequestException("Missing image file");
+    }
+
+    if (itemRequest.isTrait && !files.imageTransparent) {
+      throw new BadRequestException("Missing transparent image file");
+    }
+
+    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    const itemId = +totalListed + 1;
+
+    // save to contract
+    await this.contractService.ribbitItems.listItem(
+      itemId,
+      itemRequest.price,
+      itemRequest.supply,
+      itemRequest.isOnSale,
+      itemRequest.walletLimit
+    );
+
+    const item = new Item(itemRequest);
+    item.id = itemId;
+
+    const imageCID = await this.pinService.upload(itemRequest.name, files.image[0].buffer);
+    item.image = this.pinataUrl + imageCID.IpfsHash;
+
+    if (itemRequest.isTrait) {
+      const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
+      item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+    }
+
+    return await this.itemService.save(item);
+  }
+
+  @Post('/list/friend')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'image', maxCount: 1 },
     { name: 'imageTransparent', maxCount: 1 },
   ]))
   async listFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
+
+    if (!files.image || !files.imageTransparent) {
+      throw new BadRequestException("Missing image files");
+    }
+
+    if (!itemRequest.friendOrigin) {
+      throw new BadRequestException("Missing friend origin");
+    }
 
     const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
     const itemId = +totalListed + 1;
@@ -74,22 +124,22 @@ export class ItemsController {
       itemRequest.walletLimit,
     );
 
-    // upload files to pinata
-    const imageCID = await this.pinService.upload(itemRequest.name, files.image[0].buffer);
-    const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
-
-    // save to database
     const item = new Item(itemRequest);
     item.id = itemId;
+
+    const imageCID = await this.pinService.upload(itemRequest.name, files.image[0].buffer);
     item.image = this.pinataUrl + imageCID.IpfsHash;
+
+    const imageTransparentCID = await this.pinService.upload(itemRequest.name, files.imageTransparent[0].buffer);
     item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+
     return await this.itemService.save(item);
   }
 
-  @Post('/image/single')
+  @Post('/list/collab/friend')
   @UseInterceptors(FileInterceptor('image'))
-  async listItem(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+  async listCollabFriend(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
     
     const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
     const itemId = +totalListed + 1;
@@ -117,7 +167,7 @@ export class ItemsController {
 
   @Put('/:id/contract')
   async updateContract(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
     
     const item = await this.itemService.getItem(id);
 
@@ -138,7 +188,7 @@ export class ItemsController {
 
   @Put('/:id/metadata')
   async updateMetadata(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
     
     // save to database
     const item = new Item(itemRequest);
@@ -149,7 +199,7 @@ export class ItemsController {
   @Put('/:id/image')
   @UseInterceptors(FileInterceptor('image'))
   async updateImage(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
     
     // upload files to pinata
     const imageCID = await this.pinService.upload(itemRequest.name, file.buffer);
@@ -163,7 +213,7 @@ export class ItemsController {
   @Put('/:id/image/transparent')
   @UseInterceptors(FileInterceptor('image'))
   async updateTransparentImage(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
-    this.itemService.validateAdmin(itemRequest.message, itemRequest.signature);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, itemRequest);
     
     // upload files to pinata
     const imageCID = await this.pinService.upload(itemRequest.name, file.buffer);
