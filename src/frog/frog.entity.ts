@@ -25,4 +25,6 @@ export class Frog {
   @Column() isOneOfOne: boolean;
   @Column() pairTx: string;
   @Column() unpairTx: string;
+  ribbit: number;
+  rarity: string;
 }

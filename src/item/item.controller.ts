@@ -1,17 +1,33 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseInterceptors, UploadedFiles, Put, UploadedFile, BadRequestException } from "@nestjs/common";
 import { Item } from "./item.entity";
 import { ItemService } from "./item.service";
+import { BigNumber } from "ethers";
+import { ItemRequest } from "src/models/ItemRequest";
+import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
+import { ContractService } from 'src/contract/contract.service';
+import { PinService } from "src/pin/pin.service";
+import { FriendFiles } from "src/models/FriendFiles";
+import { ConfigService } from "@nestjs/config";
 
 @Controller('/items')
 export class ItemsController {
-  constructor(private readonly itemService: ItemService) {} 
+  private pinataUrl: string;
+
+  constructor(
+    private readonly itemService: ItemService, 
+    private readonly pinService: PinService,
+    private readonly contractService: ContractService,
+    private readonly configService: ConfigService
+  ) {
+    this.pinataUrl = this.configService.get<string>('PINATA_URL');
+  } 
 
   @Get()
   getContractItems(): Promise<Item[]> {
     return this.itemService.getAllItems();
   }
 
-  @Get(':id')
+  @Get('/:id/details')
   getItem(@Param('id') id: number): Promise<Item> {
     return this.itemService.getItem(id);
   }
@@ -29,5 +45,189 @@ export class ItemsController {
   @Get('/:id/tickets')
   getRaffleTickets(@Param('id') id: number) {
     return this.itemService.getRaffleTicketOwners(id);
+  }
+
+  @Get('/admins')
+  getAdmins() {
+    return this.itemService.getAdmins();
+  }
+
+  @Post('/list')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async listItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+
+    if (!files.image) {
+      throw new BadRequestException("Missing image file");
+    }
+
+    if (item.isTrait && !files.imageTransparent) {
+      throw new BadRequestException("Missing transparent image file");
+    }
+
+    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    item.id = +totalListed + 1;
+
+    // save to contract
+    await this.contractService.ribbitItems.listItem(
+      item.id,
+      item.price,
+      item.supply,
+      item.isOnSale,
+      item.walletLimit
+    );
+
+    const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+    item.image = this.pinataUrl + imageCID.IpfsHash;
+
+    if (item.isTrait) {
+      const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+      item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+    }
+
+    return await this.itemService.save(item);
+  }
+
+  @Post('/list/friend')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async listFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+
+    if (!files.image || !files.imageTransparent) {
+      throw new BadRequestException("Missing image files");
+    }
+
+    if (!item.isFriend) {
+      throw new BadRequestException("Missing friend origin");
+    }
+
+    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    item.id = +totalListed + 1;
+
+    // save to contract
+    await this.contractService.ribbitItems.listFriend(
+      item.id,
+      item.percent,
+      item.price,
+      item.supply,
+      item.isFriend,
+      item.isOnSale,
+      item.walletLimit
+    );
+
+    const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+    item.image = this.pinataUrl + imageCID.IpfsHash;
+
+    const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+    item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+
+    return await this.itemService.save(item);
+  }
+
+  @Post('/list/collab/friend')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async listCollabFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    
+    if (!files.image || !files.imageTransparent) {
+      throw new BadRequestException("Missing image files");
+    }
+
+    if (!item.isCollabFriend || !item.collabId) {
+      throw new BadRequestException("Missing friend origin");
+    }
+
+    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    item.id = +totalListed + 1;
+
+    // save to contract
+    await this.contractService.ribbitItems.listCollabFriend(
+      item.id,
+      item.percent,
+      item.price,
+      item.supply,
+      item.isCollabFriend,
+      item.isOnSale,
+      item.walletLimit,
+      item.collabAddress
+    );
+    
+    // save to database
+    const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+    item.image = this.pinataUrl + imageCID.IpfsHash;
+
+    const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+    item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+
+    return await this.itemService.save(item);
+  }
+
+  @Put('/contract')
+  async updateContract(@Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+
+    await this.contractService.ribbitItems.setPercent(item.percent);
+    await this.contractService.ribbitItems.setPrice(item.price);
+    await this.contractService.ribbitItems.setSupply(item.supply);
+    await this.contractService.ribbitItems.setIsBoost(item.isFriend || item.isCollabFriend);
+    await this.contractService.ribbitItems.setOnSale(item.isOnSale);
+    return await this.itemService.save(item);
+  }
+
+  @Put('/metadata')
+  async updateMetadata(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    return await this.itemService.save(item);
+  }
+
+  @Put('/image')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateImage(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    
+    // upload files to pinata
+    const imageCID = await this.pinService.upload(item.name, file.buffer);
+
+    // save to database
+    item.image = this.pinataUrl + imageCID.IpfsHash;
+    return await this.itemService.save(item);
+  }
+
+  @Put('/image/transparent')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateTransparentImage(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
+    const item: Item = JSON.parse(itemRequest.item);
+    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+
+    const imageCID = await this.pinService.upload(item.name, file.buffer);
+    item.imageTransparent = this.pinataUrl + imageCID.IpfsHash;
+    return await this.itemService.save(item);
+  }
+
+  @Get('/presets')
+  getItemPresets() {
+    return {
+      categories: ['lilies', 'nfts', 'raffles', 'allowlists', 'friends', 'collabs', 'merch', 'traits'],
+      collabIds: [1,2,3,4,5,6,7,8,9,10],
+      boosts: [5, 10, 15, 20, 30, 35],
+      rarities: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Epic'],
+      friendOrigins: ['Genesis', 'Collab'],
+      traitLayers: ['Background', 'Body', 'Eyes', 'Mouth', 'Hat', 'Shirt']
+    }
   }
 }

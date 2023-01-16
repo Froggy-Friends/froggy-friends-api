@@ -1,39 +1,31 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Repository } from "typeorm";
 import { Item } from "./item.entity";
-import { ItemBooleans } from './ItemBooleans';
-import { ItemNumbers } from './ItemNumbers';
-import { ItemStrings } from './ItemStrings';
-
 import { Logger } from "@nestjs/common";
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import * as ribbitAbi from '../abii-items.json';
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import Moralis from 'moralis';
-import { EvmChain } from '@moralisweb3/evm-utils';
-require('dotenv').config();
-const { ALCHEMY_API_URL, RIBBIT_ITEM_ADDRESS } = process.env;
-const web3 = createAlchemyWeb3(ALCHEMY_API_URL);
-const ribbitItemAbi: any = ribbitAbi;
-const ribbitItemContract = new web3.eth.Contract(ribbitItemAbi, RIBBIT_ITEM_ADDRESS);
+import { ContractService } from "src/contract/contract.service";
+import { hashMessage } from "ethers/lib/utils";
+import { admins } from "./item.admins";
+import { ItemRequest } from "src/models/ItemRequest";
 
 @Injectable()
 export class ItemService {
   private readonly logger = new Logger(ItemService.name);
-  chain: EvmChain;
 
-  constructor(@InjectRepository(Item) private itemRepo: Repository<Item>) {
-    this.chain = process.env.NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
-  }
+  constructor(
+    @InjectRepository(Item) private itemRepo: Repository<Item>,
+    private contractService: ContractService    
+  ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_6AM, { name: "refreshItems", timeZone: "America/Los_Angeles"})
   async refreshItems() {
     const items = await this.getAllItems();
     for (const item of items) {
       const itemUpdated = {...item};
-      const details  = await ribbitItemContract.methods.item(item.id).call();
+      const details  = await this.contractService.ribbitItems.item(item.id);
       const price = details['0'];
       const percent = details['1'];
       const minted = details['2'];
@@ -60,7 +52,11 @@ export class ItemService {
   async getOwnedItems(account: string): Promise<Item[]> {
     try {
       // get ribbit items from wallet
-      let options = { chain: this.chain, address: account, tokenAddresses: [RIBBIT_ITEM_ADDRESS]};
+      let options = { 
+        chain: this.contractService.chain, 
+        address: account, 
+        tokenAddresses: [this.contractService.ribbitItemsAddress]
+      };
       const nfts = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
       let owned: Item[] = [];
       for (const nft of nfts) {
@@ -75,54 +71,60 @@ export class ItemService {
   }
 
   async getItemOwners(id: number): Promise<string[]> {
-    return await ribbitItemContract.methods.itemHolders(id).call();
+    return await this.contractService.ribbitItems.itemHolders(id);
   }
 
   async getRaffleTicketOwners(id: number): Promise<string[]> {
-    const owners = await ribbitItemContract.methods.itemHolders(id).call();
+    const owners = await this.contractService.ribbitItems.itemHolders(id);
     const tickets = [];
     for (const owner of owners) {
-      const balance = await ribbitItemContract.methods.balanceOf(owner, id).call();
-      for (let i = 0; i < balance; i++) {
+      const balance = await this.contractService.ribbitItems.balanceOf(owner, id);
+      for (let i = 0; i < +balance; i++) {
         tickets.push(owner);
       }
     }
     return tickets;
   }
 
+  async save(item: Item) {
+    const savedItem = await this.itemRepo.save(item);
+    return savedItem;
+  }
+
   async getAllItems(): Promise<Item[]> {
     const [items] = await this.itemRepo.findAndCount();
     return items.sort((a,b) => a.id - b.id);
   }
+  
+  validateRequest(message: string, signature: string, item: Item) {
+    // validate admin
+    const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
 
-  async saveItem(
-    itemNumbers: ItemNumbers,
-    itemStrings: ItemStrings,
-    itemBooleans: ItemBooleans
-  ): Promise<Item> {
-    const item = new Item();
-    item.endDate = itemNumbers.endDate;
-    item.collabId = itemNumbers.collabId;
-    item.boost = itemNumbers.boost;
-    item.name = itemStrings.name;
-    item.description = itemStrings.description;
-    item.category = itemStrings.category;
-    item.image = itemStrings.image;
-    item.imageTransparent = itemStrings.imageTransparent;
-    item.previewImage = itemStrings.previewImage;
-    item.twitter = itemStrings.twitter;
-    item.discord = itemStrings.discord;
-    item.website = itemStrings.website;
-    item.rarity = itemStrings.rarity;
-    item.friendOrigin = itemStrings.friendOrigin;
-    item.traitLayer = itemStrings.traitLayer;
-    item.isCommunity = itemBooleans.isCommunity;
-    item.isBoost = itemBooleans.isBoost;
-    item.isTrait = itemBooleans.isTrait;
-    item.isPhysical = itemBooleans.isPhysical;
-    item.isAllowlist = itemBooleans.isAllowlist;
-    return await this.itemRepo.save(item);
+    if (!admins.includes(signer)) {
+      throw new HttpException("Unauthorized admin", HttpStatus.BAD_REQUEST);
+    }
+
+    const json = JSON.parse(message);
+    if (!json.listItem || !json.itemName) {
+      throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
+    }
+
+    // validate item
+    if (
+      !item.name || 
+      !item.description ||
+      !item.category ||
+      !item.rarity ||
+      !item.price ||
+      !item.supply ||
+      !item.walletLimit ||
+      (item.isOnSale === undefined || item.isOnSale === null)
+    ) {
+      throw new BadRequestException("Missing item info");
+    }
   }
 
-  
+  getAdmins() {
+    return admins;
+  }
 }
