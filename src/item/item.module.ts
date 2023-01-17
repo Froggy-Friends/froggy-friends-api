@@ -7,11 +7,13 @@ import { PinModule } from 'src/pin/pin.module';
 import { PinService } from 'src/pin/pin.service';
 import { ItemsController } from './item.controller';
 import { ConfigService } from '@nestjs/config';
+import { TraitModule } from 'src/traits/trait.module';
+import { TraitService } from 'src/traits/trait.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item]), ContractModule, PinModule],
+  imports: [TypeOrmModule.forFeature([Item]), ContractModule, PinModule, TraitModule],
   controllers: [ItemsController],
-  providers: [ItemService, PinService, ConfigService],
+  providers: [ItemService, PinService, ConfigService, TraitService],
   exports: [TypeOrmModule, ItemService]
 })
 

@@ -3,4 +3,5 @@ export interface ItemRequest {
   message: string;
   signature: string;
   item: string;
+  compatibleTraits: string;
 }

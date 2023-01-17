@@ -15,6 +15,10 @@ export class TraitService {
     return await this.traitRepo.save(trait);
   }
 
+  async getCount(): Promise<number> {
+    return await this.traitRepo.count();
+  }
+
   async getAllTraits(): Promise<Trait[]> {
     const [traits] = await this.traitRepo.findAndCount();
     return traits.sort((a,b) => a.id - b.id);
