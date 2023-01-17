@@ -19,4 +19,8 @@ export class TraitService {
     const [traits] = await this.traitRepo.findAndCount();
     return traits.sort((a,b) => a.id - b.id);
   }
+
+  async getOriginalTraits(): Promise<Trait[]> {
+    return await this.traitRepo.findBy({origin: 'original'});
+  }
 }

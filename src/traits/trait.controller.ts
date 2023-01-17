@@ -17,6 +17,16 @@ export class TraitController {
     this.pinataUrl = this.configService.get<string>('PINATA_URL');
   }
 
+  @Get()
+  async getAllTraits() {
+    return this.traitService.getAllTraits();
+  }
+
+  @Get('/original')
+  async getOriginalTraits() {
+    return this.traitService.getOriginalTraits();
+  }
+
   @Get('/seed')
   async seed() {
     let id = 1;
