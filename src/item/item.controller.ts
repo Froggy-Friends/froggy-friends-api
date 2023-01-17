@@ -145,7 +145,7 @@ export class ItemsController {
       throw new BadRequestException("Missing image files");
     }
 
-    if (!item.isCollabFriend || !item.collabId) {
+    if (!item.isCollabFriend) {
       throw new BadRequestException("Missing friend origin");
     }
 
