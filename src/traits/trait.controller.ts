@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 import { TraitService } from "./trait.service";
 import { traits } from './trait.seed';
 import { Trait } from "./trait.entity";
@@ -25,6 +25,11 @@ export class TraitController {
   @Get('/original')
   async getOriginalTraits() {
     return this.traitService.getOriginalTraits();
+  }
+
+  @Get('/:layer')
+  async getTraitsByLayer(@Param('layer') layer: string) {
+    return this.traitService.getTraitsByLayer(layer);
   }
 
   @Get('/seed')

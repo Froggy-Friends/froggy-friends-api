@@ -23,4 +23,8 @@ export class TraitService {
   async getOriginalTraits(): Promise<Trait[]> {
     return await this.traitRepo.findBy({origin: 'original'});
   }
+
+  async getTraitsByLayer(layer: string): Promise<Trait[]> {
+    return await this.traitRepo.findBy({layer: layer});
+  }
 }
