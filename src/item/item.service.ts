@@ -105,7 +105,7 @@ export class ItemService {
     }
 
     const json = JSON.parse(message);
-    if (!json.listItem || !json.itemName) {
+    if (!json.modifiedBy) {
       throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
     }
 

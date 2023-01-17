@@ -145,7 +145,7 @@ export class ItemsController {
       throw new BadRequestException("Missing image files");
     }
 
-    if (!item.isCollabFriend || !item.collabId) {
+    if (!item.isCollabFriend) {
       throw new BadRequestException("Missing friend origin");
     }
 
@@ -174,48 +174,43 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
-  @Put('/contract')
-  async updateContract(@Body() itemRequest: ItemRequest) {
+  @Put()
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+    { name: 'imageTransparent', maxCount: 1 },
+  ]))
+  async updateItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     const item: Item = JSON.parse(itemRequest.item);
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    const dbItem = await this.itemService.getItem(item.id);
 
-    await this.contractService.ribbitItems.setPercent(item.percent);
-    await this.contractService.ribbitItems.setPrice(item.price);
-    await this.contractService.ribbitItems.setSupply(item.supply);
-    await this.contractService.ribbitItems.setIsBoost(item.isFriend || item.isCollabFriend);
-    await this.contractService.ribbitItems.setOnSale(item.isOnSale);
-    return await this.itemService.save(item);
-  }
+    if (item.price !== +dbItem.price) {
+      await this.contractService.ribbitItems.setPrice(item.id, item.price);
+    }
+    if (item.percent !== +dbItem.percent) {
+      await this.contractService.ribbitItems.setPercent(item.id, item.percent);
+    }
+    if (item.supply !== +dbItem.supply) {
+      await this.contractService.ribbitItems.setSupply(item.id, item.supply);
+    }
+    if (item.isBoost !== dbItem.isBoost) {
+      await this.contractService.ribbitItems.setIsBoost(item.id, item.isBoost);
+    }
+    if (item.isOnSale !== dbItem.isOnSale) {
+      await this.contractService.ribbitItems.setOnSale(item.id, item.isOnSale);
+    }
+    if (item.walletLimit !== +dbItem.walletLimit) {
+      await this.contractService.ribbitItems.setWalletLimit(item.id, item.walletLimit);
+    }
 
-  @Put('/metadata')
-  async updateMetadata(@Param('id') id: number, @Body() itemRequest: ItemRequest) {
-    const item: Item = JSON.parse(itemRequest.item);
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
-    return await this.itemService.save(item);
-  }
+    if (files.image && files.image.length) {
+      const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+      item.image = this.pinataUrl + imageCID.IpfsHash;
+    } else if (files.imageTransparent && files.imageTransparent.length) {
+      const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+      item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+    }
 
-  @Put('/image')
-  @UseInterceptors(FileInterceptor('image'))
-  async updateImage(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
-    const item: Item = JSON.parse(itemRequest.item);
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
-    
-    // upload files to pinata
-    const imageCID = await this.pinService.upload(item.name, file.buffer);
-
-    // save to database
-    item.image = this.pinataUrl + imageCID.IpfsHash;
-    return await this.itemService.save(item);
-  }
-
-  @Put('/image/transparent')
-  @UseInterceptors(FileInterceptor('image'))
-  async updateTransparentImage(@UploadedFile() file: Express.Multer.File, @Body() itemRequest: ItemRequest) {
-    const item: Item = JSON.parse(itemRequest.item);
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
-
-    const imageCID = await this.pinService.upload(item.name, file.buffer);
-    item.imageTransparent = this.pinataUrl + imageCID.IpfsHash;
     return await this.itemService.save(item);
   }
 
