@@ -184,13 +184,13 @@ export class ItemsController {
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
     const dbItem = await this.itemService.getItem(item.id);
 
-    if (item.price !== dbItem.price) {
+    if (item.price !== +dbItem.price) {
       await this.contractService.ribbitItems.setPrice(item.id, item.price);
     }
-    if (item.percent !== dbItem.percent) {
+    if (item.percent !== +dbItem.percent) {
       await this.contractService.ribbitItems.setPercent(item.id, item.percent);
     }
-    if (item.supply !== dbItem.supply) {
+    if (item.supply !== +dbItem.supply) {
       await this.contractService.ribbitItems.setSupply(item.id, item.supply);
     }
     if (item.isBoost !== dbItem.isBoost) {
@@ -199,7 +199,7 @@ export class ItemsController {
     if (item.isOnSale !== dbItem.isOnSale) {
       await this.contractService.ribbitItems.setOnSale(item.id, item.isOnSale);
     }
-    if (item.walletLimit !== dbItem.walletLimit) {
+    if (item.walletLimit !== +dbItem.walletLimit) {
       await this.contractService.ribbitItems.setWalletLimit(item.id, item.walletLimit);
     }
 
