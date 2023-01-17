@@ -23,8 +23,6 @@ export const traits: Traits = {
     'Dark Green',
     'Froggy Green',
     'Glass',
-    'Ice',
-    'Ivory',
     'Pink',
     'Stone Gray',
     'Toad'
@@ -39,7 +37,6 @@ export const traits: Traits = {
     'Sad',
     'Sleepy',
     'Squint',
-    'Wink',
     'XX'
   ],
   Hat: [
@@ -63,8 +60,6 @@ export const traits: Traits = {
     'Heart',
     'Lady Bug Fren',
     'Lemon',
-    'Not A Penguin',
-    'Not A Polar Bear',
     'Pink Flower',
     'Propeller',
     'Red Beanie',
@@ -103,7 +98,6 @@ export const traits: Traits = {
     'Blue Bow Tie',
     'Blue Dress Shirt',
     'Blue Pajamas',
-    'Blue Scarf',
     'Blue Stripes',
     'Blue Tie Dress Shirt',
     'Blue Tie Suit',

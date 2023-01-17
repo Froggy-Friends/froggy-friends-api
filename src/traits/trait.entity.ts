@@ -6,4 +6,5 @@ export class Trait {
   @Column() name: string;
   @Column() layer: string;
   @Column() imageTransparent: string;
+  @Column() origin: string;
 }

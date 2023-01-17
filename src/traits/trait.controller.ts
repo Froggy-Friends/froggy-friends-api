@@ -27,11 +27,12 @@ export class TraitController {
         trait.id = id;
         trait.name = name;
         trait.layer = layer;
+        trait.origin = 'original';
         const imageCID = await this.pinService.uploadFromFs(trait.name, `src/traits/images/${layer}/${trait.name}.png`);
         trait.imageTransparent = this.pinataUrl + imageCID.IpfsHash;
         await this.traitService.save(trait);
-        id += 1;
         console.log('uploaded trait: ', id);
+        id += 1;
       }
     }
   }
