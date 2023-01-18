@@ -16,6 +16,8 @@ import { Frog } from './frog/frog.entity';
 import { ContractModule } from './contract/contract.module';
 import { TraitModule } from './traits/trait.module';
 import { Trait } from './traits/trait.entity';
+import { Rule } from './rules/rule.entity';
+import { RulesModule } from './rules/rule.module';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { Trait } from './traits/trait.entity';
         password: configService.get<string>('DB_PASSWORD'),
         database: 'postgres',
         schema: configService.get<string>('DB_SCHEMA'),
-        entities: [History, Item, Trait, Frog]
+        entities: [History, Item, Trait, Frog, Rule]
       }),
       inject: [ConfigService]
     }),
@@ -40,6 +42,7 @@ import { Trait } from './traits/trait.entity';
     ItemModule,
     TraitModule,
     FrogModule,
+    RulesModule,
     SpacesModule
   ],
   controllers: [AppController, StakingController],

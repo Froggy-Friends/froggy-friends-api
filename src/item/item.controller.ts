@@ -10,6 +10,8 @@ import { FriendFiles } from "src/models/FriendFiles";
 import { ConfigService } from "@nestjs/config";
 import { Trait } from "src/traits/trait.entity";
 import { TraitService } from "src/traits/trait.service";
+import { RuleService } from "src/rules/rule.service";
+import { Rule } from "src/rules/rule.entity";
 
 @Controller('/items')
 export class ItemsController {
@@ -20,10 +22,11 @@ export class ItemsController {
     private readonly pinService: PinService,
     private readonly contractService: ContractService,
     private readonly configService: ConfigService,
-    private readonly traitService: TraitService
+    private readonly traitService: TraitService,
+    private readonly ruleService: RuleService
   ) {
     this.pinataUrl = this.configService.get<string>('PINATA_URL');
-  } 
+  }
 
   @Get()
   getContractItems(): Promise<Item[]> {
@@ -100,9 +103,18 @@ export class ItemsController {
       trait.imageTransparent = item.imageTransparent;
       trait.layer = item.traitLayer;
       trait.origin = 'new';
-      this.traitService.save(trait);
+      await this.traitService.save(trait);
 
       // create new trait rule
+      let ruleCount = await this.ruleService.getCount();
+      for (const _trait of compatibleTraits) {
+        ruleCount += 1;
+        const rule = new Rule();
+        rule.id = ruleCount;
+        rule.traitId = trait.id;
+        rule.compatibleTraitId = _trait.id;
+        await this.ruleService.save(rule);
+      }
     }
 
     return await this.itemService.save(item);

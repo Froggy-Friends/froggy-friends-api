@@ -9,11 +9,13 @@ import { ItemsController } from './item.controller';
 import { ConfigService } from '@nestjs/config';
 import { TraitModule } from 'src/traits/trait.module';
 import { TraitService } from 'src/traits/trait.service';
+import { RulesModule } from 'src/rules/rule.module';
+import { RuleService } from 'src/rules/rule.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item]), ContractModule, PinModule, TraitModule],
+  imports: [TypeOrmModule.forFeature([Item]), ContractModule, PinModule, TraitModule, RulesModule],
   controllers: [ItemsController],
-  providers: [ItemService, PinService, ConfigService, TraitService],
+  providers: [ItemService, PinService, ConfigService, TraitService, RuleService],
   exports: [TypeOrmModule, ItemService]
 })
 
