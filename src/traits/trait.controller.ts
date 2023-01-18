@@ -32,6 +32,11 @@ export class TraitController {
     return this.traitService.getTraitsByLayer(layer);
   }
 
+  @Get('/compatible/:traitId')
+  async getCompatibleTraits(@Param('traitId') traitId: number): Promise<Trait[]> {
+    return this.traitService.getCompatibleTraits(traitId);
+  }
+
   @Get('/seed')
   async seed() {
     let id = 1;
