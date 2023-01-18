@@ -104,6 +104,9 @@ export class ItemsController {
       trait.layer = item.traitLayer;
       trait.origin = 'new';
       await this.traitService.save(trait);
+      
+      // save trait id to item
+      item.traitId = trait.id;
 
       // create new trait rule
       let ruleCount = await this.ruleService.getCount();
@@ -115,7 +118,7 @@ export class ItemsController {
         rule.compatibleTraitId = _trait.id;
         await this.ruleService.save(rule);
       }
-    }
+    } 
 
     return await this.itemService.save(item);
   }
