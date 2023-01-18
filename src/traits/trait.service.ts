@@ -32,9 +32,9 @@ export class TraitService {
     return await this.traitRepo.findBy({layer: layer});
   }
 
-  async getCompatibleTraits(traitId: number) {
+  async getCompatibleTraits(traitId: number): Promise<Trait[]> {
+    // get all compatible traits in rule table that belong to traitId
     const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from development."Trait" trait inner join development."Rule" r on r."compatibleTraitId" = trait.id where r."traitId" = ${traitId};`;
-    const traits = await this.traitRepo.query(query);
-    return traits;
+    return await this.traitRepo.query(query);    
   }
 }
