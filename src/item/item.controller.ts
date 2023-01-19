@@ -243,17 +243,35 @@ export class ItemsController {
       item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
     }
 
-    if (item.isTrait && compatibleTraits.length) {
-      // update trait properties
-      const trait = await this.traitService.getTrait(item.traitId);
+    let trait: Trait;
+
+    // create new trait
+    if (item.isTrait && !item.traitId) {
+      const count = await this.traitService.getCount();
+      trait = new Trait();
+      trait.id = count + 1;
+      trait.name = item.name;
+      trait.imageTransparent = item.imageTransparent;
+      trait.layer = item.traitLayer;
+      trait.origin = 'new';
+      await this.traitService.save(trait);
+      // save trait id to item
+      item.traitId = trait.id;
+    }
+
+    // update trait properties
+    if (item.isTrait && item.traitId) {
+      trait = await this.traitService.getTrait(item.traitId);
       trait.name = item.name;
       trait.imageTransparent = item.imageTransparent;
       trait.layer = item.traitLayer;
       await this.traitService.save(trait);
+    }
 
+    // overwrite rules
+    if (item.isTrait && compatibleTraits.length) {
       // delete old rules
       await this.ruleService.deleteRules(trait.id);
-
       // save new rules
       let ruleId = await this.ruleService.getLastRuleId();
       for (const compatibleTrait of compatibleTraits) {
