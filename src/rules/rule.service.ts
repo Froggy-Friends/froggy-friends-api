@@ -24,6 +24,16 @@ export class RuleService {
     return rules.sort((a,b) => a.id - b.id);
   }
 
+  async getLastRuleId(): Promise<number> {
+    const [rules] = await this.ruleRepo.findAndCount();
+    if (rules.length) {
+      const sortedRules = rules.sort((a,b) => a.id - b.id);
+      return sortedRules[sortedRules.length-1].id;
+    } else {
+      return rules.length;
+    }
+  }
+
   async deleteRules(traitId: number) {
     return await this.ruleRepo.delete({ traitId: traitId });
   }

@@ -109,11 +109,11 @@ export class ItemsController {
       item.traitId = trait.id;
 
       // create new trait rule
-      let ruleCount = await this.ruleService.getCount();
+      let ruleId = await this.ruleService.getLastRuleId();
       for (const compatibleTrait of compatibleTraits) {
-        ruleCount += 1;
+        ruleId += 1;
         const rule = new Rule();
-        rule.id = ruleCount;
+        rule.id = ruleId;
         rule.traitId = trait.id;
         rule.compatibleTraitId = compatibleTrait.id;
         await this.ruleService.save(rule);
@@ -255,11 +255,11 @@ export class ItemsController {
       await this.ruleService.deleteRules(trait.id);
 
       // save new rules
-      let ruleCount = await this.ruleService.getCount();
+      let ruleId = await this.ruleService.getLastRuleId();
       for (const compatibleTrait of compatibleTraits) {
-        ruleCount += 1;
+        ruleId += 1;
         const rule = new Rule();
-        rule.id = ruleCount;
+        rule.id = ruleId;
         rule.traitId = trait.id;
         rule.compatibleTraitId = compatibleTrait.id;
         await this.ruleService.save(rule);
