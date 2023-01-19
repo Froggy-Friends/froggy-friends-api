@@ -110,12 +110,12 @@ export class ItemsController {
 
       // create new trait rule
       let ruleCount = await this.ruleService.getCount();
-      for (const _trait of compatibleTraits) {
+      for (const compatibleTrait of compatibleTraits) {
         ruleCount += 1;
         const rule = new Rule();
         rule.id = ruleCount;
         rule.traitId = trait.id;
-        rule.compatibleTraitId = _trait.id;
+        rule.compatibleTraitId = compatibleTrait.id;
         await this.ruleService.save(rule);
       }
     } 
@@ -212,6 +212,7 @@ export class ItemsController {
   ]))
   async updateItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     const item: Item = JSON.parse(itemRequest.item);
+    const compatibleTraits: Trait[] = JSON.parse(itemRequest.compatibleTraits);
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
     const dbItem = await this.itemService.getItem(item.id);
 
@@ -240,6 +241,29 @@ export class ItemsController {
     } else if (files.imageTransparent && files.imageTransparent.length) {
       const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
       item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+    }
+
+    if (item.isTrait && compatibleTraits.length) {
+      // update trait properties
+      const trait = await this.traitService.getTrait(item.traitId);
+      trait.name = item.name;
+      trait.imageTransparent = item.imageTransparent;
+      trait.layer = item.traitLayer;
+      await this.traitService.save(trait);
+
+      // delete old rules
+      await this.ruleService.deleteRules(trait.id);
+
+      // save new rules
+      let ruleCount = await this.ruleService.getCount();
+      for (const compatibleTrait of compatibleTraits) {
+        ruleCount += 1;
+        const rule = new Rule();
+        rule.id = ruleCount;
+        rule.traitId = trait.id;
+        rule.compatibleTraitId = compatibleTrait.id;
+        await this.ruleService.save(rule);
+      }
     }
 
     return await this.itemService.save(item);
