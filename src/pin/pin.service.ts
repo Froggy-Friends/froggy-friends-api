@@ -20,6 +20,14 @@ export class PinService {
     }
   }
 
+  async uploadFromFs(name: string, path: string) {
+    try {
+      return await this.pinata.pinFromFS(path, { pinataMetadata: { name: name }});
+    } catch (error) {
+      console.log("error uploading file from fs: ", error);
+    }
+  }
+
   async upload(name: string, image: Buffer) {
     try {
       const stream = Readable.from(image);

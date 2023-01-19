@@ -24,43 +24,11 @@ export class Item {
   @Column() rarity: string;
   @Column() friendOrigin: string;
   @Column() traitLayer: string;
+  @Column() traitId: number;
   @Column() price: number;
   @Column() percent: number;
   @Column() minted: number;
   @Column() supply: number;
   @Column() walletLimit: number;
   @Column() isOnSale: boolean;
-
-  constructor(item?: any) {
-    if (item) {
-      this.id = item.itemId;
-      this.name = item.name;
-      this.description = item.description;
-      this.category = item.category;
-      this.image = item.image;
-      this.imageTransparent = item.imageTransparent;
-      this.twitter = item.twitter;
-      this.discord = item.discord;
-      this.website = item.website;
-      this.endDate = item.endDate;
-      this.collabId = item.collabId;
-      this.collabAddress = item.collabAddress;
-      this.isCommunity = item.isCommunity;
-      this.isBoost = item.isBoost;
-      this.isFriend = item.isFriend;
-      this.isCollabFriend = item.isCollabFriend;
-      this.isTrait = item.isTrait;
-      this.isPhysical = item.isPhysical;
-      this.isAllowlist = item.isAllowlist;
-      this.rarity = item.rarity;
-      this.friendOrigin = item.friendOrigin;
-      this.traitLayer = item.traitLayer;
-      this.price = item.price;
-      this.percent = item.percent;
-      this.minted = item.minted;
-      this.supply = item.supply;
-      this.walletLimit = item.walletLimit;
-      this.isOnSale = item.isOnSale;
-    }
-  }
 }
