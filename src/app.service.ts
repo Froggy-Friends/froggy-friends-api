@@ -9,6 +9,7 @@ const keccak = require("keccak256");
 import { Network, Alchemy, OwnedNft } from 'alchemy-sdk';
 import { ItemService } from './item/item.service';
 import { Item } from './item/item.entity';
+import { ConfigService } from '@nestjs/config';
 require('dotenv').config();
 const { keccak256 } = utils;
 const { RIBBIT_ITEM_ADDRESS } = process.env;
@@ -20,7 +21,7 @@ export class AppService {
   alchemy: Alchemy;
   chain: EvmChain;
 
-  constructor(private readonly itemService: ItemService) {
+  constructor(private readonly itemService: ItemService, private readonly configs: ConfigService) {
     this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
     const common = rarity.common.map(tokenId => `${tokenId}20`);
     const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
@@ -33,7 +34,8 @@ export class AppService {
       apiKey: `${process.env.ALCHEMY_API_KEY}`,
       network: Network.ETH_MAINNET
     });
-    this.chain = process.env.NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
+    const environment = this.configs.get<string>('ENVIRONMENT');
+    this.chain = environment === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
   }
 
   getProof(address: string): string[] {

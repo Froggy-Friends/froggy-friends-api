@@ -40,11 +40,12 @@ export class ContractService {
         this.ribbitAddress = this.configs.get<string>("RIBBIT_CONTRACT_ADDRESS");
         this.ribbitItemsAddress = this.configs.get<string>("RIBBIT_ITEM_ADDRESS");
         // chain
-        this.chain = process.env.NODE_ENV === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
+        const environment = this.configs.get<string>('ENVIRONMENT');
+        this.chain = environment === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
         // provider
         this.alchemyProvider = new ethers.providers.AlchemyProvider(
             {
-                name: process.env.NODE_ENV === 'production' ? 'homestead' : 'goerli',
+                name: environment === 'production' ? 'homestead' : 'goerli',
                 chainId: Number(this.chain.apiId)
             },
             this.alchemyKey

@@ -8,7 +8,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import Moralis from 'moralis';
 import { ContractService } from 'src/contract/contract.service';
-const { ETHERSCAN_API_KEY, NODE_ENV } = process.env;
+const { ETHERSCAN_API_KEY } = process.env;
 
 @Injectable()
 export class StakingService {

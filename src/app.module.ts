@@ -46,6 +46,6 @@ import { RulesModule } from './rules/rule.module';
     SpacesModule
   ],
   controllers: [AppController, StakingController],
-  providers: [AppService, StakingService],
+  providers: [AppService, StakingService, ConfigService],
 })
 export class AppModule {}
