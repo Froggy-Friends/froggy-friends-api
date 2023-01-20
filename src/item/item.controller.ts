@@ -212,7 +212,7 @@ export class ItemsController {
   ]))
   async updateItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     const item: Item = JSON.parse(itemRequest.item);
-    const compatibleTraits: Trait[] = JSON.parse(itemRequest.compatibleTraits);
+    const compatibleTraits: Trait[] = itemRequest.compatibleTraits ? JSON.parse(itemRequest.compatibleTraits) : [];
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
     const dbItem = await this.itemService.getItem(item.id);
 
