@@ -58,6 +58,11 @@ export class ItemsController {
     return this.itemService.getAdmins();
   }
 
+  @Get('/traits/:account')
+  async getOwnedTraits(@Param('account') account: string): Promise<Item[]>  {
+    return this.itemService.getOwnedTraits(account);
+  }
+
   @Post('/list')
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'image', maxCount: 1 },

@@ -70,6 +70,20 @@ export class ItemService {
     }
   }
 
+  async getOwnedTraits(account: string): Promise<Item[]> {
+    let options = { chain: this.contractService.chain, address: account, tokenAddresses: [this.contractService.ribbitItemsAddress]};
+    const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
+    let owned: Item[] = [];
+    for (const ribbitItem of ribbitItems) {
+      const metadata =  await this.getItem(+ribbitItem.tokenId);
+      if (metadata.isTrait) {
+        owned.push(metadata);
+      }
+    }
+
+    return owned.sort((friendOne, friendTwo) => friendOne.id - friendTwo.id);
+  }
+
   async getItemOwners(id: number): Promise<string[]> {
     return await this.contractService.ribbitItems.itemHolders(id);
   }
