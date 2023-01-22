@@ -18,6 +18,7 @@ import { TraitModule } from './traits/trait.module';
 import { Trait } from './traits/trait.entity';
 import { Rule } from './rules/rule.entity';
 import { RulesModule } from './rules/rule.module';
+import { ContractService } from './contract/contract.service';
 
 @Module({
   imports: [
@@ -46,6 +47,6 @@ import { RulesModule } from './rules/rule.module';
     SpacesModule
   ],
   controllers: [AppController, StakingController],
-  providers: [AppService, StakingService, ConfigService],
+  providers: [AppService, StakingService, ContractService],
 })
 export class AppModule {}

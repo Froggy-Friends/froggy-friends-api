@@ -8,6 +8,7 @@ import * as rarity from '../../rarityBands.json';
 import Moralis from 'moralis';
 import { ContractService } from "src/contract/contract.service";
 import { ConfigService } from "@nestjs/config";
+import { EvmNft } from "@moralisweb3/evm-utils";
 
 @Injectable()
 export class FrogService {
@@ -21,14 +22,18 @@ export class FrogService {
   }
 
   async getFrog(id: number): Promise<Frog> {
+    return await this.frogRepo.findOneBy({ edition: id });
+  }
+
+  formatFrog(frog: Frog): Frog {
+    const formattedFrog = {...frog};
     const pinataUrl = this.configService.get<string>('PINATA_URL');
-    const frog = await this.frogRepo.findOneBy({ edition: id });
-    frog.cid2d = `${pinataUrl}${frog.cid2d}`;
-    frog.cid3d = `${pinataUrl}${frog.cid3d}`;
-    frog.cidPixel = `${pinataUrl}${frog.cidPixel}`;
-    frog.rarity = this.getFrogRarity(frog.edition);
-    frog.ribbit = this.getFrogRibbit(frog);
-    return frog;
+    formattedFrog.cid2d = `${pinataUrl}${frog.cid2d}`;
+    formattedFrog.cid3d = `${pinataUrl}${frog.cid3d}`;
+    formattedFrog.cidPixel = `${pinataUrl}${frog.cidPixel}`;
+    formattedFrog.rarity = this.getFrogRarity(frog.edition);
+    formattedFrog.ribbit = this.getFrogRibbit(frog);
+    return formattedFrog;
   }
 
   async saveFrog(frog: Frog): Promise<Frog> {
@@ -37,25 +42,40 @@ export class FrogService {
 
   async getFroggiesOwned(address: string): Promise<OwnedResponse> {
     try {
-      const stakedTokens: number[] = await this.contractService.staking.methods.deposits(address).call();
+      const stakedResponse: string[] = await this.contractService.staking.methods.deposits(address).call();
       const options: Params = { chain: this.contractService.chain, address: address, tokenAddresses: [this.contractService.froggyAddress] };
-      const unstakedTokens = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
+      const unstakedResponse: EvmNft[] = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result;
+
+      const stakedTokens = stakedResponse.map((tokenId: string) => Number(tokenId));
+      const unstakedTokens = unstakedResponse.map(token => Number(token.format().tokenId));
 
       let totalRibbit = 0;
       const froggies: Frog[] = [];
-      let tokens: number[] = [
-        ...stakedTokens.map(t => Number(t)), 
-        ...unstakedTokens.map(t => Number(t.format().tokenId))
-      ];
-      tokens.sort();
 
-      for (const tokenId of tokens) {
+      for (const tokenId of stakedTokens) {
         const frog = await this.getFrog(tokenId);
-        if (frog.isStaked) {
-          totalRibbit += frog.ribbit;
+        // update frog staking status
+        if (!frog.isStaked) {
+          frog.isStaked = true;
+          await this.saveFrog(frog);
         }
-        froggies.push(frog);
+        const formattedFrog = this.formatFrog(frog);
+        totalRibbit += formattedFrog.ribbit;
+        froggies.push(formattedFrog);
       }
+
+      for (const tokenId of unstakedTokens) {
+        const frog = await this.getFrog(tokenId);
+        // update frog staking status
+        if (frog.isStaked) {
+          frog.isStaked = false;
+          await this.saveFrog(frog);
+        }
+        const formattedFrog = this.formatFrog(frog);
+        froggies.push(formattedFrog);
+      }
+
+      froggies.sort((a,b) => a.edition - b.edition);
 
       const isStakingApproved = await this.contractService.froggy.methods.isApprovedForAll(address, this.contractService.stakingAddress).call();
       const allowance: number = await this.contractService.ribbit.methods.allowance(address, this.contractService.stakingAddress).call();
@@ -83,7 +103,8 @@ export class FrogService {
     tokens.sort();
     for (const tokenId of tokens) {
       const frog = await this.getFrog(tokenId);
-      froggies.push(frog);
+      const formattedFrog = this.formatFrog(frog);
+      froggies.push(formattedFrog);
     }
 
     const isStakingApproved = await this.contractService.froggy.methods.isApprovedForAll(address, this.contractService.stakingAddress).call();

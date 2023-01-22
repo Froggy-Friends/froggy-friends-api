@@ -10,9 +10,10 @@ export class FrogController {
 
   }
 
-  @Get('/:id')
+  @Get('/details/:id')
   async getFrog(@Param('id') id: number): Promise<Frog> {
-    return this.frogService.getFrog(id);
+    const frog = await this.frogService.getFrog(id);
+    return this.frogService.formatFrog(frog);
   }
 
   @Get('/owned/:account')
