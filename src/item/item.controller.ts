@@ -292,6 +292,11 @@ export class ItemsController {
     return await this.itemService.save(item);
   }
 
+  @Put('/:id/refresh')
+  refreshItem(@Param('id') id: number) {
+    this.itemService.refreshItem(id);
+  }
+
   @Get('/presets')
   getItemPresets() {
     return {
