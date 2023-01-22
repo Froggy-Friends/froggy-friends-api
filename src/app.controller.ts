@@ -35,4 +35,9 @@ export class AppController {
   getStakeProof(@Body() tokenIds: number[]): string[] {
     return this.appService.getStakeProof(tokenIds);
   }
+
+  @Get('/ribbit/:account')
+  async getRibbitTokens(@Param('account') account: string): Promise<number> {
+    return this.appService.getAccountTokens(account);
+  }
 }

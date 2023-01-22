@@ -8,6 +8,7 @@ import * as abiItems from './abi-items.json';
 import * as abiFroggyFriends from './abi.json';
 import * as abiStaking from './abi-staking.json';
 import * as abiRibbit from './abi-ribbit.json';
+import { Alchemy, Network } from "alchemy-sdk";
 
 @Injectable()
 export class ContractService {
@@ -15,6 +16,7 @@ export class ContractService {
     private signer: any;
     private pk: any;
     private alchemyKey: string;
+    public alchemy: Alchemy;
     public alchemyUrl: string;
     public chain: EvmChain;
     public ribbitItems: any;
@@ -42,6 +44,11 @@ export class ContractService {
         // chain
         const environment = this.configs.get<string>('ENVIRONMENT');
         this.chain = environment === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
+        // alchemy
+        this.alchemy = new Alchemy({
+            apiKey: this.alchemyKey,
+            network: environment === "production" ? Network.ETH_MAINNET : Network.ETH_GOERLI
+        });
         // provider
         this.alchemyProvider = new ethers.providers.AlchemyProvider(
             {
