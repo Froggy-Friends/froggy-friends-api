@@ -25,4 +25,9 @@ export class FrogController {
   async getUnstakedFroggiesOwned(@Param('account') account: string): Promise<OwnedResponse> {
     return this.frogService.getUnstakedFroggies(account);
   }
+
+  @Get('/preview/:frogId/trait/:traitId')
+  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number) {
+    return this.frogService.getTraitPreview(frogId, traitId);
+  }
 }
