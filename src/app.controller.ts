@@ -40,4 +40,9 @@ export class AppController {
   async getRibbitTokens(@Param('account') account: string): Promise<number> {
     return this.appService.getAccountTokens(account);
   }
+
+  @Get('/ribbit/staked/:account')
+  async getRibbitTokensStaked(@Param('account') account: string): Promise<number> {
+    return this.appService.getAccountTokensStaked(account);
+  }
 }

@@ -10,7 +10,7 @@ export class FrogController {
 
   }
 
-  @Get('/:id')
+  @Get('/details/:id')
   async getFrog(@Param('id') id: number): Promise<Frog> {
     return this.frogService.getFrog(id);
   }

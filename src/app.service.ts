@@ -80,4 +80,11 @@ export class AppService {
     const balance = Number(format).toFixed(2);
     return +balance;
   }
+
+  async getAccountTokensStaked(account: string): Promise<number> {
+    const stakingBalanceGwei: string = await this.contractService.staking.methods.balanceOf(account).call();
+    const format = formatEther(stakingBalanceGwei);
+    const balance = Number(format).toFixed(2);
+    return +balance;
+  }
 }
