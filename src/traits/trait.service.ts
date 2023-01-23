@@ -37,4 +37,8 @@ export class TraitService {
     const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from development."Trait" trait inner join development."Rule" r on r."compatibleTraitId" = trait.id where r."traitId" = ${traitId};`;
     return await this.traitRepo.query(query);    
   }
+
+  async getTraitByName(layer: string, name: string): Promise<Trait> {
+    return await this.traitRepo.findOneBy({layer: layer, name: name});
+  }
 }

@@ -9,6 +9,9 @@ import Moralis from 'moralis';
 import { ContractService } from "src/contract/contract.service";
 import { ConfigService } from "@nestjs/config";
 import { EvmNft } from "@moralisweb3/evm-utils";
+import { TraitService } from "src/traits/trait.service";
+const mergeImages = require('merge-images');
+const { Canvas, Image } = require('canvas');
 
 @Injectable()
 export class FrogService {
@@ -16,7 +19,8 @@ export class FrogService {
   constructor(
     @InjectRepository(Frog) private frogRepo: Repository<Frog>,
     private configService: ConfigService,
-    private contractService: ContractService
+    private contractService: ContractService,
+    private traitService: TraitService
   ) {
     
   }
@@ -116,6 +120,43 @@ export class FrogService {
       allowance: +allowance,
       isStakingApproved: isStakingApproved
     };
+  }
+
+  async getTraitPreview(frogId: number, traitId: number): Promise<string> {
+    const frog = await this.getFrog(frogId);
+    const trait = await this.traitService.getTrait(traitId);
+    const backgroundTrait = await this.traitService.getTraitByName("Background", frog.background);
+    const bodyTrait = await this.traitService.getTraitByName("Body", frog.body);
+    const eyeTrait = await this.traitService.getTraitByName("Eyes", frog.eyes);
+    const mouthTrait = await this.traitService.getTraitByName("Mouth", frog.mouth);
+    const shirtTrait = await this.traitService.getTraitByName("Shirt", frog.shirt);
+    const hatTrait = await this.traitService.getTraitByName("Hat", frog.hat);
+
+    const images = {
+      Background: backgroundTrait.imageTransparent,
+      Body: bodyTrait.imageTransparent,
+      Eyes: eyeTrait.imageTransparent,
+      Mouth: mouthTrait.imageTransparent,
+      Shirt: shirtTrait.imageTransparent,
+      Hat: hatTrait.imageTransparent
+    };
+    images[trait.layer] = trait.imageTransparent;
+
+    const sources = [
+      images.Background,
+      images.Body,
+      images.Eyes,
+      images.Mouth,
+      images.Shirt,
+      images.Hat
+    ];
+
+    if (frog.isPaired) {
+      const friendTrait = await this.traitService.getTraitByName("Friend", frog.friendName);
+      sources.push(friendTrait.imageTransparent);
+    }
+
+    return await mergeImages(sources, { crossOrigin: 'anonymous', Canvas: Canvas, Image: Image, width: 2000, height: 2000 });
   }
 
   private getFrogRarity(frogId: number): string {
