@@ -17,7 +17,7 @@ export class TraitController {
     return this.traitService.getOriginalTraits();
   }
 
-  @Get('/:layer')
+  @Get('/layer/:layer')
   async getTraitsByLayer(@Param('layer') layer: string) {
     return this.traitService.getTraitsByLayer(layer);
   }
