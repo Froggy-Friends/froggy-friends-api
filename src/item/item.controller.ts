@@ -165,6 +165,19 @@ export class ItemsController {
     const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
     item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
 
+    // create friend trait
+    const count = await this.traitService.getCount();
+    const trait = new Trait();
+    trait.id = count + 1;
+    trait.name = item.name;
+    trait.imageTransparent = item.imageTransparent;
+    trait.layer = 'Friend';
+    trait.origin = 'new';
+    await this.traitService.save(trait);
+    
+    // save trait id to item
+    item.traitId = trait.id;
+
     return await this.itemService.save(item);
   }
 
@@ -206,6 +219,19 @@ export class ItemsController {
 
     const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
     item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
+
+    // create friend trait
+    const count = await this.traitService.getCount();
+    const trait = new Trait();
+    trait.id = count + 1;
+    trait.name = item.name;
+    trait.imageTransparent = item.imageTransparent;
+    trait.layer = 'Friend';
+    trait.origin = 'new';
+    await this.traitService.save(trait);
+    
+    // save trait id to item
+    item.traitId = trait.id;
 
     return await this.itemService.save(item);
   }
