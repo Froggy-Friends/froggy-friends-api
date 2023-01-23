@@ -151,6 +151,11 @@ export class FrogService {
       images.Hat
     ];
 
+    if (frog.isPaired) {
+      const friendTrait = await this.traitService.getTraitByName("Friend", frog.friendName);
+      sources.push(friendTrait.imageTransparent);
+    }
+
     return await mergeImages(sources, { crossOrigin: 'anonymous', Canvas: Canvas, Image: Image, width: 2000, height: 2000 });
   }
 
