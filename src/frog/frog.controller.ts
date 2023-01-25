@@ -1,3 +1,4 @@
+import { CompatibleFrogTraits } from './../models/FrogTraits';
 import { Controller, Get, Param } from "@nestjs/common";
 import { OwnedResponse } from "src/models/OwnedResponse";
 import { TraitService } from "src/traits/trait.service";
@@ -32,10 +33,50 @@ export class FrogController {
     return this.frogService.getTraitPreview(frogId, traitId);
   }
 
+  @Get('/compatible/:frogId')
+  async getDerivedTraits(@Param('frogId') frogId: number): Promise<CompatibleFrogTraits> {
+    const frog = await this.getFrog(frogId);
+    // background
+    const backgroundTrait = await this.traitService.getTraitByName("Background", frog.background);
+    const compatibleBackgroundTraits = await this.traitService.getTraitsForCompatibleTraitId(backgroundTrait.id);
+    // body
+    const bodyTrait = await this.traitService.getTraitByName("Body", frog.body);
+    const compatibleBodyTraits = await this.traitService.getTraitsForCompatibleTraitId(bodyTrait.id);
+    // eyes
+    const eyeTrait = await this.traitService.getTraitByName("Eyes", frog.eyes);
+    const compatibleEyeTraits = await this.traitService.getTraitsForCompatibleTraitId(eyeTrait.id);
+    // mouth
+    const mouthTrait = await this.traitService.getTraitByName("Mouth", frog.mouth);
+    const compatibleMouthTraits = await this.traitService.getTraitsForCompatibleTraitId(mouthTrait.id);
+    // shirt
+    const shirtTrait = await this.traitService.getTraitByName("Shirt", frog.shirt);
+    const compatibleShirtTraits = await this.traitService.getTraitsForCompatibleTraitId(shirtTrait.id);
+    // hat
+    const hatTrait = await this.traitService.getTraitByName("Hat", frog.hat);
+    const compatibleHatTraits = await this.traitService.getTraitsForCompatibleTraitId(hatTrait.id);
+
+    return {
+      background: compatibleBackgroundTraits,
+      body: compatibleBodyTraits,
+      eyes: compatibleEyeTraits,
+      mouth: compatibleMouthTraits,
+      shirt: compatibleShirtTraits,
+      hat: compatibleHatTraits,
+      all: [].concat(
+        compatibleBackgroundTraits,
+        compatibleBodyTraits, 
+        compatibleEyeTraits, 
+        compatibleMouthTraits, 
+        compatibleShirtTraits,
+        compatibleHatTraits
+      )
+    }
+  }
+
   @Get('/compatible/:frogId/trait/:traitId')
   async isTraitCompatibleWithFrog(@Param('frogId') frogId: number, @Param('traitId') traitId: number) {
     const trait = await this.traitService.getTrait(traitId);
-    const compatibleTraits = await this.traitService.getCompatibleTraits(traitId);
+    const compatibleTraits = await this.traitService.getCompatibleTraitsForTraitId(traitId);
     const frog = await this.getFrog(frogId);
 
     if (trait.layer === "Background") {

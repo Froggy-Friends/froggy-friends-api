@@ -24,7 +24,7 @@ export class TraitController {
 
   @Get('/compatible/:traitId')
   async getCompatibleTraits(@Param('traitId') traitId: number): Promise<Trait[]> {
-    return this.traitService.getCompatibleTraits(traitId);
+    return this.traitService.getCompatibleTraitsForTraitId(traitId);
   }
 
 }
