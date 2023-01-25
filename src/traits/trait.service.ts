@@ -32,13 +32,42 @@ export class TraitService {
     return await this.traitRepo.findBy({layer: layer});
   }
 
-  async getCompatibleTraits(traitId: number): Promise<Trait[]> {
-    // get all compatible traits in rule table that belong to traitId
+  async getTraitByName(layer: string, name: string): Promise<Trait> {
+    return await this.traitRepo.findOneBy({layer: layer, name: name});
+  }
+
+  /**
+   * @description get all traits that a trait is compatible with in the rules table: traitId -> compatibleTraidId
+   * @param traitId 
+   * @returns array of traits matching compatibleTraitId in rules table
+   * @example 
+   * Rules table
+   * [id, traitId, compatibleTraitId]
+   * [1, 2, 10]
+   * [2, 2, 11]
+   * param is 2
+   * returns traits matching ids [10, 11]
+   */
+
+  async getCompatibleTraitsForTraitId(traitId: number): Promise<Trait[]> {
     const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from development."Trait" trait inner join development."Rule" r on r."compatibleTraitId" = trait.id where r."traitId" = ${traitId};`;
     return await this.traitRepo.query(query);    
   }
 
-  async getTraitByName(layer: string, name: string): Promise<Trait> {
-    return await this.traitRepo.findOneBy({layer: layer, name: name});
+  /**
+   * @description get all traits that a compatible trait derives from in the rules table: traitId <- compatibleTraitId
+   * @param compatibleTraitId 
+   * @returns array of traits matching traitId in the rules table
+   * @example 
+   * Rules table
+   * [id, traitId, compatibleTraitId]
+   * [1, 5, 10]
+   * [2, 6, 10]
+   * param is 10
+   * returns traits matching ids [5,6]
+   */
+  async getTraitsForCompatibleTraitId(compatibleTraitId: number): Promise<Trait[]> {
+    const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from development."Trait" trait inner join development."Rule" r on r."traitId" = trait.id where r."compatibleTraitId" = ${compatibleTraitId};`;
+    return await this.traitRepo.query(query);
   }
 }
