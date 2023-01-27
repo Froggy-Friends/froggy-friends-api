@@ -12,4 +12,9 @@ export class HistoryController {
   async getAccountHistory(@Param('account') account: string): Promise<History[]> {
     return this.historyService.findHistory(account);
   }
+
+  @Get('/traits/:account')
+  async getTraitUpgradeHistory(@Param('account') account: string): Promise<History[]> {
+    return this.historyService.findTraitUpgradeHistory(account);
+  }
 }

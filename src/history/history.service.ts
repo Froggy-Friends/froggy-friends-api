@@ -16,6 +16,10 @@ export class HistoryService {
    return this.historyRepo.find({ where: { wallet: wallet}});
   }
 
+  findTraitUpgradeHistory(wallet: string): Promise<History[]> {
+    return this.historyRepo.find({ where: { wallet: wallet, isTraitUpgrade: true }});
+  }
+
   async saveHistory(
     account: string,
     frogId: number,
