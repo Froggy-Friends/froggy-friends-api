@@ -4,6 +4,7 @@ import { OwnedResponse } from "src/models/OwnedResponse";
 import { TraitService } from "src/traits/trait.service";
 import { Frog } from "./frog.entity";
 import { FrogService } from "./frog.service";
+import { TraitPreview } from 'src/models/TraitPreview';
 
 @Controller("/frog")
 export class FrogController {
@@ -29,8 +30,13 @@ export class FrogController {
   }
 
   @Get('/preview/:frogId/trait/:traitId')
-  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number) {
-    return this.frogService.getTraitPreview(frogId, traitId);
+  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<TraitPreview> {
+    const preview = await this.frogService.getTraitPreview(frogId, traitId);
+    const isCombinationTaken = await this.frogService.isCombinationTaken(frogId, traitId);
+    return {
+      preview: preview,
+      isCombinationTaken: isCombinationTaken
+    };
   }
 
   @Get('/compatible/:frogId')

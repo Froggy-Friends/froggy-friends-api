@@ -147,8 +147,8 @@ export class FrogService {
       images.Body,
       images.Eyes,
       images.Mouth,
-      images.Shirt,
-      images.Hat
+      images.Hat,
+      images.Shirt
     ];
 
     if (frog.isPaired) {
@@ -157,6 +157,38 @@ export class FrogService {
     }
 
     return await mergeImages(sources, { crossOrigin: 'anonymous', Canvas: Canvas, Image: Image, width: 2000, height: 2000 });
+  }
+
+  async isCombinationTaken(frogId: number, traitId: number): Promise<boolean> {
+    const frog = await this.getFrog(frogId);
+    const trait = await this.traitService.getTrait(traitId);
+
+    const traits = {
+      Background: frog.background,
+      Body: frog.body,
+      Eyes: frog.eyes,
+      Mouth: frog.mouth,
+      Shirt: frog.shirt,
+      Hat: frog.hat
+    }
+    traits[trait.layer] = trait.name;
+
+    // check frog table for trait combination
+    const match = await this.frogRepo.findOneBy(
+      {
+        background: traits.Background,
+        body: traits.Body,
+        eyes: traits.Eyes,
+        mouth: traits.Mouth,
+        shirt: traits.Shirt,
+        hat: traits.Hat
+      }
+    );
+
+    // check trait upgrade table for trait combination
+    
+
+    return match ? true : false;
   }
 
   private getFrogRarity(frogId: number): string {
