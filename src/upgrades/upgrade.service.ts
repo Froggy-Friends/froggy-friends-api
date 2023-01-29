@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Frog } from "src/frog/frog.entity";
+import { TraitLayers } from "src/models/TraitLayers";
 import { Trait } from "src/traits/trait.entity";
 import { Repository } from "typeorm";
 import { Upgrade } from "./upgrade.entity";
@@ -10,6 +11,19 @@ export class UpgradeService {
   
   constructor(@InjectRepository(Upgrade) private upgradeRepo: Repository<Upgrade>) {
 
+  }
+
+  async isUpgradeTaken(traits: TraitLayers) {
+    const upgrade = await this.upgradeRepo.findOneBy({
+      background: traits.Background,
+      body: traits.Body,
+      eyes: traits.Eyes,
+      mouth: traits.Mouth,
+      shirt: traits.Shirt,
+      hat: traits.Hat
+    });
+
+    return upgrade ? (upgrade.isPending || upgrade.isComplete) : false;
   }
 
   async savePending(account: string, frog: Frog, trait: Trait, transaction: string): Promise<Upgrade> {
