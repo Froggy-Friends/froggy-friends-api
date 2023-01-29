@@ -30,13 +30,13 @@ export class FrogController {
   }
 
   @Get('/preview/:frogId/trait/:traitId')
-  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<TraitPreview> {
-    const preview = await this.frogService.getTraitPreview(frogId, traitId);
-    const isCombinationTaken = await this.frogService.isCombinationTaken(frogId, traitId);
-    return {
-      preview: preview,
-      isCombinationTaken: isCombinationTaken
-    };
+  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<string> {
+    return await this.frogService.getTraitPreview(frogId, traitId);
+  }
+
+  @Get('/combo/taken/:frogId/:traitId')
+  async isCombinationTaken(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
+    return await this.frogService.isCombinationTaken(frogId, traitId);
   }
 
   @Get('/compatible/:frogId')

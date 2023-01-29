@@ -1,3 +1,4 @@
+import { TraitLayers } from './../models/TraitLayers';
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { OwnedResponse } from "src/models/OwnedResponse";
@@ -10,6 +11,7 @@ import { ContractService } from "src/contract/contract.service";
 import { ConfigService } from "@nestjs/config";
 import { EvmNft } from "@moralisweb3/evm-utils";
 import { TraitService } from "src/traits/trait.service";
+import { UpgradeService } from "src/upgrades/upgrade.service";
 const mergeImages = require('merge-images');
 const { Canvas, Image } = require('canvas');
 
@@ -20,7 +22,8 @@ export class FrogService {
     @InjectRepository(Frog) private frogRepo: Repository<Frog>,
     private configService: ConfigService,
     private contractService: ContractService,
-    private traitService: TraitService
+    private traitService: TraitService,
+    private upgradeService: UpgradeService
   ) {
     
   }
@@ -163,7 +166,7 @@ export class FrogService {
     const frog = await this.getFrog(frogId);
     const trait = await this.traitService.getTrait(traitId);
 
-    const traits = {
+    const traits: TraitLayers = {
       Background: frog.background,
       Body: frog.body,
       Eyes: frog.eyes,
@@ -174,7 +177,7 @@ export class FrogService {
     traits[trait.layer] = trait.name;
 
     // check frog table for trait combination
-    const match = await this.frogRepo.findOneBy(
+    const frogTaken = await this.frogRepo.findOneBy(
       {
         background: traits.Background,
         body: traits.Body,
@@ -186,9 +189,9 @@ export class FrogService {
     );
 
     // check trait upgrade table for trait combination
-    
+    const isUpgradeTaken = await this.upgradeService.isUpgradeTaken(traits);
 
-    return match ? true : false;
+    return frogTaken ? true : isUpgradeTaken;
   }
 
   private getFrogRarity(frogId: number): string {
