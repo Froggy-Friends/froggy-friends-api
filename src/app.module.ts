@@ -1,3 +1,4 @@
+import { UpgradeModule } from 'src/upgrades/upgrade.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -45,9 +46,10 @@ import { ContractService } from './contract/contract.service';
     TraitModule,
     FrogModule,
     RulesModule,
-    SpacesModule
+    SpacesModule,
+    UpgradeModule
   ],
   controllers: [AppController, StakingController],
-  providers: [AppService, StakingService, ContractService],
+  providers: [AppService, StakingService, ConfigService, ContractService],
 })
 export class AppModule {}

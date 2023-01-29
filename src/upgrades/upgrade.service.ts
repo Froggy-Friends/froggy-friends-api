@@ -1,19 +1,38 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Frog } from "src/frog/frog.entity";
+import { FrogService } from "src/frog/frog.service";
 import { TraitLayers } from "src/models/TraitLayers";
 import { Trait } from "src/traits/trait.entity";
+import { TraitService } from "src/traits/trait.service";
 import { Repository } from "typeorm";
 import { Upgrade } from "./upgrade.entity";
 
 @Injectable()
 export class UpgradeService {
   
-  constructor(@InjectRepository(Upgrade) private upgradeRepo: Repository<Upgrade>) {
+  constructor(
+    @InjectRepository(Upgrade) private upgradeRepo: Repository<Upgrade>,
+    private readonly frogService: FrogService,
+    private readonly traitService: TraitService
+  ) {
 
   }
 
-  async isUpgradeTaken(traits: TraitLayers) {
+  async doesUpgradeExist(frogId: number, traitId: number): Promise<boolean> {
+    const frog = await this.frogService.getFrog(frogId);
+    const trait = await this.traitService.getTrait(traitId);
+
+    const traits: TraitLayers = {
+      Background: frog.background,
+      Body: frog.body,
+      Eyes: frog.eyes,
+      Mouth: frog.mouth,
+      Shirt: frog.shirt,
+      Hat: frog.hat
+    }
+    traits[trait.layer] = trait.name;
+
     const upgrade = await this.upgradeRepo.findOneBy({
       background: traits.Background,
       body: traits.Body,
@@ -23,7 +42,7 @@ export class UpgradeService {
       hat: traits.Hat
     });
 
-    return upgrade ? (upgrade.isPending || upgrade.isComplete) : false;
+    return upgrade !== null;
   }
 
   async savePending(account: string, frog: Frog, trait: Trait, transaction: string): Promise<Upgrade> {

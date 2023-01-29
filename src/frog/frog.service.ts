@@ -22,8 +22,7 @@ export class FrogService {
     @InjectRepository(Frog) private frogRepo: Repository<Frog>,
     private configService: ConfigService,
     private contractService: ContractService,
-    private traitService: TraitService,
-    private upgradeService: UpgradeService
+    private traitService: TraitService
   ) {
     
   }
@@ -162,7 +161,7 @@ export class FrogService {
     return await mergeImages(sources, { crossOrigin: 'anonymous', Canvas: Canvas, Image: Image, width: 2000, height: 2000 });
   }
 
-  async isCombinationTaken(frogId: number, traitId: number): Promise<boolean> {
+  async doesFrogExist(frogId: number, traitId: number): Promise<boolean> {
     const frog = await this.getFrog(frogId);
     const trait = await this.traitService.getTrait(traitId);
 
@@ -176,22 +175,15 @@ export class FrogService {
     }
     traits[trait.layer] = trait.name;
 
-    // check frog table for trait combination
-    const frogTaken = await this.frogRepo.findOneBy(
-      {
+    const match = await this.frogRepo.findOneBy({
         background: traits.Background,
         body: traits.Body,
         eyes: traits.Eyes,
         mouth: traits.Mouth,
         shirt: traits.Shirt,
         hat: traits.Hat
-      }
-    );
-
-    // check trait upgrade table for trait combination
-    const isUpgradeTaken = await this.upgradeService.isUpgradeTaken(traits);
-
-    return frogTaken ? true : isUpgradeTaken;
+    });
+    return match !== null;
   }
 
   private getFrogRarity(frogId: number): string {

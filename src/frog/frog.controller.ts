@@ -34,9 +34,9 @@ export class FrogController {
     return await this.frogService.getTraitPreview(frogId, traitId);
   }
 
-  @Get('/combo/taken/:frogId/:traitId')
-  async isCombinationTaken(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
-    return await this.frogService.isCombinationTaken(frogId, traitId);
+  @Get('/exists/:frogId/:traitId')
+  async doesFrogExist(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
+    return await this.frogService.doesFrogExist(frogId, traitId);
   }
 
   @Get('/compatible/:frogId')

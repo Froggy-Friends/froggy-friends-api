@@ -17,6 +17,11 @@ export class UpgradeController {
 
   }
 
+  @Get('/pending/:frogId/:traitId')
+  async doesUpgradeExist(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
+    return await this.upgradeService.doesUpgradeExist(frogId, traitId);
+  }
+
   @Post('/pending')
   async savePendingUpgrade(@Request() request: TraitUpgradeRequest) {
     // confirm account owns frog
