@@ -14,9 +14,9 @@ export class HistoryController {
 
   }
 
-  @Get('/:account')
+  @Get('/pairing/:account')
   async getAccountHistory(@Param('account') account: string): Promise<History[]> {
-    return this.historyService.findHistory(account);
+    return this.historyService.findPairingHistory(account);
   }
 
   @Get('/traits/:account')
