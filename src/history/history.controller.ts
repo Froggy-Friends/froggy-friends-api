@@ -30,7 +30,7 @@ export class HistoryController {
       // confirm account owns frog
       const owner = await this.contractService.getFrogOwner(request.frogId);
       isTraitUpgradeAuthenticated(request, owner);
-      return await this.historyService.saveTraitUpgradeHistory(request.account, request.frogId, request.traitId, request.transaction);
+      return await this.historyService.saveTraitUpgradeHistory(request.account, request.frogId, request.traitId, request.upgradeId, request.transaction);
     } catch (error) {
       console.log("error: ", error);
       throw new HttpException("Error saving trait upgrade history", HttpStatus.INTERNAL_SERVER_ERROR);

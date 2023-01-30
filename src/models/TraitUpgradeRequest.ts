@@ -5,4 +5,5 @@ export interface TraitUpgradeRequest {
   transaction: string;
   frogId: number;
   traitId: number;
+  upgradeId: number;
 }

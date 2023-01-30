@@ -20,7 +20,7 @@ export class HistoryService {
     return this.historyRepo.find({ where: { wallet: wallet, isTraitUpgrade: true }});
   }
 
-  async saveTraitUpgradeHistory(account: string, frogId: number, traitId: number, transaction: string): Promise<History> {
+  async saveTraitUpgradeHistory(account: string, frogId: number, traitId: number, upgradeId: number, transaction: string): Promise<History> {
     const count = await this.historyRepo.count();
     const history = new History();
     history.id = count + 1;
@@ -34,6 +34,7 @@ export class HistoryService {
     history.friendId = undefined;
     history.frogId = frogId;
     history.traitId = traitId;
+    history.upgradeId = upgradeId;
     history.pairTx = undefined;
     history.unpairTx = undefined;
     history.stakeTx = undefined;

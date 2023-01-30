@@ -7,6 +7,7 @@ export class History {
   @Column() frogId: number;
   @Column() friendId: number;
   @Column() traitId: number;
+  @Column() upgradeId: number;
   @Column() date: string;
   @Column() isPairing: boolean;
   @Column() isUnpairing: boolean;
