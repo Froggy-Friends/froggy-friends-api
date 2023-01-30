@@ -9,6 +9,7 @@ import * as abiFroggyFriends from './abi.json';
 import * as abiStaking from './abi-staking.json';
 import * as abiRibbit from './abi-ribbit.json';
 import { Alchemy, Network } from "alchemy-sdk";
+import Moralis from "moralis";
 
 @Injectable()
 export class ContractService {
@@ -64,5 +65,20 @@ export class ContractService {
         this.staking = new web3.eth.Contract(stakingAbi, this.stakingAddress);
         this.ribbit = new web3.eth.Contract(ribbitAbi, this.ribbitAddress);
         this.ribbitItems = new ethers.Contract(this.ribbitItemsAddress, ribbitItemsAbi, this.signer);
+    }
+
+    async getFrogOwner(frogId: number): Promise<string> {
+        const response = await Moralis.EvmApi.nft.getNFTTransfers({
+            address: this.froggyAddress,
+            chain: this.chain,
+            tokenId: frogId.toString()
+        });
+
+        // latest transfer
+        const transfer = response.result[0];
+        const fromAddress = transfer.fromAddress.lowercase;
+        const toAddress = transfer.toAddress.lowercase;
+
+        return toAddress === this.stakingAddress.toLowerCase() ? fromAddress : toAddress;
     }
 }

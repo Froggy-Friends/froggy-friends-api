@@ -1,3 +1,4 @@
+import { TraitLayers } from './../models/TraitLayers';
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { OwnedResponse } from "src/models/OwnedResponse";
@@ -10,6 +11,7 @@ import { ContractService } from "src/contract/contract.service";
 import { ConfigService } from "@nestjs/config";
 import { EvmNft } from "@moralisweb3/evm-utils";
 import { TraitService } from "src/traits/trait.service";
+import { UpgradeService } from "src/upgrades/upgrade.service";
 const mergeImages = require('merge-images');
 const { Canvas, Image } = require('canvas');
 
@@ -147,8 +149,8 @@ export class FrogService {
       images.Body,
       images.Eyes,
       images.Mouth,
-      images.Shirt,
-      images.Hat
+      images.Hat,
+      images.Shirt
     ];
 
     if (frog.isPaired) {
@@ -157,6 +159,31 @@ export class FrogService {
     }
 
     return await mergeImages(sources, { crossOrigin: 'anonymous', Canvas: Canvas, Image: Image, width: 2000, height: 2000 });
+  }
+
+  async doesFrogExist(frogId: number, traitId: number): Promise<boolean> {
+    const frog = await this.getFrog(frogId);
+    const trait = await this.traitService.getTrait(traitId);
+
+    const traits: TraitLayers = {
+      Background: frog.background,
+      Body: frog.body,
+      Eyes: frog.eyes,
+      Mouth: frog.mouth,
+      Shirt: frog.shirt,
+      Hat: frog.hat
+    }
+    traits[trait.layer] = trait.name;
+
+    const match = await this.frogRepo.findOneBy({
+        background: traits.Background,
+        body: traits.Body,
+        eyes: traits.Eyes,
+        mouth: traits.Mouth,
+        shirt: traits.Shirt,
+        hat: traits.Hat
+    });
+    return match !== null;
   }
 
   private getFrogRarity(frogId: number): string {

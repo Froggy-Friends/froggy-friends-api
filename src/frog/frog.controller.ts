@@ -4,6 +4,7 @@ import { OwnedResponse } from "src/models/OwnedResponse";
 import { TraitService } from "src/traits/trait.service";
 import { Frog } from "./frog.entity";
 import { FrogService } from "./frog.service";
+import { TraitPreview } from 'src/models/TraitPreview';
 
 @Controller("/frog")
 export class FrogController {
@@ -29,8 +30,13 @@ export class FrogController {
   }
 
   @Get('/preview/:frogId/trait/:traitId')
-  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number) {
-    return this.frogService.getTraitPreview(frogId, traitId);
+  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<string> {
+    return await this.frogService.getTraitPreview(frogId, traitId);
+  }
+
+  @Get('/exists/:frogId/:traitId')
+  async doesFrogExist(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
+    return await this.frogService.doesFrogExist(frogId, traitId);
   }
 
   @Get('/compatible/:frogId')

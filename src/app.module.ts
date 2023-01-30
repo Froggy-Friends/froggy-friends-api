@@ -1,3 +1,4 @@
+import { UpgradeModule } from 'src/upgrades/upgrade.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,6 +19,7 @@ import { TraitModule } from './traits/trait.module';
 import { Trait } from './traits/trait.entity';
 import { Rule } from './rules/rule.entity';
 import { RulesModule } from './rules/rule.module';
+import { Upgrade } from './upgrades/upgrade.entity';
 import { ContractService } from './contract/contract.service';
 
 @Module({
@@ -34,7 +36,7 @@ import { ContractService } from './contract/contract.service';
         password: configService.get<string>('DB_PASSWORD'),
         database: 'postgres',
         schema: configService.get<string>('DB_SCHEMA'),
-        entities: [History, Item, Trait, Frog, Rule]
+        entities: [History, Item, Trait, Frog, Rule, Upgrade]
       }),
       inject: [ConfigService]
     }),
@@ -44,9 +46,10 @@ import { ContractService } from './contract/contract.service';
     TraitModule,
     FrogModule,
     RulesModule,
-    SpacesModule
+    SpacesModule,
+    UpgradeModule
   ],
   controllers: [AppController, StakingController],
-  providers: [AppService, StakingService, ContractService],
+  providers: [AppService, StakingService, ConfigService, ContractService],
 })
 export class AppModule {}
