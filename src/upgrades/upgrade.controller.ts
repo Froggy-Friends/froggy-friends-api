@@ -5,6 +5,7 @@ import { UpgradeService } from 'src/upgrades/upgrade.service';
 import { FrogService } from 'src/frog/frog.service';
 import { TraitService } from 'src/traits/trait.service';
 import { isTraitUpgradeAuthenticated } from 'src/auth';
+import { Upgrade } from "./upgrade.entity";
 
 @Controller('upgrades')
 export class UpgradeController {
@@ -23,7 +24,7 @@ export class UpgradeController {
   }
 
   @Post('/pending')
-  async savePendingUpgrade(@Body() request: TraitUpgradeRequest) {
+  async savePendingUpgrade(@Body() request: TraitUpgradeRequest): Promise<Upgrade> {
     // confirm account owns frog
     const owner = await this.contractService.getFrogOwner(request.frogId);
     isTraitUpgradeAuthenticated(request, owner);
