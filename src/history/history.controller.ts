@@ -1,5 +1,5 @@
 import { HistoryService } from './history.service';
-import { Controller, Get, Param, Post, Request } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Request } from "@nestjs/common";
 import { History } from './history.entity';
 import { TraitUpgradeRequest } from 'src/models/TraitUpgradeRequest';
 import { ContractService } from 'src/contract/contract.service';
@@ -25,10 +25,15 @@ export class HistoryController {
   }
 
   @Post('/traits')
-  async saveTraitUpgradeHistory(@Request() request: TraitUpgradeRequest) {
-    // confirm account owns frog
-    const owner = await this.contractService.getFrogOwner(request.frogId);
-    isTraitUpgradeAuthenticated(request, owner);
-    return await this.historyService.saveTraitUpgradeHistory(request.account, request.frogId, request.traitId, request.transaction);
+  async saveTraitUpgradeHistory(@Body() request: TraitUpgradeRequest) {
+    try {
+      // confirm account owns frog
+      const owner = await this.contractService.getFrogOwner(request.frogId);
+      isTraitUpgradeAuthenticated(request, owner);
+      return await this.historyService.saveTraitUpgradeHistory(request.account, request.frogId, request.traitId, request.transaction);
+    } catch (error) {
+      console.log("error: ", error);
+      throw new HttpException("Error saving trait upgrade history", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

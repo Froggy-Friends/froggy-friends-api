@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Request } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Request } from "@nestjs/common";
 import { TraitUpgradeRequest } from 'src/models/TraitUpgradeRequest';
 import { ContractService } from 'src/contract/contract.service';
 import { UpgradeService } from 'src/upgrades/upgrade.service';
@@ -23,7 +23,7 @@ export class UpgradeController {
   }
 
   @Post('/pending')
-  async savePendingUpgrade(@Request() request: TraitUpgradeRequest) {
+  async savePendingUpgrade(@Body() request: TraitUpgradeRequest) {
     // confirm account owns frog
     const owner = await this.contractService.getFrogOwner(request.frogId);
     isTraitUpgradeAuthenticated(request, owner);
