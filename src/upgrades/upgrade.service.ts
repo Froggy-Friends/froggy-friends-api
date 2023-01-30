@@ -65,6 +65,21 @@ export class UpgradeService {
     upgrade.isFailed = false;
     upgrade.isComplete = false;
     upgrade.transaction = transaction;
+
+    if (trait.layer === "Background") {
+      upgrade.background = trait.name;
+    } else if (trait.layer === "Body") {
+      upgrade.body = trait.name;
+    } else if (trait.layer === "Eyes") {
+      upgrade.eyes = trait.name;
+    } else if (trait.layer === "Mouth") {
+      upgrade.mouth = trait.name;
+    } else if (trait.layer === "Shirt") {
+      upgrade.shirt = trait.name;
+    } else if (trait.layer === "Hat") {
+      upgrade.hat = trait.name;
+    } 
+
     return await this.upgradeRepo.save(upgrade);
   }
   
