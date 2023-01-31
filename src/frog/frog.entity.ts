@@ -22,6 +22,7 @@ export class Frog {
   @Column() cidCarousel: string;
   @Column() isStaked: boolean;
   @Column() isPaired: boolean;
+  @Column() isUpgraded: boolean;
   @Column() isOneOfOne: boolean;
   @Column() pairTx: string;
   @Column() unpairTx: string;

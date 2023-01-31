@@ -149,8 +149,8 @@ export class FrogService {
       images.Body,
       images.Eyes,
       images.Mouth,
-      images.Hat,
-      images.Shirt
+      images.Shirt,
+      images.Hat
     ];
 
     if (frog.isPaired) {
