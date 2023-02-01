@@ -29,11 +29,6 @@ export class FrogController {
     return this.frogService.getUnstakedFroggies(account);
   }
 
-  @Get('/preview/:frogId/trait/:traitId')
-  async getTraitPreview(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<string> {
-    return await this.frogService.getTraitPreview(frogId, traitId);
-  }
-
   @Get('/exists/:frogId/:traitId')
   async doesFrogExist(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
     return await this.frogService.doesFrogExist(frogId, traitId);
