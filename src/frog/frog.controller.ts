@@ -4,7 +4,6 @@ import { OwnedResponse } from "src/models/OwnedResponse";
 import { TraitService } from "src/traits/trait.service";
 import { Frog } from "./frog.entity";
 import { FrogService } from "./frog.service";
-import { TraitPreview } from 'src/models/TraitPreview';
 
 @Controller("/frog")
 export class FrogController {
