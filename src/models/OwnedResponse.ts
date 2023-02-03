@@ -1,6 +1,7 @@
-import { Froggy } from './Froggy';
+import { Frog } from "src/frog/frog.entity";
+
 export interface OwnedResponse {
-  froggies: Froggy[];
+  froggies: Frog[];
   totalRibbit: number;
   allowance: number;
   isStakingApproved: boolean;
