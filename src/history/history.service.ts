@@ -11,7 +11,7 @@ export class HistoryService {
   }
 
   findPairingHistory(wallet: string): Promise<History[]> {
-   return this.historyRepo.find({ where: { wallet: wallet, isPairing: true}});
+   return this.historyRepo.find({ where: { wallet: ILike(`%${wallet}%`), isPairing: true}});
   }
 
   async findTraitUpgradeHistory(wallet: string): Promise<History[]> {
