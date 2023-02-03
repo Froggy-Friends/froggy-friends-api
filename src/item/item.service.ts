@@ -60,7 +60,7 @@ export class ItemService {
     let owned: Item[] = [];
     for (const ribbitItem of ribbitItems) {
       const metadata =  await this.getItem(+ribbitItem.tokenId);
-      if (metadata.isTrait) {
+      if (metadata && metadata.isTrait) {
         owned.push(metadata);
       }
     }
