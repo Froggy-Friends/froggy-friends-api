@@ -31,5 +31,5 @@ export class Item {
   @Column() supply: number;
   @Column() walletLimit: number;
   @Column() isOnSale: boolean;
-  @Column() archived: boolean;
+  @Column() isArchived: boolean;
 }

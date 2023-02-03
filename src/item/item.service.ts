@@ -85,12 +85,11 @@ export class ItemService {
   }
 
   async save(item: Item) {
-    const savedItem = await this.itemRepo.save(item);
-    return savedItem;
+    return await this.itemRepo.save(item);
   }
 
-  async getAllItems(): Promise<Item[]> {
-    const [items] = await this.itemRepo.findAndCount();
+  async getActiveItems(): Promise<Item[]> {
+    const [items] = await this.itemRepo.findAndCount({ where: { isArchived: false }});
     return items.sort((a,b) => a.id - b.id);
   }
   

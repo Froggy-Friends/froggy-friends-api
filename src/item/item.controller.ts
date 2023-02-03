@@ -29,8 +29,8 @@ export class ItemsController {
   }
 
   @Get()
-  getContractItems(): Promise<Item[]> {
-    return this.itemService.getAllItems();
+  getActiveItems(): Promise<Item[]> {
+    return this.itemService.getActiveItems();
   }
 
   @Get('/:id/details')
