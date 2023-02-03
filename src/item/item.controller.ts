@@ -70,6 +70,7 @@ export class ItemsController {
   ]))
   async listItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     const item: Item = JSON.parse(itemRequest.item);
+    item.isArchived = false;
     const compatibleTraits: Trait[] = JSON.parse(itemRequest.compatibleTraits);
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
 
@@ -135,6 +136,7 @@ export class ItemsController {
   ]))
   async listFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     const item: Item = JSON.parse(itemRequest.item);
+    item.isArchived = false;
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
 
     if (!files.image || !files.imageTransparent) {
@@ -188,6 +190,7 @@ export class ItemsController {
   ]))
   async listCollabFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
     const item: Item = JSON.parse(itemRequest.item);
+    item.isArchived = false;
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
     
     if (!files.image || !files.imageTransparent) {
