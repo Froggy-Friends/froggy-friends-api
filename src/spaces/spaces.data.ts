@@ -52,23 +52,7 @@ export const calendar: SpacesCalendar = {
         }
       }
     ],
-    thursday: [
-      {
-        name: 'Degen Vibes',
-        bannerUrl: 'https://froggyfriends.mypinata.cloud/ipfs/QmUdwL54yxcWjGgwhHB9A6ZE6DqbMi2bqLAp6nPLeiS3tY',
-        host: {
-          name: 'DegenDaddy',
-          avatar: 'https://froggyfriends.mypinata.cloud/ipfs/QmQ84djuQEEFUJuu66Lt3ehNk7PYJYpS9thvxVACaqjy17',
-          twitterUrl: 'https://twitter.com/realdegendad',
-          twitterHandle: 'realdegendad',
-        },
-        times: {
-          pst: '9am PST',
-          est: '12pm EST',
-          gmt: '5pm GMT',
-        }
-      }
-    ],
+    thursday: [],
     friday: [
       {
         name: 'Froggy Friday',
