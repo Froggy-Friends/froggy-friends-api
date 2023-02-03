@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { HistoryEvent } from "src/models/HistoryEvent";
-import { HistoryTx } from "src/models/HistoryTx";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import { History } from "./history.entity";
 
 @Injectable()
@@ -16,8 +14,8 @@ export class HistoryService {
    return this.historyRepo.find({ where: { wallet: wallet, isPairing: true}});
   }
 
-  findTraitUpgradeHistory(wallet: string): Promise<History[]> {
-    return this.historyRepo.find({ where: { wallet: wallet, isTraitUpgrade: true }});
+  async findTraitUpgradeHistory(wallet: string): Promise<History[]> {
+    return await this.historyRepo.findBy({ wallet: ILike(`%${wallet}%`), isTraitUpgrade: true});
   }
 
   async saveTraitUpgradeHistory(account: string, frogId: number, traitId: number, upgradeId: number, transaction: string): Promise<History> {
