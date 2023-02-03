@@ -334,7 +334,7 @@ export class ItemsController {
       boosts: [5, 10, 15, 20, 30, 35],
       rarities: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Epic'],
       friendOrigins: ['Genesis', 'Collab'],
-      traitLayers: ['Background', 'Body', 'Eyes', 'Mouth', 'Hat', 'Shirt']
+      traitLayers: ['Background', 'Body', 'Eyes', 'Mouth', 'Shirt', 'Hat']
     }
   }
 }
