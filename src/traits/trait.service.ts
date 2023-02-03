@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Trait } from "./trait.entity";
 
 @Injectable()
 export class TraitService {
-  constructor(@InjectRepository(Trait) private traitRepo: Repository<Trait>) {}
+  constructor(@InjectRepository(Trait) private traitRepo: Repository<Trait>, private readonly configService: ConfigService) {}
 
   async getTrait(id: number): Promise<Trait> {
     return await this.traitRepo.findOneBy({ id: id });
@@ -50,7 +51,8 @@ export class TraitService {
    */
 
   async getCompatibleTraitsForTraitId(traitId: number): Promise<Trait[]> {
-    const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from development."Trait" trait inner join development."Rule" r on r."compatibleTraitId" = trait.id where r."traitId" = ${traitId};`;
+    const schema = this.configService.get<string>('DB_SCHEMA');
+    const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from ${schema}."Trait" trait inner join ${schema}."Rule" r on r."compatibleTraitId" = trait.id where r."traitId" = ${traitId};`;
     return await this.traitRepo.query(query);    
   }
 
@@ -67,7 +69,8 @@ export class TraitService {
    * returns traits matching ids [5,6]
    */
   async getTraitsForCompatibleTraitId(compatibleTraitId: number): Promise<Trait[]> {
-    const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from development."Trait" trait inner join development."Rule" r on r."traitId" = trait.id where r."compatibleTraitId" = ${compatibleTraitId};`;
+    const schema = this.configService.get<string>('DB_SCHEMA');
+    const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from ${schema}."Trait" trait inner join ${schema}."Rule" r on r."traitId" = trait.id where r."compatibleTraitId" = ${compatibleTraitId};`;
     return await this.traitRepo.query(query);
   }
 }
