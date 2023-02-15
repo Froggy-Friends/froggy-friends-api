@@ -87,22 +87,32 @@ export class StakingService {
     };
   }
 
-  async processStakers(): Promise<string[]> {
-    const address = this.contractService.froggyAddress.toLowerCase();
-    const stakingAddress = this.contractService.stakingAddress.toLowerCase();
-    let transfers = await Moralis.EvmApi.nft.getNFTContractTransfers({address: address, chain: this.contractService.chain})
-    let stakers = [
-      ...transfers.result.filter(tx => tx.toAddress.lowercase === stakingAddress).map(tx => tx.fromAddress.lowercase)
-    ];
+  async processStakers() {
+    const froggyFriends = this.contractService.froggyAddress;
+    const froggyStaking = this.contractService.stakingAddress;
 
-    while (transfers.hasNext()) {
-      stakers.push(
-        ...transfers.result.filter(tx => tx.toAddress.lowercase === stakingAddress).map(tx => tx.fromAddress.lowercase)
-      );
-      transfers = await transfers.next();
-    }
+    let cursor = null;
+    let stakers: string[] = [];
+    do {
+      const response = await Moralis.EvmApi.nft.getNFTContractTransfers({
+        address: froggyFriends,
+        chain: this.contractService.chain,
+        limit: 100,
+        cursor: cursor
+      });
+      console.log(`pagination page ${response.pagination.page} results ${response.result.length}`);
 
-    return [...new Set(stakers)];
+      for (const transfer of response.result) {
+        const from = transfer.fromAddress.lowercase;
+        const to = transfer.toAddress.lowercase;
+        if (to === froggyStaking.toLowerCase() && stakers.includes(from) === false) {
+          stakers.push(from);
+        }
+      }
+      cursor = response.pagination.cursor;
+    } while (cursor != "" && cursor != null);
+
+    return stakers;
   }
 
   async processLeaderboard(stakers: string[]): Promise<Leaderboard[]> {
@@ -121,27 +131,10 @@ export class StakingService {
       // convert back to gwei string format 
       const total: string = (formatEther(totalEther));
 
-      if (+total > 0) {
-        let account = address;
-        try {
-          const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl});
-          const name = await provider.lookupAddress(address);
-          if (name) {
-            account = name;
-          }
-        } catch (error) {
-          this.logger.error("lookup ENS error: " + error);
-        }
-
-        const tokensStaked: number[] = await this.contractService.staking.methods.deposits(address).call();
-        const tokensUnstaked: number = await this.contractService.froggy.methods.balanceOf(address).call();
-        let tokenCount = tokensUnstaked;
-        tokensStaked.forEach(t => tokenCount++);
-
+      if (+total > 300) {
         leaderboard.push({
-          account: account,
-          ribbit: total,
-          frogs: tokenCount
+          account: await this.getENS(address),
+          ribbit: total
         });
       }
     }
@@ -150,9 +143,22 @@ export class StakingService {
       const total: string = (+s.ribbit).toFixed(2);
       return {
         account: s.account,
-        ribbit: commify(total),
-        frogs: s.frogs
+        ribbit: commify(total)
       }
     })
+  }
+
+  async getENS(address: string) {
+    let account = address;
+    try {
+      const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl});
+      const name = await provider.lookupAddress(address);
+      if (name) {
+        account = name;
+      }
+    } catch (error) {
+      this.logger.error("lookup ENS error: " + error);
+    }
+    return account;
   }
 }
