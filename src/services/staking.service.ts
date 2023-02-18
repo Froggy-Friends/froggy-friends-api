@@ -100,7 +100,6 @@ export class StakingService {
         limit: 100,
         cursor: cursor
       });
-      console.log(`pagination page ${response.pagination.page} results ${response.result.length}`);
 
       for (const transfer of response.result) {
         const from = transfer.fromAddress.lowercase;

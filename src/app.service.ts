@@ -40,7 +40,7 @@ export class AppService {
     let owned: Item[] = [];
     for (const ribbitItem of ribbitItems) {
       const metadata =  await this.itemService.getItem(+ribbitItem.tokenId);
-      if (metadata.isBoost) {
+      if (metadata && metadata.isBoost) {
         owned.push(metadata);
       }
     }
