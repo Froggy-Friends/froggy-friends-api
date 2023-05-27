@@ -156,7 +156,7 @@ export class StakingService {
       transfers = await transfers.next();
     }
 
-    return [...new Set(stakers)];
+    return stakers;
   }
 
   async processLeaderboard(stakers: string[]): Promise<Leaderboard[]> {
@@ -175,27 +175,10 @@ export class StakingService {
       // convert back to gwei string format 
       const total: string = (formatEther(totalEther));
 
-      if (+total > 0) {
-        let account = address;
-        try {
-          const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl});
-          const name = await provider.lookupAddress(address);
-          if (name) {
-            account = name;
-          }
-        } catch (error) {
-          this.logger.error("lookup ENS error: " + error);
-        }
-
-        const tokensStaked: number[] = await this.contractService.staking.methods.deposits(address).call();
-        const tokensUnstaked: number = await this.contractService.froggy.methods.balanceOf(address).call();
-        let tokenCount = tokensUnstaked;
-        tokensStaked.forEach(t => tokenCount++);
-
+      if (+total > 300) {
         leaderboard.push({
-          account: account,
-          ribbit: total,
-          frogs: tokenCount
+          account: await this.getENS(address),
+          ribbit: total
         });
       }
     }
@@ -204,9 +187,22 @@ export class StakingService {
       const total: string = (+s.ribbit).toFixed(2);
       return {
         account: s.account,
-        ribbit: commify(total),
-        frogs: s.frogs
+        ribbit: commify(total)
       }
     })
+  }
+
+  async getENS(address: string) {
+    let account = address;
+    try {
+      const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl});
+      const name = await provider.lookupAddress(address);
+      if (name) {
+        account = name;
+      }
+    } catch (error) {
+      this.logger.error("lookup ENS error: " + error);
+    }
+    return account;
   }
 }
