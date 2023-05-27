@@ -18,6 +18,16 @@ export class UpgradeController {
 
   }
 
+  @Get()
+  async getUpgrades() {
+    return await this.upgradeService.getAllUpgrades();
+  }
+
+  @Get('/pending')
+  async getPendingUpgrades() {
+    return await this.upgradeService.getPendingUpgrades();
+  }
+
   @Get('/pending/:frogId/:traitId')
   async doesUpgradeExist(@Param('frogId') frogId: number, @Param('traitId') traitId: number): Promise<boolean> {
     return await this.upgradeService.doesUpgradeExist(frogId, traitId);

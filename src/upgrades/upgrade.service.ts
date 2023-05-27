@@ -19,6 +19,14 @@ export class UpgradeService {
 
   }
 
+  getAllUpgrades() {
+    return this.upgradeRepo.find();
+  }
+
+  getPendingUpgrades() {
+    return this.upgradeRepo.findBy({ isPending: true });
+  }
+
   async doesUpgradeExist(frogId: number, traitId: number): Promise<boolean> {
     const frog = await this.frogService.getFrog(frogId);
     const trait = await this.traitService.getTrait(traitId);
