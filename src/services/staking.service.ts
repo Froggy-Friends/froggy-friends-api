@@ -87,6 +87,60 @@ export class StakingService {
     };
   }
 
+  async getHoldersSinceMint() {
+    let stakers = new Set();
+    let holders = new Set();
+    let holdersSinceMint = new Set();
+
+    for (let tokenId = 0; tokenId < 4444; tokenId++) {
+      const response = await Moralis.EvmApi.nft.getNFTTransfers({
+        address: this.contractService.froggyAddress,
+        chain: EvmChain.ETHEREUM,
+        tokenId: tokenId.toString()
+      });
+
+      const { result } = response;
+
+      const firstTransfer = result[result.length -1];
+      const latestTransfer = result[0];
+
+      const minter = firstTransfer.toAddress.lowercase;
+      const owner = latestTransfer.toAddress.lowercase;
+      const previousOwner = latestTransfer.fromAddress.lowercase;
+      const stakingContract = this.contractService.stakingAddress.toLowerCase();
+
+      // save holder
+      if (owner === stakingContract) {
+        holders.add(previousOwner);
+        stakers.add(previousOwner);
+      } else {
+        holders.add(owner);
+      }
+
+      // check original minter
+      if (minter === owner) {
+        holdersSinceMint.add(minter);
+      }
+      // check original minter staked
+      else if (owner === stakingContract && previousOwner === minter) {
+        console.log("minter staked token id: ", tokenId);
+        holdersSinceMint.add(minter);
+      }
+    }
+
+    console.log("total stakers: ", stakers.size);
+    console.log("total holders: ", holders.size);
+    console.log("total holders since mint: ", holdersSinceMint.size);
+    return {
+      totalStakers: stakers.size,
+      totalHolders: holders.size,
+      totalHoldersSinceMint: holdersSinceMint.size,
+      stakers: Array.from(stakers),
+      holders: Array.from(holders),
+      holdersSinceMint: Array.from(holdersSinceMint)
+    };
+  }
+
   async processStakers(): Promise<string[]> {
     const address = this.contractService.froggyAddress.toLowerCase();
     const stakingAddress = this.contractService.stakingAddress.toLowerCase();
