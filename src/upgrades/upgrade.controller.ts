@@ -43,4 +43,9 @@ export class UpgradeController {
     const trait = await this.traitService.getTrait(request.traitId);
     return this.upgradeService.savePending(request.account, frog, trait, request.transaction);
   }
+
+  @Get('/frog/:frogId')
+  async getFrogUpgrades(@Param('frogId') frogId: number): Promise<Upgrade[]> {
+    return await this.upgradeService.getUpgradesForFrog(frogId);
+  }
 }

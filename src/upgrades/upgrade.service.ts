@@ -23,6 +23,10 @@ export class UpgradeService {
     return this.upgradeRepo.find();
   }
 
+  getUpgradesForFrog(frogId: number) {
+    return this.upgradeRepo.findBy({ frogId: frogId });
+  }
+
   getPendingUpgrades() {
     return this.upgradeRepo.findBy({ isPending: true });
   }
