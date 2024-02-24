@@ -7,6 +7,8 @@ import { formatEther, parseEther, commify, } from "ethers/lib/utils";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import Moralis from 'moralis';
+import * as fs from 'fs';
+import * as snapshot from '../../snapshot.json';
 import { ContractService } from 'src/contract/contract.service';
 const { ETHERSCAN_API_KEY } = process.env;
 
@@ -32,7 +34,7 @@ export class StakingService {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_6AM, { name: "leaderboard", timeZone: "America/Los_Angeles"})
+  @Cron(CronExpression.EVERY_DAY_AT_6AM, { name: "leaderboard", timeZone: "America/Los_Angeles" })
   async refreshLeaderboard() {
     this.initLeaderboard();
   }
@@ -45,6 +47,59 @@ export class StakingService {
     return this.leaderboard;
   }
 
+  async getRibbitSnapshot() {
+    let balances = new Map();
+    const { holders } = snapshot;
+    let errors = [];
+    let time = Date.now();
+
+    for (let i = 0; i < holders.length; i++) {
+      try {
+        if (i % 100 == 0) {
+          let newTime = Date.now();
+          let diff = newTime - time;
+          time = newTime;
+          console.log(`processed in ${diff / 1000} seconds - completed index ${i}`);
+        }
+
+        const holder = `${holders[i][1]}`;
+
+        if (!balances.has(holder)) {
+          // balances in gwei string format
+          const stakingBalanceGwei: string = await this.contractService.staking.methods.balanceOf(holder).call();
+          const ribbitBalanceGwei: string = await this.contractService.ribbit.methods.balanceOf(holder).call();
+
+          // convert balances to ether big number format to perform addition
+          const stakingBalanceEther: BigNumber = parseEther(formatEther(stakingBalanceGwei));
+          const ribbitBalanceEther: BigNumber = parseEther(formatEther(ribbitBalanceGwei));
+          const totalEther: BigNumber = stakingBalanceEther.add(ribbitBalanceEther);
+
+          // convert back to gwei string format 
+          const total: string = (formatEther(totalEther));
+
+          if (!balances.has(holder)) {
+            balances.set(holder, total);
+          }
+        }
+
+      } catch (error) {
+        errors.push({
+          holder: holders[i]
+        })
+      }
+    }
+
+    let ribbitSnapshot = {
+      balances,
+      errors,
+    }
+    fs.writeFileSync('ribbit-snapshot.json', JSON.stringify(ribbitSnapshot));
+
+    return {
+      ribbitSnapshot
+    }
+  }
+
   async getUniqueHolders() {
     let stakerList = [];
     let nonStakerList = [];
@@ -55,6 +110,7 @@ export class StakingService {
     // get most recent nft transfer by token id
     for (let tokenId = 0; tokenId < 4444; tokenId++) {
       try {
+        console.log('process token id: ', tokenId);
         const response = await Moralis.EvmApi.nft.getNFTTransfers({
           address: this.contractService.froggyAddress,
           chain: EvmChain.ETHEREUM,
@@ -74,12 +130,12 @@ export class StakingService {
 
         uniqueStakers = [...new Set(stakerList)];
         uniqueNonStakers = [...new Set(nonStakerList)];
-        uniqueHolders = [...new Set(stakerList.concat(nonStakerList))]; 
+        uniqueHolders = [...new Set(stakerList.concat(nonStakerList))];
       } catch (error) {
         console.log(`fetch unique holders error for token ${tokenId}: " error`);
       }
     }
-    
+
     return {
       uniqueStakers: uniqueStakers.length,
       uniqueNonStakers: uniqueNonStakers.length,
@@ -101,7 +157,7 @@ export class StakingService {
 
       const { result } = response;
 
-      const firstTransfer = result[result.length -1];
+      const firstTransfer = result[result.length - 1];
       const latestTransfer = result[0];
 
       const minter = firstTransfer.toAddress.lowercase;
@@ -144,7 +200,7 @@ export class StakingService {
   async processStakers(): Promise<string[]> {
     const address = this.contractService.froggyAddress.toLowerCase();
     const stakingAddress = this.contractService.stakingAddress.toLowerCase();
-    let transfers = await Moralis.EvmApi.nft.getNFTContractTransfers({address: address, chain: this.contractService.chain})
+    let transfers = await Moralis.EvmApi.nft.getNFTContractTransfers({ address: address, chain: this.contractService.chain })
     let stakers = [
       ...transfers.result.filter(tx => tx.toAddress.lowercase === stakingAddress).map(tx => tx.fromAddress.lowercase)
     ];
@@ -195,7 +251,7 @@ export class StakingService {
   async getENS(address: string) {
     let account = address;
     try {
-      const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl});
+      const provider = ethers.getDefaultProvider("homestead", { etherscan: ETHERSCAN_API_KEY, alchemy: this.contractService.alchemyUrl });
       const name = await provider.lookupAddress(address);
       if (name) {
         account = name;
