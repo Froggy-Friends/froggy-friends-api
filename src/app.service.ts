@@ -27,7 +27,7 @@ export class AppService {
     const legendary = rarity.legendary.map(tokenId => `${tokenId}75`);
     const epic = rarity.epic.map(tokenId => `${tokenId}150`);
     const tokensWithRarity = [...common, ...uncommon, ...rare, ...legendary, ...epic];
-    this.rarities = new MerkleTree(tokensWithRarity.map(token => keccak(token)), keccak, { sortPairs: true});
+    this.rarities = new MerkleTree(tokensWithRarity.map(token => keccak(token)), keccak, { sortPairs: true });
   }
 
   getProof(address: string): string[] {
@@ -35,11 +35,11 @@ export class AppService {
   }
 
   async getFriendsOwned(address: string) {
-    let options = { chain: this.contractService.chain, address: address, tokenAddresses: [RIBBIT_ITEM_ADDRESS]};
+    let options = { chain: this.contractService.chain, address: address, tokenAddresses: [RIBBIT_ITEM_ADDRESS] };
     const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
     let owned: Item[] = [];
     for (const ribbitItem of ribbitItems) {
-      const metadata =  await this.itemService.getItem(+ribbitItem.tokenId);
+      const metadata = await this.itemService.getItem(+ribbitItem.tokenId);
       if (metadata && metadata.isBoost) {
         owned.push(metadata);
       }
@@ -49,29 +49,8 @@ export class AppService {
   }
 
   async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {
-    const nfts = await this.contractService.alchemy.nft.getNftsForOwner(account);
-    return nfts.ownedNfts.filter(nft => nft.contract.address.toLowerCase() == contract.toLowerCase());
-  }
-
-  getStakeProof(tokenIds: number[]): string[] {
-    const stakeProof = [];
-    for (const tokenId of tokenIds) {
-      let leaf = '';
-      if (rarity.common.includes(tokenId)) {
-        leaf = keccak(`${tokenId}20`);
-      } else if (rarity.uncommon.includes(tokenId)) {
-        leaf = keccak(`${tokenId}30`);
-      } else if (rarity.rare.includes(tokenId)) {
-        leaf = keccak(`${tokenId}40`);
-      } else if (rarity.legendary.includes(tokenId)) {
-        leaf = keccak(`${tokenId}75`);
-      } else if (rarity.epic.includes(tokenId)) {
-        leaf = keccak(`${tokenId}150`);
-      }
-      const proof = this.rarities.getHexProof(leaf);
-      stakeProof.push(proof);
-    }
-    return stakeProof;
+    const nfts = await this.contractService.alchemy.nft.getNftsForOwner(account, { contractAddresses: [contract] });
+    return nfts.ownedNfts;
   }
 
   async getAccountTokens(account: string): Promise<number> {

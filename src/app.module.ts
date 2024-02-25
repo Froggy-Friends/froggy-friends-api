@@ -4,8 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { StakingController } from './controllers/staking.controller';
-import { StakingService } from './services/staking.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HistoryModule } from './history/history.module';
 import { History } from './history/history.entity';
@@ -47,7 +45,7 @@ import { ContractService } from './contract/contract.service';
     RulesModule,
     UpgradeModule
   ],
-  controllers: [AppController, StakingController],
-  providers: [AppService, StakingService, ConfigService, ContractService],
+  controllers: [AppController],
+  providers: [AppService, ConfigService, ContractService],
 })
 export class AppModule { }

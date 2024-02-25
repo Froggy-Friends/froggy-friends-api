@@ -7,7 +7,7 @@ import { FrogService } from "./frog.service";
 
 @Controller("/frog")
 export class FrogController {
-  
+
   constructor(private readonly frogService: FrogService, private readonly traitService: TraitService) {
 
   }
@@ -16,16 +16,6 @@ export class FrogController {
   async getFrog(@Param('id') id: number): Promise<Frog> {
     const frog = await this.frogService.getFrog(id);
     return this.frogService.formatFrog(frog);
-  }
-
-  @Get('/owned/:account')
-  async getFroggiesOwned(@Param('account') account: string ): Promise<OwnedResponse> {
-    return this.frogService.getFroggiesOwned(account);
-  }
-
-  @Get('/owned/unstaked/:account')
-  async getUnstakedFroggiesOwned(@Param('account') account: string): Promise<OwnedResponse> {
-    return this.frogService.getUnstakedFroggies(account);
   }
 
   @Get('/exists/:frogId/:traitId')
@@ -64,9 +54,9 @@ export class FrogController {
       hat: compatibleHatTraits,
       all: [].concat(
         compatibleBackgroundTraits,
-        compatibleBodyTraits, 
-        compatibleEyeTraits, 
-        compatibleMouthTraits, 
+        compatibleBodyTraits,
+        compatibleEyeTraits,
+        compatibleMouthTraits,
         compatibleShirtTraits,
         compatibleHatTraits
       )
