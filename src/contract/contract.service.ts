@@ -64,8 +64,8 @@ export class ContractService {
     }
 
     async getFrogOwner(frogId: number): Promise<string> {
-        const ownersResponse = await this.alchemy.nft.getOwnersForNft(this.froggyAddress, frogId);
-        return ownersResponse.owners[0];
+        const { owners } = await this.alchemy.nft.getOwnersForNft(this.froggyAddress, frogId);
+        return owners.length >= 0 ? owners[0] : "";
     }
 
     async getFrogs(account: string): Promise<OwnedNft[]> {

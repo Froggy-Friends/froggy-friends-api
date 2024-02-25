@@ -7,14 +7,13 @@ import { ContractModule } from 'src/contract/contract.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TraitModule } from 'src/traits/trait.module';
 import { TraitService } from 'src/traits/trait.service';
-import { UpgradeModule } from 'src/upgrades/upgrade.module';
-import { UpgradeService } from 'src/upgrades/upgrade.service';
+import { ContractService } from 'src/contract/contract.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Frog]), ContractModule, TraitModule, ConfigModule],
   controllers: [FrogController],
-  providers: [FrogService, ConfigService, TraitService],
+  providers: [FrogService, ConfigService, ContractService, TraitService],
   exports: [TypeOrmModule, FrogService]
 })
 
-export class FrogModule {}
+export class FrogModule { }

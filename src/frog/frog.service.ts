@@ -14,9 +14,14 @@ export class FrogService {
   constructor(
     @InjectRepository(Frog) private frogRepo: Repository<Frog>,
     private configService: ConfigService,
+    private contractService: ContractService,
     private traitService: TraitService
   ) {
 
+  }
+
+  async getOwner(id: number): Promise<string> {
+    return this.contractService.getFrogOwner(id);
   }
 
   async getFrog(id: number): Promise<Frog> {

@@ -12,6 +12,11 @@ export class FrogController {
 
   }
 
+  @Get('/owner/:id')
+  async getFrogOwner(@Param('id') id: number): Promise<string> {
+    return this.frogService.getOwner(id);
+  }
+
   @Get('/details/:id')
   async getFrog(@Param('id') id: number): Promise<Frog> {
     const frog = await this.frogService.getFrog(id);
