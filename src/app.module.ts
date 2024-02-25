@@ -11,7 +11,6 @@ import { HistoryModule } from './history/history.module';
 import { History } from './history/history.entity';
 import { Item } from './item/item.entity';
 import { ItemModule } from './item/item.module';
-import { SpacesModule } from './spaces/spaces.module';
 import { FrogModule } from './frog/frog.module';
 import { Frog } from './frog/frog.entity';
 import { ContractModule } from './contract/contract.module';
@@ -46,10 +45,9 @@ import { ContractService } from './contract/contract.service';
     TraitModule,
     FrogModule,
     RulesModule,
-    SpacesModule,
     UpgradeModule
   ],
   controllers: [AppController, StakingController],
   providers: [AppService, StakingService, ConfigService, ContractService],
 })
-export class AppModule {}
+export class AppModule { }
