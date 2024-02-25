@@ -35,7 +35,7 @@
     "@nestjs/schedule": "^2.0.1",
     "@nestjs/typeorm": "^9.0.1",
     "@pinata/sdk": "^2.1.0",
-    "alchemy-sdk": "^2.0.4",
+    "alchemy-sdk": "^3.1.2",
     "axios": "^0.26.1",
     "canvas": "^2.11.0",
     "dotenv": "^16.0.0",
