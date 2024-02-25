@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import { EvmChain } from '@moralisweb3/evm-utils';
 import { ConfigService } from "@nestjs/config";
 import { Contract } from 'node_modules/web3-eth-contract';
 import { ethers } from "ethers";
@@ -8,8 +7,7 @@ import * as abiItems from './abi-items.json';
 import * as abiFroggyFriends from './abi.json';
 import * as abiStaking from './abi-staking.json';
 import * as abiRibbit from './abi-ribbit.json';
-import { Alchemy, Network } from "alchemy-sdk";
-import Moralis from "moralis";
+import { Alchemy, Network, OwnedNft } from "alchemy-sdk";
 
 @Injectable()
 export class ContractService {
@@ -19,7 +17,6 @@ export class ContractService {
     private alchemyKey: string;
     public alchemy: Alchemy;
     public alchemyUrl: string;
-    public chain: EvmChain;
     public ribbitItems: any;
     public ribbit: Contract;
     public froggy: Contract;
@@ -28,7 +25,7 @@ export class ContractService {
     public ribbitItemsAddress: string;
     public stakingAddress: string;
     public ribbitAddress: string;
- 
+
     constructor(private configs: ConfigService) {
         const ribbitItemsAbi: any = abiItems;
         const frogAbi: any = abiFroggyFriends;
@@ -44,7 +41,6 @@ export class ContractService {
         this.ribbitItemsAddress = this.configs.get<string>("RIBBIT_ITEM_ADDRESS");
         // chain
         const environment = this.configs.get<string>('ENVIRONMENT');
-        this.chain = environment === "production" ? EvmChain.ETHEREUM : EvmChain.GOERLI;
         // alchemy
         this.alchemy = new Alchemy({
             apiKey: this.alchemyKey,
@@ -54,7 +50,7 @@ export class ContractService {
         this.alchemyProvider = new ethers.providers.AlchemyProvider(
             {
                 name: environment === 'production' ? 'homestead' : 'goerli',
-                chainId: Number(this.chain.apiId)
+                chainId: environment === 'production' ? 1 : 5
             },
             this.alchemyKey
         );
@@ -68,17 +64,17 @@ export class ContractService {
     }
 
     async getFrogOwner(frogId: number): Promise<string> {
-        const response = await Moralis.EvmApi.nft.getNFTTransfers({
-            address: this.froggyAddress,
-            chain: this.chain,
-            tokenId: frogId.toString()
-        });
+        const ownersResponse = await this.alchemy.nft.getOwnersForNft(this.froggyAddress, frogId);
+        return ownersResponse.owners[0];
+    }
 
-        // latest transfer
-        const transfer = response.result[0];
-        const fromAddress = transfer.fromAddress.lowercase;
-        const toAddress = transfer.toAddress.lowercase;
+    async getFrogs(account: string): Promise<OwnedNft[]> {
+        const frogsResponse = await this.alchemy.nft.getNftsForOwner(account, { contractAddresses: [this.froggyAddress] });
+        return frogsResponse.ownedNfts;
+    }
 
-        return toAddress === this.stakingAddress.toLowerCase() ? fromAddress : toAddress;
+    async getItems(account: string): Promise<OwnedNft[]> {
+        const nftsResponse = await this.alchemy.nft.getNftsForOwner(account, { contractAddresses: [this.ribbitItemsAddress] });
+        return nftsResponse.ownedNfts;
     }
 }

@@ -1,56 +1,12 @@
 import { formatEther } from 'ethers/lib/utils';
 import { Injectable } from '@nestjs/common';
-import MerkleTree from "merkletreejs";
-import { utils } from "ethers";
-import wallets from './wallets';
-import * as rarity from '../rarityBands.json';
-import Moralis from 'moralis';
-const keccak = require("keccak256");
-import { OwnedNft } from 'alchemy-sdk';
-import { ItemService } from './item/item.service';
-import { Item } from './item/item.entity';
 import { ContractService } from './contract/contract.service';
-require('dotenv').config();
-const { keccak256 } = utils;
-const { RIBBIT_ITEM_ADDRESS } = process.env;
 
 @Injectable()
 export class AppService {
-  froggylist: MerkleTree;
-  rarities: MerkleTree;
 
-  constructor(private readonly itemService: ItemService, private readonly contractService: ContractService) {
-    this.froggylist = new MerkleTree(wallets.map(wallet => keccak256(wallet)), keccak256, { sortPairs: true });
-    const common = rarity.common.map(tokenId => `${tokenId}20`);
-    const uncommon = rarity.uncommon.map(tokenId => `${tokenId}30`);
-    const rare = rarity.rare.map(tokenId => `${tokenId}40`);
-    const legendary = rarity.legendary.map(tokenId => `${tokenId}75`);
-    const epic = rarity.epic.map(tokenId => `${tokenId}150`);
-    const tokensWithRarity = [...common, ...uncommon, ...rare, ...legendary, ...epic];
-    this.rarities = new MerkleTree(tokensWithRarity.map(token => keccak(token)), keccak, { sortPairs: true });
-  }
+  constructor(private readonly contractService: ContractService) {
 
-  getProof(address: string): string[] {
-    return this.froggylist.getHexProof(keccak256(address));
-  }
-
-  async getFriendsOwned(address: string) {
-    let options = { chain: this.contractService.chain, address: address, tokenAddresses: [RIBBIT_ITEM_ADDRESS] };
-    const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
-    let owned: Item[] = [];
-    for (const ribbitItem of ribbitItems) {
-      const metadata = await this.itemService.getItem(+ribbitItem.tokenId);
-      if (metadata && metadata.isBoost) {
-        owned.push(metadata);
-      }
-    }
-
-    return owned.sort((friendOne, friendTwo) => friendOne.id - friendTwo.id);
-  }
-
-  async getNftsOwned(account: string, contract: string): Promise<OwnedNft[]> {
-    const nfts = await this.contractService.alchemy.nft.getNftsForOwner(account, { contractAddresses: [contract] });
-    return nfts.ownedNfts;
   }
 
   async getAccountTokens(account: string): Promise<number> {

@@ -18,7 +18,7 @@ export class ItemsController {
   private pinataUrl: string;
 
   constructor(
-    private readonly itemService: ItemService, 
+    private readonly itemService: ItemService,
     private readonly pinService: PinService,
     private readonly contractService: ContractService,
     private readonly configService: ConfigService,
@@ -38,14 +38,14 @@ export class ItemsController {
     return this.itemService.getItem(id);
   }
 
-  @Get('/owned/:account')
-  async getOwnedItems(@Param('account') account: string): Promise<Item[]> {
-    return this.itemService.getOwnedItems(account);
+  @Get('/friends/:account')
+  async getOwnedFriends(@Param('account') account: string): Promise<Item[]> {
+    return this.itemService.getOwnedFriends(account);
   }
 
   @Get('/:id/owners')
   getItemOwners(@Param('id') id: number) {
-    return this.itemService.getItemOwners(id); 
+    return this.itemService.getItemOwners(id);
   }
 
   @Get('/:id/tickets')
@@ -59,7 +59,7 @@ export class ItemsController {
   }
 
   @Get('/traits/:account')
-  async getOwnedTraits(@Param('account') account: string): Promise<Item[]>  {
+  async getOwnedTraits(@Param('account') account: string): Promise<Item[]> {
     return this.itemService.getOwnedTraits(account);
   }
 
@@ -110,7 +110,7 @@ export class ItemsController {
       trait.layer = item.traitLayer;
       trait.origin = 'new';
       await this.traitService.save(trait);
-      
+
       // save trait id to item
       item.traitId = trait.id;
 
@@ -124,7 +124,7 @@ export class ItemsController {
         rule.compatibleTraitId = compatibleTrait.id;
         await this.ruleService.save(rule);
       }
-    } 
+    }
 
     return await this.itemService.save(item);
   }
@@ -176,7 +176,7 @@ export class ItemsController {
     trait.layer = 'Friend';
     trait.origin = 'new';
     await this.traitService.save(trait);
-    
+
     // save trait id to item
     item.traitId = trait.id;
 
@@ -192,7 +192,7 @@ export class ItemsController {
     const item: Item = JSON.parse(itemRequest.item);
     item.isArchived = false;
     this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
-    
+
     if (!files.image || !files.imageTransparent) {
       throw new BadRequestException("Missing image files");
     }
@@ -215,7 +215,7 @@ export class ItemsController {
       item.walletLimit,
       item.collabAddress
     );
-    
+
     // save to database
     const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
     item.image = this.pinataUrl + imageCID.IpfsHash;
@@ -232,7 +232,7 @@ export class ItemsController {
     trait.layer = 'Friend';
     trait.origin = 'new';
     await this.traitService.save(trait);
-    
+
     // save trait id to item
     item.traitId = trait.id;
 
@@ -330,7 +330,7 @@ export class ItemsController {
   getItemPresets() {
     return {
       categories: ['lilies', 'nfts', 'raffles', 'allowlists', 'friends', 'collabs', 'merch', 'traits'],
-      collabIds: [1,2,3,4,5,6,7,8,9,10],
+      collabIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       boosts: [5, 10, 15, 20, 30, 35],
       rarities: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Epic'],
       friendOrigins: ['Genesis', 'Collab'],

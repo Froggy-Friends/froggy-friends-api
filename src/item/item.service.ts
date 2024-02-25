@@ -6,15 +6,14 @@ import { ethers } from "ethers";
 import { ContractService } from "src/contract/contract.service";
 import { formatEther, hashMessage } from "ethers/lib/utils";
 import { admins } from "./item.admins";
-import Moralis from 'moralis';
 
 @Injectable()
 export class ItemService {
 
   constructor(
     @InjectRepository(Item) private itemRepo: Repository<Item>,
-    private contractService: ContractService    
-  ) {}
+    private contractService: ContractService
+  ) { }
 
   async getItem(id: number): Promise<Item> {
     return await this.itemRepo.findOneBy({ id: id });
@@ -22,7 +21,7 @@ export class ItemService {
 
   async refreshItem(id: number) {
     const item = await this.itemRepo.findOneBy({ id: id });
-    const details  = await this.contractService.ribbitItems.item(item.id);
+    const details = await this.contractService.ribbitItems.item(item.id);
     item.price = +formatEther(details['0']);
     item.percent = +details['1'];
     item.minted = +details['2'];
@@ -33,33 +32,25 @@ export class ItemService {
     this.itemRepo.save(item);
   }
 
-  async getOwnedItems(account: string): Promise<Item[]> {
-    try {
-      // get ribbit items from wallet
-      let options = { 
-        chain: this.contractService.chain, 
-        address: account, 
-        tokenAddresses: [this.contractService.ribbitItemsAddress]
-      };
-      const nfts = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
-      let owned: Item[] = [];
-      for (const nft of nfts) {
-        const item =  await this.getItem(Number(nft.tokenId));
-        owned.push(item);
+  async getOwnedFriends(account: string): Promise<Item[]> {
+    const ribbitItems = await this.contractService.getItems(account);
+
+    let owned: Item[] = [];
+    for (const ribbitItem of ribbitItems) {
+      const metadata = await this.getItem(+ribbitItem.tokenId);
+      if (metadata && metadata.isBoost) {
+        owned.push(metadata);
       }
-      return owned.sort((a,b) => a.id - b.id);
-    } catch (error) {
-      console.log("get items owned error: ", error);
-      return [];
     }
+
+    return owned.sort((friendOne, friendTwo) => friendOne.id - friendTwo.id);
   }
 
   async getOwnedTraits(account: string): Promise<Item[]> {
-    let options = { chain: this.contractService.chain, address: account, tokenAddresses: [this.contractService.ribbitItemsAddress]};
-    const ribbitItems = (await Moralis.EvmApi.nft.getWalletNFTs(options)).result.map(r => r.format());
+    const ribbitItems = await this.contractService.getItems(account);
     let owned: Item[] = [];
     for (const ribbitItem of ribbitItems) {
-      const metadata =  await this.getItem(+ribbitItem.tokenId);
+      const metadata = await this.getItem(+ribbitItem.tokenId);
       if (metadata && metadata.isTrait) {
         owned.push(metadata);
       }
@@ -89,10 +80,10 @@ export class ItemService {
   }
 
   async getActiveItems(): Promise<Item[]> {
-    const [items] = await this.itemRepo.findAndCount({ where: { isArchived: false }});
-    return items.sort((a,b) => a.id - b.id);
+    const [items] = await this.itemRepo.findAndCount({ where: { isArchived: false } });
+    return items.sort((a, b) => a.id - b.id);
   }
-  
+
   validateRequest(message: string, signature: string, item: Item) {
     // validate admin
     const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
@@ -108,7 +99,7 @@ export class ItemService {
 
     // validate item
     if (
-      !item.name || 
+      !item.name ||
       !item.description ||
       !item.category ||
       !item.rarity ||
