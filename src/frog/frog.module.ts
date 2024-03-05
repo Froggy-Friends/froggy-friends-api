@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 import { Frog } from './frog.entity';
 import { FrogService } from './frog.service';
 import { FrogController } from './frog.controller';
@@ -10,10 +10,14 @@ import { TraitService } from 'src/traits/trait.service';
 import { ContractService } from 'src/contract/contract.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Frog]), ContractModule, TraitModule, ConfigModule],
+  imports: [
+    TypeOrmModule.forFeature([Frog]),
+    ContractModule,
+    TraitModule,
+    ConfigModule,
+  ],
   controllers: [FrogController],
   providers: [FrogService, ConfigService, ContractService, TraitService],
-  exports: [TypeOrmModule, FrogService]
+  exports: [TypeOrmModule, FrogService],
 })
-
-export class FrogModule { }
+export class FrogModule {}

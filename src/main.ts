@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NotFoundExceptionFilter } from './filters/NotFoundExceptionFilter';
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ async function bootstrap() {
     // start server
     await app.listen(process.env.PORT || 8080);
   } catch (error) {
-    console.log("error starting app server: ", error);
+    console.log('error starting app server: ', error);
   }
 }
 bootstrap();

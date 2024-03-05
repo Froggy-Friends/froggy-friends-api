@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: 'History', synchronize: false})
+@Entity({ name: 'History', synchronize: false })
 export class History {
   @PrimaryColumn() id: number;
   @Column() wallet: string;

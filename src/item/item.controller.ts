@@ -1,17 +1,27 @@
-import { Body, Controller, Get, Param, Post, UseInterceptors, UploadedFiles, Put, UploadedFile, BadRequestException } from "@nestjs/common";
-import { Item } from "./item.entity";
-import { ItemService } from "./item.service";
-import { BigNumber } from "ethers";
-import { ItemRequest } from "src/models/ItemRequest";
-import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+  UploadedFiles,
+  Put,
+  BadRequestException,
+} from '@nestjs/common';
+import { Item } from './item.entity';
+import { ItemService } from './item.service';
+import { BigNumber } from 'ethers';
+import { ItemRequest } from 'src/models/ItemRequest';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ContractService } from 'src/contract/contract.service';
-import { PinService } from "src/pin/pin.service";
-import { FriendFiles } from "src/models/FriendFiles";
-import { ConfigService } from "@nestjs/config";
-import { Trait } from "src/traits/trait.entity";
-import { TraitService } from "src/traits/trait.service";
-import { RuleService } from "src/rules/rule.service";
-import { Rule } from "src/rules/rule.entity";
+import { PinService } from 'src/pin/pin.service';
+import { FriendFiles } from 'src/models/FriendFiles';
+import { ConfigService } from '@nestjs/config';
+import { Trait } from 'src/traits/trait.entity';
+import { TraitService } from 'src/traits/trait.service';
+import { RuleService } from 'src/rules/rule.service';
+import { Rule } from 'src/rules/rule.entity';
 
 @Controller('/items')
 export class ItemsController {
@@ -23,7 +33,7 @@ export class ItemsController {
     private readonly contractService: ContractService,
     private readonly configService: ConfigService,
     private readonly traitService: TraitService,
-    private readonly ruleService: RuleService
+    private readonly ruleService: RuleService,
   ) {
     this.pinataUrl = this.configService.get<string>('PINATA_URL');
   }
@@ -64,25 +74,35 @@ export class ItemsController {
   }
 
   @Post('/list')
-  @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'imageTransparent', maxCount: 1 },
-  ]))
-  async listItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'imageTransparent', maxCount: 1 },
+    ]),
+  )
+  async listItem(
+    @UploadedFiles() files: FriendFiles,
+    @Body() itemRequest: ItemRequest,
+  ) {
     const item: Item = JSON.parse(itemRequest.item);
     item.isArchived = false;
     const compatibleTraits: Trait[] = JSON.parse(itemRequest.compatibleTraits);
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    this.itemService.validateRequest(
+      itemRequest.message,
+      itemRequest.signature,
+      item,
+    );
 
     if (!files.image) {
-      throw new BadRequestException("Missing image file");
+      throw new BadRequestException('Missing image file');
     }
 
     if (item.isTrait && !files.imageTransparent && !compatibleTraits.length) {
-      throw new BadRequestException("Missing transparent image file");
+      throw new BadRequestException('Missing transparent image file');
     }
 
-    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    const totalListed: BigNumber =
+      await this.contractService.ribbitItems.totalListed();
     item.id = +totalListed + 1;
 
     // save to contract
@@ -91,14 +111,20 @@ export class ItemsController {
       item.price,
       item.supply,
       item.isOnSale,
-      item.walletLimit
+      item.walletLimit,
     );
 
-    const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+    const imageCID = await this.pinService.upload(
+      item.name,
+      files.image[0].buffer,
+    );
     item.image = this.pinataUrl + imageCID.IpfsHash;
 
     if (item.isTrait) {
-      const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+      const imageTransparentCID = await this.pinService.upload(
+        item.name,
+        files.imageTransparent[0].buffer,
+      );
       item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
 
       // create new trait
@@ -130,24 +156,34 @@ export class ItemsController {
   }
 
   @Post('/list/friend')
-  @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'imageTransparent', maxCount: 1 },
-  ]))
-  async listFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'imageTransparent', maxCount: 1 },
+    ]),
+  )
+  async listFriend(
+    @UploadedFiles() files: FriendFiles,
+    @Body() itemRequest: ItemRequest,
+  ) {
     const item: Item = JSON.parse(itemRequest.item);
     item.isArchived = false;
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    this.itemService.validateRequest(
+      itemRequest.message,
+      itemRequest.signature,
+      item,
+    );
 
     if (!files.image || !files.imageTransparent) {
-      throw new BadRequestException("Missing image files");
+      throw new BadRequestException('Missing image files');
     }
 
     if (!item.isFriend) {
-      throw new BadRequestException("Missing friend origin");
+      throw new BadRequestException('Missing friend origin');
     }
 
-    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    const totalListed: BigNumber =
+      await this.contractService.ribbitItems.totalListed();
     item.id = +totalListed + 1;
 
     // save to contract
@@ -158,13 +194,19 @@ export class ItemsController {
       item.supply,
       item.isFriend,
       item.isOnSale,
-      item.walletLimit
+      item.walletLimit,
     );
 
-    const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+    const imageCID = await this.pinService.upload(
+      item.name,
+      files.image[0].buffer,
+    );
     item.image = this.pinataUrl + imageCID.IpfsHash;
 
-    const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+    const imageTransparentCID = await this.pinService.upload(
+      item.name,
+      files.imageTransparent[0].buffer,
+    );
     item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
 
     // create friend trait
@@ -184,24 +226,34 @@ export class ItemsController {
   }
 
   @Post('/list/collab/friend')
-  @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'imageTransparent', maxCount: 1 },
-  ]))
-  async listCollabFriend(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'imageTransparent', maxCount: 1 },
+    ]),
+  )
+  async listCollabFriend(
+    @UploadedFiles() files: FriendFiles,
+    @Body() itemRequest: ItemRequest,
+  ) {
     const item: Item = JSON.parse(itemRequest.item);
     item.isArchived = false;
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    this.itemService.validateRequest(
+      itemRequest.message,
+      itemRequest.signature,
+      item,
+    );
 
     if (!files.image || !files.imageTransparent) {
-      throw new BadRequestException("Missing image files");
+      throw new BadRequestException('Missing image files');
     }
 
     if (!item.isCollabFriend) {
-      throw new BadRequestException("Missing friend origin");
+      throw new BadRequestException('Missing friend origin');
     }
 
-    const totalListed: BigNumber = await this.contractService.ribbitItems.totalListed();
+    const totalListed: BigNumber =
+      await this.contractService.ribbitItems.totalListed();
     item.id = +totalListed + 1;
 
     // save to contract
@@ -213,14 +265,20 @@ export class ItemsController {
       item.isCollabFriend,
       item.isOnSale,
       item.walletLimit,
-      item.collabAddress
+      item.collabAddress,
     );
 
     // save to database
-    const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+    const imageCID = await this.pinService.upload(
+      item.name,
+      files.image[0].buffer,
+    );
     item.image = this.pinataUrl + imageCID.IpfsHash;
 
-    const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+    const imageTransparentCID = await this.pinService.upload(
+      item.name,
+      files.imageTransparent[0].buffer,
+    );
     item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
 
     // create friend trait
@@ -240,14 +298,25 @@ export class ItemsController {
   }
 
   @Put()
-  @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'imageTransparent', maxCount: 1 },
-  ]))
-  async updateItem(@UploadedFiles() files: FriendFiles, @Body() itemRequest: ItemRequest) {
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'imageTransparent', maxCount: 1 },
+    ]),
+  )
+  async updateItem(
+    @UploadedFiles() files: FriendFiles,
+    @Body() itemRequest: ItemRequest,
+  ) {
     const item: Item = JSON.parse(itemRequest.item);
-    const compatibleTraits: Trait[] = itemRequest.compatibleTraits ? JSON.parse(itemRequest.compatibleTraits) : [];
-    this.itemService.validateRequest(itemRequest.message, itemRequest.signature, item);
+    const compatibleTraits: Trait[] = itemRequest.compatibleTraits
+      ? JSON.parse(itemRequest.compatibleTraits)
+      : [];
+    this.itemService.validateRequest(
+      itemRequest.message,
+      itemRequest.signature,
+      item,
+    );
     const dbItem = await this.itemService.getItem(item.id);
 
     if (item.price !== +dbItem.price) {
@@ -266,14 +335,23 @@ export class ItemsController {
       await this.contractService.ribbitItems.setOnSale(item.id, item.isOnSale);
     }
     if (item.walletLimit !== +dbItem.walletLimit) {
-      await this.contractService.ribbitItems.setWalletLimit(item.id, item.walletLimit);
+      await this.contractService.ribbitItems.setWalletLimit(
+        item.id,
+        item.walletLimit,
+      );
     }
 
     if (files.image && files.image.length) {
-      const imageCID = await this.pinService.upload(item.name, files.image[0].buffer);
+      const imageCID = await this.pinService.upload(
+        item.name,
+        files.image[0].buffer,
+      );
       item.image = this.pinataUrl + imageCID.IpfsHash;
     } else if (files.imageTransparent && files.imageTransparent.length) {
-      const imageTransparentCID = await this.pinService.upload(item.name, files.imageTransparent[0].buffer);
+      const imageTransparentCID = await this.pinService.upload(
+        item.name,
+        files.imageTransparent[0].buffer,
+      );
       item.imageTransparent = this.pinataUrl + imageTransparentCID.IpfsHash;
     }
 
@@ -329,12 +407,21 @@ export class ItemsController {
   @Get('/presets')
   getItemPresets() {
     return {
-      categories: ['lilies', 'nfts', 'raffles', 'allowlists', 'friends', 'collabs', 'merch', 'traits'],
+      categories: [
+        'lilies',
+        'nfts',
+        'raffles',
+        'allowlists',
+        'friends',
+        'collabs',
+        'merch',
+        'traits',
+      ],
       collabIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       boosts: [5, 10, 15, 20, 30, 35],
       rarities: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Epic'],
       friendOrigins: ['Genesis', 'Collab'],
-      traitLayers: ['Background', 'Body', 'Eyes', 'Mouth', 'Shirt', 'Hat']
-    }
+      traitLayers: ['Background', 'Body', 'Eyes', 'Mouth', 'Shirt', 'Hat'],
+    };
   }
 }

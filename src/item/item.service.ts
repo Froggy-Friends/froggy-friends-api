@@ -1,19 +1,23 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Item } from "./item.entity";
-import { ethers } from "ethers";
-import { ContractService } from "src/contract/contract.service";
-import { formatEther, hashMessage } from "ethers/lib/utils";
-import { admins } from "./item.admins";
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Item } from './item.entity';
+import { ethers } from 'ethers';
+import { ContractService } from 'src/contract/contract.service';
+import { formatEther, hashMessage } from 'ethers/lib/utils';
+import { admins } from './item.admins';
 
 @Injectable()
 export class ItemService {
-
   constructor(
     @InjectRepository(Item) private itemRepo: Repository<Item>,
-    private contractService: ContractService
-  ) { }
+    private contractService: ContractService,
+  ) {}
 
   async getItem(id: number): Promise<Item> {
     return await this.itemRepo.findOneBy({ id: id });
@@ -35,7 +39,7 @@ export class ItemService {
   async getOwnedFriends(account: string): Promise<Item[]> {
     const ribbitItems = await this.contractService.getItems(account);
 
-    let owned: Item[] = [];
+    const owned: Item[] = [];
     for (const ribbitItem of ribbitItems) {
       const metadata = await this.getItem(+ribbitItem.tokenId);
       if (metadata && metadata.isBoost) {
@@ -48,7 +52,7 @@ export class ItemService {
 
   async getOwnedTraits(account: string): Promise<Item[]> {
     const ribbitItems = await this.contractService.getItems(account);
-    let owned: Item[] = [];
+    const owned: Item[] = [];
     for (const ribbitItem of ribbitItems) {
       const metadata = await this.getItem(+ribbitItem.tokenId);
       if (metadata && metadata.isTrait) {
@@ -67,7 +71,10 @@ export class ItemService {
     const owners = await this.contractService.ribbitItems.itemHolders(id);
     const tickets = [];
     for (const owner of owners) {
-      const balance = await this.contractService.ribbitItems.balanceOf(owner, id);
+      const balance = await this.contractService.ribbitItems.balanceOf(
+        owner,
+        id,
+      );
       for (let i = 0; i < +balance; i++) {
         tickets.push(owner);
       }
@@ -80,7 +87,9 @@ export class ItemService {
   }
 
   async getActiveItems(): Promise<Item[]> {
-    const [items] = await this.itemRepo.findAndCount({ where: { isArchived: false } });
+    const [items] = await this.itemRepo.findAndCount({
+      where: { isArchived: false },
+    });
     return items.sort((a, b) => a.id - b.id);
   }
 
@@ -89,12 +98,12 @@ export class ItemService {
     const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
 
     if (!admins.includes(signer)) {
-      throw new HttpException("Unauthorized admin", HttpStatus.BAD_REQUEST);
+      throw new HttpException('Unauthorized admin', HttpStatus.BAD_REQUEST);
     }
 
     const json = JSON.parse(message);
     if (!json.modifiedBy) {
-      throw new HttpException("Invalid message", HttpStatus.BAD_REQUEST);
+      throw new HttpException('Invalid message', HttpStatus.BAD_REQUEST);
     }
 
     // validate item
@@ -106,9 +115,10 @@ export class ItemService {
       !item.price ||
       !item.supply ||
       !item.walletLimit ||
-      (item.isOnSale === undefined || item.isOnSale === null)
+      item.isOnSale === undefined ||
+      item.isOnSale === null
     ) {
-      throw new BadRequestException("Missing item info");
+      throw new BadRequestException('Missing item info');
     }
   }
 

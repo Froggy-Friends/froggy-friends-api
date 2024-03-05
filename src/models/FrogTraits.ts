@@ -1,4 +1,4 @@
-import { Trait } from "src/traits/trait.entity";
+import { Trait } from 'src/traits/trait.entity';
 
 export interface CompatibleFrogTraits {
   background: Trait[];

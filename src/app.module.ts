@@ -26,16 +26,16 @@ import { ContractService } from './contract/contract.service';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: "postgres",
+        type: 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: 5432,
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: 'postgres',
         schema: configService.get<string>('DB_SCHEMA'),
-        entities: [History, Item, Trait, Frog, Rule, Upgrade]
+        entities: [History, Item, Trait, Frog, Rule, Upgrade],
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
     ContractModule,
     HistoryModule,
@@ -43,9 +43,9 @@ import { ContractService } from './contract/contract.service';
     TraitModule,
     FrogModule,
     RulesModule,
-    UpgradeModule
+    UpgradeModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService, ContractService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,27 +1,30 @@
 import { TraitLayers } from './../models/TraitLayers';
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Frog } from "./frog.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Frog } from './frog.entity';
 import * as rarity from '../../rarityBands.json';
-import { ContractService } from "src/contract/contract.service";
-import { ConfigService } from "@nestjs/config";
-import { TraitService } from "src/traits/trait.service";
+import { ContractService } from 'src/contract/contract.service';
+import { ConfigService } from '@nestjs/config';
+import { TraitService } from 'src/traits/trait.service';
 
 @Injectable()
 export class FrogService {
-
   constructor(
     @InjectRepository(Frog) private frogRepo: Repository<Frog>,
     private configService: ConfigService,
     private contractService: ContractService,
-    private traitService: TraitService
-  ) {
-
-  }
+    private traitService: TraitService,
+  ) {}
 
   async getOwner(id: number): Promise<string> {
     return this.contractService.getFrogOwner(id);
+  }
+
+  async getFrogsOwned(account: string): Promise<Record<string, any>[]> {
+    const frogs = await this.contractService.getFrogs(account);
+    const mapped = frogs.map((frog) => frog.raw.metadata);
+    return mapped;
   }
 
   async getFrog(id: number): Promise<Frog> {
@@ -53,8 +56,8 @@ export class FrogService {
       Eyes: frog.eyes,
       Mouth: frog.mouth,
       Shirt: frog.shirt,
-      Hat: frog.hat
-    }
+      Hat: frog.hat,
+    };
     traits[trait.layer] = trait.name;
 
     const match = await this.frogRepo.findOneBy({
@@ -63,24 +66,24 @@ export class FrogService {
       eyes: traits.Eyes,
       mouth: traits.Mouth,
       shirt: traits.Shirt,
-      hat: traits.Hat
+      hat: traits.Hat,
     });
     return match !== null;
   }
 
   private getFrogRarity(frogId: number): string {
     if (rarity.common.includes(frogId)) {
-      return "Common";
+      return 'Common';
     } else if (rarity.uncommon.includes(frogId)) {
-      return "Uncommon";
+      return 'Uncommon';
     } else if (rarity.rare.includes(frogId)) {
-      return "Rare";
+      return 'Rare';
     } else if (rarity.legendary.includes(frogId)) {
-      return "Legendary";
+      return 'Legendary';
     } else if (rarity.epic.includes(frogId)) {
-      return "Epic";
+      return 'Epic';
     } else {
-      return "Common";
+      return 'Common';
     }
   }
 
@@ -99,7 +102,7 @@ export class FrogService {
     }
 
     if (frog.isPaired && frog.friendBoost) {
-      ribbit = frog.friendBoost / 100 * ribbit + ribbit;
+      ribbit = (frog.friendBoost / 100) * ribbit + ribbit;
     }
     return ribbit;
   }
