@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import pinataSDK from '@pinata/sdk';
-import PinataClient from '@pinata/sdk';
+const pinataSDK = require('@pinata/sdk');
 import { Readable } from 'stream';
 
 @Injectable()
 export class PinService {
-  private pinata: PinataClient;
+  private pinata: any;
 
   constructor(private configService: ConfigService) {
     this.pinata = new pinataSDK(

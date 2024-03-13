@@ -35,7 +35,7 @@ export class ContractService {
     this.pk = this.configs.get<string>('PK');
     this.alchemyKey = this.configs.get<string>('ALCHEMY_API_KEY');
     this.alchemyUrl = this.configs.get<string>('ALCHEMY_API_URL');
-    this.froggyAddress = this.configs.get<string>('CONTRACT_ADDRESS');
+    this.froggyAddress = this.configs.get<string>('FROGGY_CONTRACT_ADDRESS');
     this.stakingAddress = this.configs.get<string>('STAKING_CONTRACT_ADDRESS');
     this.ribbitAddress = this.configs.get<string>('RIBBIT_CONTRACT_ADDRESS');
     this.ribbitItemsAddress = this.configs.get<string>('RIBBIT_ITEM_ADDRESS');
@@ -74,6 +74,11 @@ export class ContractService {
       frogId,
     );
     return owners.length >= 0 ? owners[0] : '';
+  }
+
+  async getRibbitItemHolders(id: number): Promise<any> {
+    const { owners } = await this.alchemy.nft.getOwnersForNft(this.ribbitItemsAddress, id);
+    return owners;
   }
 
   async getFrogs(account: string): Promise<OwnedNft[]> {

@@ -23,6 +23,11 @@ export class FrogController {
     return this.frogService.getFrogsOwned(account);
   }
 
+  @Get('/owned/item/:id')
+  async getAllFrogsOwnedByGLPHolders(@Param('id') id: number) {
+    return this.frogService.getFrogsOwnedByRibbitItemHolders(id);
+  }
+
   @Get('/details/:id')
   async getFrog(@Param('id') id: number): Promise<Frog> {
     const frog = await this.frogService.getFrog(id);

@@ -27,6 +27,27 @@ export class FrogService {
     return mapped;
   }
 
+  /**
+   * Fetches all the holders of a ribbit item, then fetches all the frogs owned by them.
+   * @param ribbitItemId id of ribbit item to query
+   */
+  async getFrogsOwnedByRibbitItemHolders(ribbitItemId: number) {
+    // step 1: get all GLP holders
+    // step 2: get all frogs by glp holders list
+    const itemHolders = await this.contractService.getRibbitItemHolders(ribbitItemId);
+    
+    let frogCount = 0;
+    for (const holder of itemHolders) {
+      const frogs = await this.contractService.getFrogs(holder);
+      frogCount += frogs.length;
+    }
+    
+    return {
+      itemHolders: itemHolders.length,
+      frogCount: frogCount
+    };
+  }
+
   async getFrog(id: number): Promise<Frog> {
     return await this.frogRepo.findOneBy({ edition: id });
   }
