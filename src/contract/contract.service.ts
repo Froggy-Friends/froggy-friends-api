@@ -4,7 +4,6 @@ import { ConfigService } from '@nestjs/config';
 import { Contract } from 'node_modules/web3-eth-contract';
 import { ethers } from 'ethers';
 import * as abiItems from './abi-items.json';
-import * as abiFroggyFriends from './abi.json';
 import * as abiStaking from './abi-staking.json';
 import * as abiRibbit from './abi-ribbit.json';
 import { Alchemy, Network, OwnedNft } from 'alchemy-sdk';
@@ -19,7 +18,6 @@ export class ContractService {
   public alchemyUrl: string;
   public ribbitItems: any;
   public ribbit: Contract;
-  public froggy: Contract;
   public staking: Contract;
   public froggyAddress: string;
   public ribbitItemsAddress: string;
@@ -29,7 +27,6 @@ export class ContractService {
 
   constructor(private configs: ConfigService) {
     const ribbitItemsAbi: any = abiItems;
-    const frogAbi: any = abiFroggyFriends;
     const stakingAbi: any = abiStaking;
     const ribbitAbi: any = abiRibbit;
     // addresses
@@ -60,7 +57,6 @@ export class ContractService {
     this.signer = new ethers.Wallet(this.pk, this.alchemyProvider);
     // contracts
     const web3 = createAlchemyWeb3(this.alchemyUrl);
-    this.froggy = new web3.eth.Contract(frogAbi, this.froggyAddress);
     this.staking = new web3.eth.Contract(stakingAbi, this.stakingAddress);
     this.ribbit = new web3.eth.Contract(ribbitAbi, this.ribbitAddress);
     this.ribbitItems = new ethers.Contract(
