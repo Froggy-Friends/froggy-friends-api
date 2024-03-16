@@ -7,7 +7,6 @@ import { ContractModule } from 'src/contract/contract.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TraitModule } from 'src/traits/trait.module';
 import { TraitService } from 'src/traits/trait.service';
-import { ContractService } from 'src/contract/contract.service';
 
 @Module({
   imports: [
@@ -17,7 +16,7 @@ import { ContractService } from 'src/contract/contract.service';
     ConfigModule,
   ],
   controllers: [FrogController],
-  providers: [FrogService, ConfigService, ContractService, TraitService],
+  providers: [FrogService, ConfigService, TraitService],
   exports: [TypeOrmModule, FrogService],
 })
 export class FrogModule {}

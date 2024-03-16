@@ -1,73 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import { ConfigService } from '@nestjs/config';
-import { Contract } from 'node_modules/web3-eth-contract';
 import { ethers } from 'ethers';
 import * as abiItems from './abi-items.json';
-import * as abiFroggyFriends from './abi.json';
-import * as abiStaking from './abi-staking.json';
-import * as abiRibbit from './abi-ribbit.json';
 import { Alchemy, Network, OwnedNft } from 'alchemy-sdk';
 
 @Injectable()
 export class ContractService {
-  private alchemyProvider: any;
-  private signer: any;
-  private pk: any;
-  private alchemyKey: string;
   public alchemy: Alchemy;
-  public alchemyUrl: string;
   public ribbitItems: any;
-  public ribbit: Contract;
-  public froggy: Contract;
-  public staking: Contract;
   public froggyAddress: string;
-  public ribbitItemsAddress: string;
+  public itemsAddress: string;
   public froggySoulboundAdress: string;
-  public stakingAddress: string;
-  public ribbitAddress: string;
 
   constructor(private configs: ConfigService) {
-    const ribbitItemsAbi: any = abiItems;
-    const frogAbi: any = abiFroggyFriends;
-    const stakingAbi: any = abiStaking;
-    const ribbitAbi: any = abiRibbit;
-    // addresses
-    this.pk = this.configs.get<string>('PK');
-    this.alchemyKey = this.configs.get<string>('ALCHEMY_API_KEY');
-    this.alchemyUrl = this.configs.get<string>('ALCHEMY_API_URL');
+    // env variables
     this.froggyAddress = this.configs.get<string>('FROGGY_CONTRACT_ADDRESS');
-    this.stakingAddress = this.configs.get<string>('STAKING_CONTRACT_ADDRESS');
-    this.ribbitAddress = this.configs.get<string>('RIBBIT_CONTRACT_ADDRESS');
-    this.ribbitItemsAddress = this.configs.get<string>('RIBBIT_ITEM_ADDRESS');
+    this.itemsAddress = this.configs.get<string>('RIBBIT_ITEM_ADDRESS');
     this.froggySoulboundAdress = this.configs.get<string>('FROGGY_SOULBOUND_ADDRESS');
-    // chain
+    const apiKey = this.configs.get('ALCHEMY_API_KEY');
+    const alchemyUrl = this.configs.get<string>('ALCHEMY_API_URL');
+    const pk = this.configs.get<string>('PRIVATE_KEY');
     const environment = this.configs.get<string>('ENVIRONMENT');
+    const network = environment === 'production' ? Network.ETH_MAINNET : Network.ETH_SEPOLIA;
+    // provider, signer, contract
+    const alchemyProvider = new ethers.JsonRpcProvider(alchemyUrl);
+    const signer = new ethers.Wallet(pk, alchemyProvider);
+    this.ribbitItems = new ethers.Contract(this.itemsAddress, abiItems, signer);
     // alchemy
-    this.alchemy = new Alchemy({
-      apiKey: this.alchemyKey,
-      network:
-        environment === 'production' ? Network.ETH_MAINNET : Network.ETH_GOERLI,
-    });
-    // provider
-    this.alchemyProvider = new ethers.providers.AlchemyProvider(
-      {
-        name: environment === 'production' ? 'homestead' : 'goerli',
-        chainId: environment === 'production' ? 1 : 5,
-      },
-      this.alchemyKey,
-    );
-    this.signer = new ethers.Wallet(this.pk, this.alchemyProvider);
-    // contracts
-    const web3 = createAlchemyWeb3(this.alchemyUrl);
-    this.froggy = new web3.eth.Contract(frogAbi, this.froggyAddress);
-    this.staking = new web3.eth.Contract(stakingAbi, this.stakingAddress);
-    this.ribbit = new web3.eth.Contract(ribbitAbi, this.ribbitAddress);
-    this.ribbitItems = new ethers.Contract(
-      this.ribbitItemsAddress,
-      ribbitItemsAbi,
-      this.signer,
-    );
+    this.alchemy = new Alchemy({apiKey, network});
   }
 
   async getFrogOwner(frogId: number): Promise<string> {
@@ -79,7 +39,7 @@ export class ContractService {
   }
 
   async getRibbitItemHolders(id: number): Promise<string[]> {
-    const { owners } = await this.alchemy.nft.getOwnersForNft(this.ribbitItemsAddress, id);
+    const { owners } = await this.alchemy.nft.getOwnersForNft(this.itemsAddress, id);
     return owners;
   }
 
@@ -97,7 +57,7 @@ export class ContractService {
 
   async getItems(account: string): Promise<OwnedNft[]> {
     const nftsResponse = await this.alchemy.nft.getNftsForOwner(account, {
-      contractAddresses: [this.ribbitItemsAddress],
+      contractAddresses: [this.itemsAddress],
     });
     return nftsResponse.ownedNfts;
   }

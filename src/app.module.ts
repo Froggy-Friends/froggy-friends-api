@@ -2,8 +2,6 @@ import { UpgradeModule } from 'src/upgrades/upgrade.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HistoryModule } from './history/history.module';
 import { History } from './history/history.entity';
@@ -17,7 +15,7 @@ import { Trait } from './traits/trait.entity';
 import { Rule } from './rules/rule.entity';
 import { RulesModule } from './rules/rule.module';
 import { Upgrade } from './upgrades/upgrade.entity';
-import { ContractService } from './contract/contract.service';
+import { HibernateModule } from './hibernate/hibernate.module';
 
 @Module({
   imports: [
@@ -44,8 +42,9 @@ import { ContractService } from './contract/contract.service';
     FrogModule,
     RulesModule,
     UpgradeModule,
+    HibernateModule
   ],
-  controllers: [AppController],
-  providers: [AppService, ConfigService, ContractService],
+  controllers: [],
+  providers: [ConfigService],
 })
 export class AppModule {}

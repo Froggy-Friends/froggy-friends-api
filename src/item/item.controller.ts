@@ -7,13 +7,12 @@ import {
   UseInterceptors,
   UploadedFiles,
   Put,
-  BadRequestException,
+  BadRequestException
 } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Item } from './item.entity';
 import { ItemService } from './item.service';
-import { BigNumber } from 'ethers';
 import { ItemRequest } from 'src/models/ItemRequest';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ContractService } from 'src/contract/contract.service';
 import { PinService } from 'src/pin/pin.service';
 import { FriendFiles } from 'src/models/FriendFiles';
@@ -101,7 +100,7 @@ export class ItemsController {
       throw new BadRequestException('Missing transparent image file');
     }
 
-    const totalListed: BigNumber =
+    const totalListed =
       await this.contractService.ribbitItems.totalListed();
     item.id = +totalListed + 1;
 
@@ -182,7 +181,7 @@ export class ItemsController {
       throw new BadRequestException('Missing friend origin');
     }
 
-    const totalListed: BigNumber =
+    const totalListed =
       await this.contractService.ribbitItems.totalListed();
     item.id = +totalListed + 1;
 
@@ -252,7 +251,7 @@ export class ItemsController {
       throw new BadRequestException('Missing friend origin');
     }
 
-    const totalListed: BigNumber =
+    const totalListed =
       await this.contractService.ribbitItems.totalListed();
     item.id = +totalListed + 1;
 
