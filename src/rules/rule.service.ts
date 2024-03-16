@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Rule } from "./rule.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Rule } from './rule.entity';
 
 @Injectable()
 export class RuleService {
@@ -21,14 +21,14 @@ export class RuleService {
 
   async getAllRules(): Promise<Rule[]> {
     const [rules] = await this.ruleRepo.findAndCount();
-    return rules.sort((a,b) => a.id - b.id);
+    return rules.sort((a, b) => a.id - b.id);
   }
 
   async getLastRuleId(): Promise<number> {
     const [rules] = await this.ruleRepo.findAndCount();
     if (rules.length) {
-      const sortedRules = rules.sort((a,b) => a.id - b.id);
-      return sortedRules[sortedRules.length-1].id;
+      const sortedRules = rules.sort((a, b) => a.id - b.id);
+      return sortedRules[sortedRules.length - 1].id;
     } else {
       return rules.length;
     }

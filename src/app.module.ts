@@ -4,14 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { StakingController } from './controllers/staking.controller';
-import { StakingService } from './services/staking.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HistoryModule } from './history/history.module';
 import { History } from './history/history.entity';
 import { Item } from './item/item.entity';
 import { ItemModule } from './item/item.module';
-import { SpacesModule } from './spaces/spaces.module';
 import { FrogModule } from './frog/frog.module';
 import { Frog } from './frog/frog.entity';
 import { ContractModule } from './contract/contract.module';
@@ -29,16 +26,16 @@ import { ContractService } from './contract/contract.service';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: "postgres",
+        type: 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: 5432,
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: 'postgres',
         schema: configService.get<string>('DB_SCHEMA'),
-        entities: [History, Item, Trait, Frog, Rule, Upgrade]
+        entities: [History, Item, Trait, Frog, Rule, Upgrade],
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
     ContractModule,
     HistoryModule,
@@ -46,10 +43,9 @@ import { ContractService } from './contract/contract.service';
     TraitModule,
     FrogModule,
     RulesModule,
-    SpacesModule,
-    UpgradeModule
+    UpgradeModule,
   ],
-  controllers: [AppController, StakingController],
-  providers: [AppService, StakingService, ConfigService, ContractService],
+  controllers: [AppController],
+  providers: [AppService, ConfigService, ContractService],
 })
 export class AppModule {}

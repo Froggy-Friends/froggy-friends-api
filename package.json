@@ -10,7 +10,7 @@
     "npm": "7"
   },
   "scripts": {
-    "prebuild": "rimraf dist",
+    "prebuild": "rm -rf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/src/main",
@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@alch/alchemy-web3": "^1.2.5",
-    "@moralisweb3/evm-utils": "^2.6.4",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
@@ -35,20 +34,10 @@
     "@nestjs/schedule": "^2.0.1",
     "@nestjs/typeorm": "^9.0.1",
     "@pinata/sdk": "^2.1.0",
-    "alchemy-sdk": "^2.0.4",
-    "axios": "^0.26.1",
-    "canvas": "^2.11.0",
+    "alchemy-sdk": "^3.1.2",
     "dotenv": "^16.0.0",
     "ethers": "^5.5.4",
-    "keccak256": "^1.0.6",
-    "merge-images": "^2.0.0",
-    "merkletreejs": "^0.2.30",
-    "moralis": "^2.6.4",
     "pg": "^8.8.0",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0",
-    "twitter-api-sdk": "^1.2.1",
     "typeorm": "^0.3.10"
   },
   "devDependencies": {

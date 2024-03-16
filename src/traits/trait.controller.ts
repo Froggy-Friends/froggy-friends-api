@@ -1,10 +1,9 @@
-import { Controller, Get, Param } from "@nestjs/common";
-import { TraitService } from "./trait.service";
-import { Trait } from "./trait.entity";
+import { Controller, Get, Param } from '@nestjs/common';
+import { TraitService } from './trait.service';
+import { Trait } from './trait.entity';
 
 @Controller('/traits')
 export class TraitController {
-
   constructor(private readonly traitService: TraitService) {}
 
   @Get()
@@ -23,8 +22,9 @@ export class TraitController {
   }
 
   @Get('/compatible/:traitId')
-  async getCompatibleTraits(@Param('traitId') traitId: number): Promise<Trait[]> {
+  async getCompatibleTraits(
+    @Param('traitId') traitId: number,
+  ): Promise<Trait[]> {
     return this.traitService.getCompatibleTraitsForTraitId(traitId);
   }
-
 }
