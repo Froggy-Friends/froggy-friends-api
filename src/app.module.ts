@@ -18,6 +18,7 @@ import { Rule } from './rules/rule.entity';
 import { RulesModule } from './rules/rule.module';
 import { Upgrade } from './upgrades/upgrade.entity';
 import { ContractService } from './contract/contract.service';
+import { HibernateModule } from './hibernate/hibernate.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { ContractService } from './contract/contract.service';
     FrogModule,
     RulesModule,
     UpgradeModule,
+    HibernateModule
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService, ContractService],
