@@ -15,7 +15,6 @@ import { Trait } from './traits/trait.entity';
 import { Rule } from './rules/rule.entity';
 import { RulesModule } from './rules/rule.module';
 import { Upgrade } from './upgrades/upgrade.entity';
-import { ContractService } from './contract/contract.service';
 import { HibernateModule } from './hibernate/hibernate.module';
 
 @Module({
@@ -46,6 +45,6 @@ import { HibernateModule } from './hibernate/hibernate.module';
     HibernateModule
   ],
   controllers: [],
-  providers: [ConfigService, ContractService],
+  providers: [ConfigService],
 })
 export class AppModule {}

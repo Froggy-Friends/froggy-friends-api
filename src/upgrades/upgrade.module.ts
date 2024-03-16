@@ -6,7 +6,6 @@ import { UpgradeController } from './upgrade.controller';
 import { ContractModule } from 'src/contract/contract.module';
 import { FrogModule } from 'src/frog/frog.module';
 import { TraitModule } from 'src/traits/trait.module';
-import { ContractService } from 'src/contract/contract.service';
 import { FrogService } from 'src/frog/frog.service';
 import { TraitService } from 'src/traits/trait.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -22,7 +21,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   controllers: [UpgradeController],
   providers: [
     UpgradeService,
-    ContractService,
     FrogService,
     TraitService,
     ConfigService,
