@@ -21,7 +21,7 @@ export class ContractService {
     const alchemyUrl = this.configs.get<string>('ALCHEMY_API_URL');
     const pk = this.configs.get<string>('PRIVATE_KEY');
     const environment = this.configs.get<string>('ENVIRONMENT');
-    const network = environment === 'production' ? Network.ETH_MAINNET : Network.ETH_GOERLI;
+    const network = environment === 'production' ? Network.ETH_MAINNET : Network.ETH_SEPOLIA;
     // provider, signer, contract
     const alchemyProvider = new ethers.JsonRpcProvider(alchemyUrl);
     const signer = new ethers.Wallet(pk, alchemyProvider);
