@@ -2,8 +2,6 @@ import { UpgradeModule } from 'src/upgrades/upgrade.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HistoryModule } from './history/history.module';
 import { History } from './history/history.entity';
@@ -47,7 +45,7 @@ import { HibernateModule } from './hibernate/hibernate.module';
     UpgradeModule,
     HibernateModule
   ],
-  controllers: [AppController],
-  providers: [AppService, ConfigService, ContractService],
+  controllers: [],
+  providers: [ConfigService, ContractService],
 })
 export class AppModule {}
