@@ -32,8 +32,6 @@ export class FrogService {
    * @param ribbitItemId id of ribbit item to query
    */
   async getFrogsOwnedByRibbitItemHolders(ribbitItemId: number) {
-    // step 1: get all GLP holders
-    // step 2: get all frogs by glp holders list
     const itemHolders = await this.contractService.getRibbitItemHolders(ribbitItemId);
     
     let frogCount = 0;
@@ -46,6 +44,73 @@ export class FrogService {
       itemHolders: itemHolders.length,
       frogCount: frogCount
     };
+  }
+
+  async getFrogsOwnedBySoulboundHolders(soulboundId: number) {
+    const soulboundHolders = await this.contractService.getSoulboundHolders(soulboundId);
+
+    let frogCount = 0;
+    console.log(`processing ${soulboundHolders.length} holders`);
+    
+    try {
+      for (let i = 0; i < soulboundHolders.length; i++) {
+        if (i % 10 === 0) console.log("processing holder: ", i);
+        const holder = soulboundHolders[i];
+        setTimeout(() => {}, 100);
+        const frogs = await this.contractService.getFrogs(holder);
+        frogCount += frogs.length;
+      }
+      
+      return {
+        soulboundHolders: soulboundHolders.length,
+        frogCount: frogCount
+      };
+    } catch (error) {
+      console.log("error processing holders: ", error);
+      return {
+        soulboundHolders: soulboundHolders.length,
+        frogCount: frogCount
+      }
+    }
+  }
+
+  async getFrogsOwnedWithBoosts() {
+    const minterSbtHolders = await this.contractService.getSoulboundHolders(1);
+    const oneYearSbtHolders = await this.contractService.getSoulboundHolders(2);
+
+    const minterSet = new Set(minterSbtHolders);
+    const oneYearSet = new Set(oneYearSbtHolders);
+
+    const common = [];
+    for (const holder of minterSet) {
+      if (oneYearSet.has(holder)) {
+        common.push(holder);
+      }
+    }
+
+    let frogCount = 0;
+    console.log(`processing ${common.length} holders`);
+    
+    try {
+      for (let i = 0; i < common.length; i++) {
+        if (i % 10 === 0) console.log("processing holder: ", i);
+        const holder = common[i];
+        setTimeout(() => {}, 100);
+        const frogs = await this.contractService.getFrogs(holder);
+        frogCount += frogs.length;
+      }
+      
+      return {
+        commonHolders: common.length,
+        frogCount: frogCount
+      };
+    } catch (error) {
+      console.log("error processing holders: ", error);
+      return {
+        commonHolders: common.length,
+        frogCount: frogCount
+      }
+    }
   }
 
   async getFrog(id: number): Promise<Frog> {

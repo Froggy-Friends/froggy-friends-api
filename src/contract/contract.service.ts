@@ -23,6 +23,7 @@ export class ContractService {
   public staking: Contract;
   public froggyAddress: string;
   public ribbitItemsAddress: string;
+  public froggySoulboundAdress: string;
   public stakingAddress: string;
   public ribbitAddress: string;
 
@@ -39,6 +40,7 @@ export class ContractService {
     this.stakingAddress = this.configs.get<string>('STAKING_CONTRACT_ADDRESS');
     this.ribbitAddress = this.configs.get<string>('RIBBIT_CONTRACT_ADDRESS');
     this.ribbitItemsAddress = this.configs.get<string>('RIBBIT_ITEM_ADDRESS');
+    this.froggySoulboundAdress = this.configs.get<string>('FROGGY_SOULBOUND_ADDRESS');
     // chain
     const environment = this.configs.get<string>('ENVIRONMENT');
     // alchemy
@@ -76,8 +78,13 @@ export class ContractService {
     return owners.length >= 0 ? owners[0] : '';
   }
 
-  async getRibbitItemHolders(id: number): Promise<any> {
+  async getRibbitItemHolders(id: number): Promise<string[]> {
     const { owners } = await this.alchemy.nft.getOwnersForNft(this.ribbitItemsAddress, id);
+    return owners;
+  }
+
+  async getSoulboundHolders(soulboundId: number): Promise<string[]> {
+    const { owners } = await this.alchemy.nft.getOwnersForNft(this.froggySoulboundAdress, soulboundId);
     return owners;
   }
 

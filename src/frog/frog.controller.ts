@@ -16,7 +16,7 @@ export class FrogController {
     return this.frogService.getOwner(id);
   }
 
-  @Get('/owned/:account')
+  @Get('/owned/account/:account')
   async getFrogsOwned(
     @Param('account') account: string,
   ): Promise<Record<string, any>[]> {
@@ -26,6 +26,16 @@ export class FrogController {
   @Get('/owned/item/:id')
   async getAllFrogsOwnedByGLPHolders(@Param('id') id: number) {
     return this.frogService.getFrogsOwnedByRibbitItemHolders(id);
+  }
+
+  @Get('/owned/soulbound/:id')
+  async getAllFrogsOwnedBySoulboundHolders(@Param('id') id: number) {
+    return this.frogService.getFrogsOwnedBySoulboundHolders(id);
+  }
+
+  @Get('/owned/boosts')
+  async getAllFrogsOwnedWithBoosts() {
+    return this.frogService.getFrogsOwnedWithBoosts();
   }
 
   @Get('/details/:id')
