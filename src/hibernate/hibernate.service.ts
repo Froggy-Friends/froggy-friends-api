@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import MerkleTree from "merkletreejs";
-import { utils } from "ethers";
+import { keccak256 } from "ethers";
 import { ContractService } from "src/contract/contract.service";
 const keccak = require("keccak256");
-const { keccak256 } = utils;
 
 @Injectable()
 export class HibernateService {

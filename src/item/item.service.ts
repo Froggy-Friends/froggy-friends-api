@@ -7,9 +7,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Item } from './item.entity';
-import { ethers } from 'ethers';
+import { recoverAddress, formatEther, hashMessage } from 'ethers';
 import { ContractService } from 'src/contract/contract.service';
-import { formatEther, hashMessage } from 'ethers/lib/utils';
 import { admins } from './item.admins';
 
 @Injectable()
@@ -95,7 +94,7 @@ export class ItemService {
 
   validateRequest(message: string, signature: string, item: Item) {
     // validate admin
-    const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
+    const signer = recoverAddress(hashMessage(message), signature);
 
     if (!admins.includes(signer)) {
       throw new HttpException('Unauthorized admin', HttpStatus.BAD_REQUEST);

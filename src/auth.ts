@@ -1,6 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { ethers } from 'ethers';
-import { hashMessage } from 'ethers/lib/utils';
+import { hashMessage, recoverAddress } from 'ethers';
 import { TraitUpgradeRequest } from './models/TraitUpgradeRequest';
 
 interface UpgradeData {
@@ -15,7 +14,7 @@ export const isTraitUpgradeAuthenticated = (
   owner: string,
 ) => {
   const { message, signature, account, transaction } = request;
-  const signer = ethers.utils.recoverAddress(hashMessage(message), signature);
+  const signer = recoverAddress(hashMessage(message), signature);
   const data: UpgradeData = JSON.parse(message);
 
   // confirm ownership of frog
