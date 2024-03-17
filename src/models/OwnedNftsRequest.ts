@@ -1,4 +1,4 @@
 export interface OwnedNftsRequest {
-    account: string;
-    contract: string;
+  account: string;
+  contract: string;
 }

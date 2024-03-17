@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 export type origin = 'original' | 'new';
 
-@Entity({ name: 'Trait', synchronize: false})
+@Entity({ name: 'Trait', synchronize: false })
 export class Trait {
   @PrimaryColumn() id: number;
   @Column() name: string;

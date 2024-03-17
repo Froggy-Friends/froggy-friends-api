@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 import { Item } from './item.entity';
 import { ItemService } from './item.service';
 import { ContractModule } from 'src/contract/contract.module';
@@ -13,10 +13,21 @@ import { RulesModule } from 'src/rules/rule.module';
 import { RuleService } from 'src/rules/rule.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item]), ContractModule, PinModule, TraitModule, RulesModule],
+  imports: [
+    TypeOrmModule.forFeature([Item]),
+    ContractModule,
+    PinModule,
+    TraitModule,
+    RulesModule,
+  ],
   controllers: [ItemsController],
-  providers: [ItemService, PinService, ConfigService, TraitService, RuleService],
-  exports: [TypeOrmModule, ItemService]
+  providers: [
+    ItemService,
+    PinService,
+    ConfigService,
+    TraitService,
+    RuleService,
+  ],
+  exports: [TypeOrmModule, ItemService],
 })
-
 export class ItemModule {}

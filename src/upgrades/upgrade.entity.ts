@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: 'Upgrades', synchronize: false})
+@Entity({ name: 'Upgrades', synchronize: false })
 export class Upgrade {
   @PrimaryColumn() id: number;
   @Column() wallet: string;
