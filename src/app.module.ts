@@ -23,14 +23,14 @@ import { HibernateModule } from './hibernate/hibernate.module';
     ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
+        host: config.get<string>('DB_HOST'),
         port: 5432,
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
         database: 'postgres',
-        schema: configService.get<string>('DB_SCHEMA'),
+        schema: config.get<string>('ENVIRONMENT') === 'production' ? 'public' : 'development',
         entities: [History, Item, Trait, Frog, Rule, Upgrade],
       }),
       inject: [ConfigService],
