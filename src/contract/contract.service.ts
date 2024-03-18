@@ -14,13 +14,14 @@ export class ContractService {
 
   constructor(private configs: ConfigService) {
     // env variables
-    this.froggyAddress = this.configs.get<string>('FROGGY_CONTRACT_ADDRESS');
-    this.itemsAddress = this.configs.get<string>('RIBBIT_ITEM_ADDRESS');
-    this.froggySoulboundAdress = this.configs.get<string>('FROGGY_SOULBOUND_ADDRESS');
+    const environment = this.configs.get<string>('ENVIRONMENT');
+    const addressConfig = this.addressConfigs(environment);
+    this.froggyAddress = addressConfig.froggyFriends;
+    this.itemsAddress = addressConfig.items;
+    this.froggySoulboundAdress = addressConfig.soulbounds;
     const apiKey = this.configs.get('ALCHEMY_API_KEY');
     const alchemyUrl = this.configs.get<string>('ALCHEMY_API_URL');
     const pk = this.configs.get<string>('PRIVATE_KEY');
-    const environment = this.configs.get<string>('ENVIRONMENT');
     const network = environment === 'production' ? Network.ETH_MAINNET : Network.ETH_SEPOLIA;
     // provider, signer, contract
     const alchemyProvider = new ethers.JsonRpcProvider(alchemyUrl);
@@ -28,6 +29,22 @@ export class ContractService {
     this.ribbitItems = new ethers.Contract(this.itemsAddress, abiItems, signer);
     // alchemy
     this.alchemy = new Alchemy({apiKey, network});
+  }
+
+  private addressConfigs(env: string) {
+    if (env === 'production') {
+      return {
+        froggyFriends: "0x7ad05c1b87e93BE306A9Eadf80eA60d7648F1B6F",
+        items: "0x1f6A5CF9366F968C205467BD7a9f382b3454dFB3",
+        soulbounds: "0xFdFFd2208AA128A2F9dc520A2A4E93746B588209"
+      }
+    } else {
+      return {
+        froggyFriends: "0x586bd2155BDb9E9270439656D2d520A54e6b9448",
+        items: "0x5Bba3C5b95a67c87FF2b196Be726357168db3597",
+        soulbounds: "0xF7DB5236d5Cef9DC19B09A1B6B570993B7ceAB9f"
+      }
+    }
   }
 
   async getFrogOwner(frogId: number): Promise<string> {

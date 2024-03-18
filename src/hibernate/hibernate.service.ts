@@ -32,6 +32,14 @@ export class HibernateService {
   }
 
   async getProof(address: string) {
+    const glpProofs = this.glpTree.getHexProof(keccak256(address));
+    const minterProofs = this.minterTree.getHexProof(keccak256(address));
+    const oneYearProofs = this.oneYearTree.getHexProof(keccak256(address));
+
+    if (glpProofs.length === 0 && minterProofs.length === 0 && oneYearProofs.length === 0) {
+      return [];
+    }
+
     const proofs = [
       this.glpTree.getHexProof(keccak256(address)),
       this.minterTree.getHexProof(keccak256(address)),

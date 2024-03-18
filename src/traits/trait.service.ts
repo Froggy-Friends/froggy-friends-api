@@ -54,7 +54,7 @@ export class TraitService {
    */
 
   async getCompatibleTraitsForTraitId(traitId: number): Promise<Trait[]> {
-    const schema = this.configService.get<string>('DB_SCHEMA');
+    const schema = this.configService.get('ENVIRONMENT') === 'production' ? 'public' : 'development';
     const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from ${schema}."Trait" trait inner join ${schema}."Rule" r on r."compatibleTraitId" = trait.id where r."traitId" = ${traitId};`;
     return await this.traitRepo.query(query);
   }
@@ -74,7 +74,7 @@ export class TraitService {
   async getTraitsForCompatibleTraitId(
     compatibleTraitId: number,
   ): Promise<Trait[]> {
-    const schema = this.configService.get<string>('DB_SCHEMA');
+    const schema = this.configService.get('ENVIRONMENT') === 'production' ? 'public' : 'development';
     const query = `select trait.id, trait.name, trait.layer, trait."imageTransparent", trait.origin from ${schema}."Trait" trait inner join ${schema}."Rule" r on r."traitId" = trait.id where r."compatibleTraitId" = ${compatibleTraitId};`;
     return await this.traitRepo.query(query);
   }
