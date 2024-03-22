@@ -9,7 +9,7 @@ export class FrogController {
   constructor(
     private readonly frogService: FrogService,
     private readonly traitService: TraitService,
-  ) {}
+  ) { }
 
   @Get('/owner/:id')
   async getFrogOwner(@Param('id') id: number): Promise<string> {

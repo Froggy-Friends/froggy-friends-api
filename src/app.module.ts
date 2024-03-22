@@ -30,7 +30,10 @@ import { HibernateModule } from './hibernate/hibernate.module';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: 'postgres',
-        schema: config.get<string>('ENVIRONMENT') === 'production' ? 'public' : 'development',
+        schema:
+          config.get<string>('ENVIRONMENT') === 'production'
+            ? 'public'
+            : 'development',
         entities: [History, Item, Trait, Frog, Rule, Upgrade],
       }),
       inject: [ConfigService],
@@ -42,7 +45,7 @@ import { HibernateModule } from './hibernate/hibernate.module';
     FrogModule,
     RulesModule,
     UpgradeModule,
-    HibernateModule
+    HibernateModule,
   ],
   controllers: [],
   providers: [ConfigService],

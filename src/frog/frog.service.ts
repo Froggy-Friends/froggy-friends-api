@@ -32,45 +32,47 @@ export class FrogService {
    * @param ribbitItemId id of ribbit item to query
    */
   async getFrogsOwnedByRibbitItemHolders(ribbitItemId: number) {
-    const itemHolders = await this.contractService.getRibbitItemHolders(ribbitItemId);
-    
+    const itemHolders =
+      await this.contractService.getRibbitItemHolders(ribbitItemId);
+
     let frogCount = 0;
     for (const holder of itemHolders) {
       const frogs = await this.contractService.getFrogs(holder);
       frogCount += frogs.length;
     }
-    
+
     return {
       itemHolders: itemHolders.length,
-      frogCount: frogCount
+      frogCount: frogCount,
     };
   }
 
   async getFrogsOwnedBySoulboundHolders(soulboundId: number) {
-    const soulboundHolders = await this.contractService.getSoulboundHolders(soulboundId);
+    const soulboundHolders =
+      await this.contractService.getSoulboundHolders(soulboundId);
 
     let frogCount = 0;
     console.log(`processing ${soulboundHolders.length} holders`);
-    
+
     try {
       for (let i = 0; i < soulboundHolders.length; i++) {
-        if (i % 10 === 0) console.log("processing holder: ", i);
+        if (i % 10 === 0) console.log('processing holder: ', i);
         const holder = soulboundHolders[i];
         setTimeout(() => {}, 100);
         const frogs = await this.contractService.getFrogs(holder);
         frogCount += frogs.length;
       }
-      
+
       return {
         soulboundHolders: soulboundHolders.length,
-        frogCount: frogCount
+        frogCount: frogCount,
       };
     } catch (error) {
-      console.log("error processing holders: ", error);
+      console.log('error processing holders: ', error);
       return {
         soulboundHolders: soulboundHolders.length,
-        frogCount: frogCount
-      }
+        frogCount: frogCount,
+      };
     }
   }
 
@@ -90,26 +92,26 @@ export class FrogService {
 
     let frogCount = 0;
     console.log(`processing ${common.length} holders`);
-    
+
     try {
       for (let i = 0; i < common.length; i++) {
-        if (i % 10 === 0) console.log("processing holder: ", i);
+        if (i % 10 === 0) console.log('processing holder: ', i);
         const holder = common[i];
         setTimeout(() => {}, 100);
         const frogs = await this.contractService.getFrogs(holder);
         frogCount += frogs.length;
       }
-      
+
       return {
         commonHolders: common.length,
-        frogCount: frogCount
+        frogCount: frogCount,
       };
     } catch (error) {
-      console.log("error processing holders: ", error);
+      console.log('error processing holders: ', error);
       return {
         commonHolders: common.length,
-        frogCount: frogCount
-      }
+        frogCount: frogCount,
+      };
     }
   }
 

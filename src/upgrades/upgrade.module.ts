@@ -19,12 +19,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ConfigModule,
   ],
   controllers: [UpgradeController],
-  providers: [
-    UpgradeService,
-    FrogService,
-    TraitService,
-    ConfigService,
-  ],
+  providers: [UpgradeService, FrogService, TraitService, ConfigService],
   exports: [TypeOrmModule, UpgradeService],
 })
 export class UpgradeModule {}
