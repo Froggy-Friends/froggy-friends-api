@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Contract, ethers, Network } from 'ethers';
-import * as abiItems from './abi-items.json';
-import * as abiFroggy from './froggyfriends.json';
 import { Alchemy, Network as AlchemyNetwork, OwnedNft } from 'alchemy-sdk';
+import * as abiItems from './abi-items.json';
 
 @Injectable()
 export class ContractService {
@@ -12,8 +11,6 @@ export class ContractService {
   public froggyAddress: string;
   public itemsAddress: string;
   public froggySoulboundAdress: string;
-
-  private froggyFriends: Contract;
 
   constructor(private configs: ConfigService) {
     // env variables
@@ -37,11 +34,6 @@ export class ContractService {
     );
     const signer = new ethers.Wallet(pk, alchemyProvider);
     this.ribbitItems = new ethers.Contract(this.itemsAddress, abiItems, signer);
-    this.froggyFriends = new ethers.Contract(
-      this.froggyAddress,
-      abiFroggy,
-      signer,
-    );
     // alchemy
     this.alchemy = new Alchemy({ apiKey, network });
   }
@@ -107,14 +99,5 @@ export class ContractService {
       contractAddresses: [this.itemsAddress],
     });
     return nftsResponse.ownedNfts;
-  }
-
-  async getHibernationStatus(account: string) {
-    return new Promise<number>((resolve) => {
-      setTimeout(async () => {
-        const status = await this.froggyFriends.hibernationStatus(account);
-        resolve(Number(status));
-      }, 100);
-    });
   }
 }
