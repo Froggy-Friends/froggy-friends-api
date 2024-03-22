@@ -31,6 +31,7 @@ export class HibernateService {
       this.stats = {
         frogs: +row.total_frogs_hibernated,
         holders: +row.unique_wallets_hibernated,
+        lastUpdated: new Date(),
       };
     }
   }
