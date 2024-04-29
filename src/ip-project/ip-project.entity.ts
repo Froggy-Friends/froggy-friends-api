@@ -10,4 +10,5 @@ export class IpProject {
   @Column() description: string;
   @Column() goal: string;
   @Column() apply: boolean;
+  @Column() created: Date;
 }

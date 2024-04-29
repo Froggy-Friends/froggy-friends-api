@@ -10,6 +10,7 @@ export class IpProjectService {
   ) {}
 
   async saveProject(ipProject: IpProject) {
-    return await this.ipProject.save(ipProject);
+    const project = { ...ipProject, created: new Date() };
+    return await this.ipProject.save(project);
   }
 }
