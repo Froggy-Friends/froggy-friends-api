@@ -16,6 +16,8 @@ import { Rule } from './rules/rule.entity';
 import { RulesModule } from './rules/rule.module';
 import { Upgrade } from './upgrades/upgrade.entity';
 import { HibernateModule } from './hibernate/hibernate.module';
+import { IpProjectsModule } from './ip-project/ip-project.module';
+import { IpProject } from './ip-project/ip-project.entity';
 
 @Module({
   imports: [
@@ -34,7 +36,7 @@ import { HibernateModule } from './hibernate/hibernate.module';
           config.get<string>('ENVIRONMENT') === 'production'
             ? 'public'
             : 'development',
-        entities: [History, Item, Trait, Frog, Rule, Upgrade],
+        entities: [History, Item, Trait, Frog, Rule, Upgrade, IpProject],
       }),
       inject: [ConfigService],
     }),
@@ -46,6 +48,7 @@ import { HibernateModule } from './hibernate/hibernate.module';
     RulesModule,
     UpgradeModule,
     HibernateModule,
+    IpProjectsModule,
   ],
   controllers: [],
   providers: [ConfigService],
