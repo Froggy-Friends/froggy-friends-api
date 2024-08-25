@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import MerkleTree from 'merkletreejs';
 import { keccak256 } from 'ethers';
 import { ContractService } from 'src/contract/contract.service';
-import { DuneClient } from '@duneanalytics/client-sdk';
-import { ConfigService } from '@nestjs/config';
 import { HibernationStats } from './hibernation.stats';
 
 @Injectable()
@@ -13,27 +11,8 @@ export class HibernateService {
   oneYearTree: MerkleTree;
   stats: HibernationStats;
 
-  constructor(
-    private readonly contractService: ContractService,
-    private readonly config: ConfigService,
-  ) {
+  constructor(private readonly contractService: ContractService) {
     this.setTrees();
-    const dune = new DuneClient(this.config.get('DUNE_API_KEY'));
-    this.setStats(dune);
-  }
-
-  async setStats(dune: DuneClient) {
-    const {
-      result: { rows },
-    } = await dune.getLatestResult(3539180);
-    const row = rows[0];
-    if (row && row.total_frogs_hibernated && row.unique_wallets_hibernated) {
-      this.stats = {
-        frogs: +row.total_frogs_hibernated,
-        holders: +row.unique_wallets_hibernated,
-        lastUpdated: new Date(),
-      };
-    }
   }
 
   async setTrees() {
@@ -84,9 +63,5 @@ export class HibernateService {
       this.oneYearTree.getHexProof(keccak256(address)),
     ];
     return proofs;
-  }
-
-  async getStats() {
-    return this.stats;
   }
 }
