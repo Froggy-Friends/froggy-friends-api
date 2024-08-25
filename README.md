@@ -26,6 +26,27 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Env Variables
+
+Create `.env` file and add the following variables.
+Ask a team member for the values.
+
+```bash
+ETHERSCAN_API_KEY=
+DB_HOST=
+DB_PORT=
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=
+PRIVATE_KEY= # Use your own private key for testing
+ALCHEMY_API_KEY=
+ALCHEMY_API_URL=
+PINATA_API_KEY=
+PINATA_API_SECRET=
+PINATA_URL=
+ENVIRONMENT=
+```
+
 ## Installation
 
 ```bash
