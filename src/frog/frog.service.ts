@@ -4,9 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Frog } from './frog.entity';
 import * as rarity from '../../rarityBands.json';
-import { ContractService } from 'src/contract/contract.service';
+import { ContractService } from '../contract/contract.service';
 import { ConfigService } from '@nestjs/config';
-import { TraitService } from 'src/traits/trait.service';
+import { TraitService } from '../traits/trait.service';
 
 @Injectable()
 export class FrogService {

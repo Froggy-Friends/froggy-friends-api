@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HibernateController } from './hibernate.controller';
 import { HibernateService } from './hibernate.service';
-import { ContractModule } from 'src/contract/contract.module';
+import { ContractModule } from '../contract/contract.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({

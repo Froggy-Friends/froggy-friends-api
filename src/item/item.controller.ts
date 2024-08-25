@@ -12,15 +12,15 @@ import {
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Item } from './item.entity';
 import { ItemService } from './item.service';
-import { ItemRequest } from 'src/models/ItemRequest';
-import { ContractService } from 'src/contract/contract.service';
-import { PinService } from 'src/pin/pin.service';
-import { FriendFiles } from 'src/models/FriendFiles';
+import { ItemRequest } from '../models/ItemRequest';
+import { ContractService } from '../contract/contract.service';
+import { PinService } from '../pin/pin.service';
+import { FriendFiles } from '../models/FriendFiles';
 import { ConfigService } from '@nestjs/config';
-import { Trait } from 'src/traits/trait.entity';
-import { TraitService } from 'src/traits/trait.service';
-import { RuleService } from 'src/rules/rule.service';
-import { Rule } from 'src/rules/rule.entity';
+import { Trait } from '../traits/trait.entity';
+import { TraitService } from '../traits/trait.service';
+import { RuleService } from '../rules/rule.service';
+import { Rule } from '../rules/rule.entity';
 
 @Controller('/items')
 export class ItemsController {

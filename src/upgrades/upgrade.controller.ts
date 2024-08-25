@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { TraitUpgradeRequest } from 'src/models/TraitUpgradeRequest';
-import { ContractService } from 'src/contract/contract.service';
-import { UpgradeService } from 'src/upgrades/upgrade.service';
-import { FrogService } from 'src/frog/frog.service';
-import { TraitService } from 'src/traits/trait.service';
-import { isTraitUpgradeAuthenticated } from 'src/auth';
+import { TraitUpgradeRequest } from '../models/TraitUpgradeRequest';
+import { ContractService } from '../contract/contract.service';
+import { UpgradeService } from '../upgrades/upgrade.service';
+import { FrogService } from '../frog/frog.service';
+import { TraitService } from '../traits/trait.service';
+import { isTraitUpgradeAuthenticated } from '../auth';
 import { Upgrade } from './upgrade.entity';
 
 @Controller('upgrades')

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Frog } from 'src/frog/frog.entity';
-import { FrogService } from 'src/frog/frog.service';
-import { TraitLayers } from 'src/models/TraitLayers';
-import { Trait } from 'src/traits/trait.entity';
-import { TraitService } from 'src/traits/trait.service';
+import { Frog } from '../frog/frog.entity';
+import { FrogService } from '../frog/frog.service';
+import { TraitLayers } from '../models/TraitLayers';
+import { Trait } from '../traits/trait.entity';
+import { TraitService } from '../traits/trait.service';
 import { Repository } from 'typeorm';
 import { Upgrade } from './upgrade.entity';
 

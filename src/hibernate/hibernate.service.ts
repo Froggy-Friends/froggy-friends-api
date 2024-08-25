@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import MerkleTree from 'merkletreejs';
 import { keccak256 } from 'ethers';
-import { ContractService } from 'src/contract/contract.service';
+import { ContractService } from '../contract/contract.service';
 import { HibernationStats } from './hibernation.stats';
 
 @Injectable()

@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Item } from './item.entity';
 import { recoverAddress, formatEther, hashMessage } from 'ethers';
-import { ContractService } from 'src/contract/contract.service';
+import { ContractService } from '../contract/contract.service';
 import { admins } from './item.admins';
 
 @Injectable()

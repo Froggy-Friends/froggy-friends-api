@@ -3,10 +3,10 @@ import { Module } from '@nestjs/common';
 import { Frog } from './frog.entity';
 import { FrogService } from './frog.service';
 import { FrogController } from './frog.controller';
-import { ContractModule } from 'src/contract/contract.module';
+import { ContractModule } from '../contract/contract.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TraitModule } from 'src/traits/trait.module';
-import { TraitService } from 'src/traits/trait.service';
+import { TraitModule } from '../traits/trait.module';
+import { TraitService } from '../traits/trait.service';
 
 @Module({
   imports: [

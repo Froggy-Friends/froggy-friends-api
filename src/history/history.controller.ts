@@ -9,9 +9,9 @@ import {
   Post,
 } from '@nestjs/common';
 import { History } from './history.entity';
-import { TraitUpgradeRequest } from 'src/models/TraitUpgradeRequest';
-import { ContractService } from 'src/contract/contract.service';
-import { isTraitUpgradeAuthenticated } from 'src/auth';
+import { TraitUpgradeRequest } from '../models/TraitUpgradeRequest';
+import { ContractService } from '../contract/contract.service';
+import { isTraitUpgradeAuthenticated } from '../auth';
 
 @Controller('history')
 export class HistoryController {

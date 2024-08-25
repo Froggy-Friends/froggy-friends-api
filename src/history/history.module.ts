@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { History } from './history.entity';
 import { HistoryService } from './history.service';
 import { HistoryController } from './history.controller';
-import { ContractModule } from 'src/contract/contract.module';
+import { ContractModule } from '../contract/contract.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({

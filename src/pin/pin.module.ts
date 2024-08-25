@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PinService } from 'src/pin/pin.service';
+import { PinService } from '../pin/pin.service';
 
 @Module({
   imports: [ConfigModule],

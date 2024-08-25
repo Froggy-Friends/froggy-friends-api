@@ -1,8 +1,8 @@
 import { CompatibleFrogTraits } from './../models/FrogTraits';
 import { Controller, Get, Param } from '@nestjs/common';
-import { TraitService } from 'src/traits/trait.service';
 import { Frog } from './frog.entity';
 import { FrogService } from './frog.service';
+import { TraitService } from '../traits/trait.service';
 
 @Controller('/frog')
 export class FrogController {

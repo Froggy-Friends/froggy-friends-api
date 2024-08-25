@@ -1,4 +1,3 @@
-import { UpgradeModule } from 'src/upgrades/upgrade.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,6 +17,7 @@ import { Upgrade } from './upgrades/upgrade.entity';
 import { HibernateModule } from './hibernate/hibernate.module';
 import { IpProjectsModule } from './ip-project/ip-project.module';
 import { IpProject } from './ip-project/ip-project.entity';
+import { UpgradeModule } from './upgrades/upgrade.module';
 
 @Module({
   imports: [

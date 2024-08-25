@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { UpgradeService } from './upgrade.service';
 import { UpgradeController } from './upgrade.controller';
-import { ContractModule } from 'src/contract/contract.module';
-import { FrogModule } from 'src/frog/frog.module';
-import { TraitModule } from 'src/traits/trait.module';
-import { FrogService } from 'src/frog/frog.service';
-import { TraitService } from 'src/traits/trait.service';
+import { ContractModule } from '../contract/contract.module';
+import { FrogModule } from '../frog/frog.module';
+import { TraitModule } from '../traits/trait.module';
+import { FrogService } from '../frog/frog.service';
+import { TraitService } from '../traits/trait.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
