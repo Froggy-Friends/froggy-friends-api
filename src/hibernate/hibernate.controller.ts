@@ -3,7 +3,7 @@ import { HibernateService } from './hibernate.service';
 
 @Controller('/hibernate')
 export class HibernateController {
-  constructor(private readonly hibernateService: HibernateService) { }
+  constructor(private readonly hibernateService: HibernateService) {}
 
   @Get('/roots')
   async getRoots() {
