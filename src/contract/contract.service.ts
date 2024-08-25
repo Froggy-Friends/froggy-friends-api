@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Contract, ethers, Network } from 'ethers';
 import { Alchemy, Network as AlchemyNetwork, OwnedNft } from 'alchemy-sdk';
-import * as abiItems from './abi-items.json';
+import { itemsAbi } from './abi';
 
 @Injectable()
 export class ContractService {
@@ -33,8 +33,8 @@ export class ContractService {
       { staticNetwork: true },
     );
     const signer = new ethers.Wallet(pk, alchemyProvider);
-    console.log('abi items length: ', abiItems.length);
-    this.ribbitItems = new ethers.Contract(this.itemsAddress, abiItems, signer);
+    console.log('abi items length: ', itemsAbi.length);
+    this.ribbitItems = new ethers.Contract(this.itemsAddress, itemsAbi, signer);
     // alchemy
     this.alchemy = new Alchemy({ apiKey, network });
   }
