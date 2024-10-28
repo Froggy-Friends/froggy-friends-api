@@ -28,7 +28,7 @@
     "@nestjs/schedule": "^4.0.1",
     "@nestjs/typeorm": "^10.0.2",
     "@pinata/sdk": "^2.1.0",
-    "alchemy-sdk": "^3.2.0",
+    "alchemy-sdk": "^3.4.6",
     "dotenv": "^16.4.5",
     "ethers": "^6.11.1",
     "keccak256": "^1.0.6",
