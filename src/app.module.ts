@@ -37,6 +37,7 @@ import { UpgradeModule } from './upgrades/upgrade.module';
             ? 'public'
             : 'development',
         entities: [History, Item, Trait, Frog, Rule, Upgrade, IpProject],
+        ssl: true,
       }),
       inject: [ConfigService],
     }),
