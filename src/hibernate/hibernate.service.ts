@@ -18,29 +18,31 @@ export class HibernateService {
 
   async setTrees() {
     const glpHolders = await this.contractService.getRibbitItemHolders(1);
-    console.error("glp holders: ", glpHolders.length);
     const minterHolders = await this.contractService.getSoulboundHolders(1);
-    console.error("minter holders: ", minterHolders.length);
     const oneYearHolders = await this.contractService.getSoulboundHolders(2);
-    console.error("one year holders: ", oneYearHolders.length);
     this.glpTree = new MerkleTree(
       glpHolders.map((g) => keccak256(g)),
       keccak256,
       { sortPairs: true },
     );
-    console.error("glp tree: ", this.glpTree.getHexRoot());
     this.minterTree = new MerkleTree(
       minterHolders.map((m) => keccak256(m)),
       keccak256,
       { sortPairs: true },
     );
-    console.error("minter tree: ", this.minterTree.getHexRoot());
     this.oneYearTree = new MerkleTree(
       oneYearHolders.map((o) => keccak256(o)),
       keccak256,
       { sortPairs: true },
     );
-    console.error("one year tree: ", this.oneYearTree.getHexRoot());
+    console.log("set trees info: ", {
+      glpHolders: glpHolders.length,
+      minterHolders: minterHolders.length,
+      oneYearHolders: oneYearHolders.length,
+      glpRoot: this.glpTree.getHexRoot(),
+      minterRoot: this.minterTree.getHexRoot(),
+      oneYearRoot: this.oneYearTree.getHexRoot(),
+    })
   }
 
   async getRoots() {
@@ -52,12 +54,19 @@ export class HibernateService {
   }
 
   async getProof(address: string) {
+    console.log("trees: ", {
+      glpTree: this.glpTree ? this.glpTree.getHexRoot() : 'GLP Tree not set',
+      minterTree: this.minterTree ? this.minterTree.getHexRoot() : 'Minter Tree not set',
+      oneYearTree: this.oneYearTree ? this.oneYearTree.getHexRoot() : 'One Year Tree not set',
+    })
     const glpProofs = this.glpTree.getHexProof(keccak256(address));
-    console.error("glp proofs: ", glpProofs.length);
     const minterProofs = this.minterTree.getHexProof(keccak256(address));
-    console.error("minter proofs: ", minterProofs.length);
     const oneYearProofs = this.oneYearTree.getHexProof(keccak256(address));
-    console.error("one year proofs: ", oneYearProofs.length);
+    console.log("proofs: ", {
+      glpProofs: glpProofs.length,
+      minterProofs: minterProofs.length,
+      oneYearProofs: oneYearProofs.length,
+    })
 
     if (
       glpProofs.length === 0 &&
@@ -72,7 +81,7 @@ export class HibernateService {
       this.minterTree.getHexProof(keccak256(address)),
       this.oneYearTree.getHexProof(keccak256(address)),
     ];
-    console.error("proofs: ", proofs.length);
+    console.log("proofs: ", proofs.length);
     return proofs;
   }
 }
