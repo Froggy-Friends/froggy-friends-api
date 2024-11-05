@@ -15,24 +15,24 @@ export class ContractService {
   constructor(private configs: ConfigService) {
     // env variables
     const environment = this.configs.get<string>('ENVIRONMENT');
-    console.log("contract service constructor...");
+    console.error("contract service constructor...");
     const addressConfig = this.addressConfigs(environment);
     this.froggyAddress = addressConfig.froggyFriends;
     this.itemsAddress = addressConfig.items;
     this.froggySoulboundAdress = addressConfig.soulbounds;
-    console.log("froggy address: ", this.froggyAddress);
-    console.log("items address: ", this.itemsAddress);
-    console.log("froggy soulbound address: ", this.froggySoulboundAdress);
+    console.error("froggy address: ", this.froggyAddress);
+    console.error("items address: ", this.itemsAddress);
+    console.error("froggy soulbound address: ", this.froggySoulboundAdress);
     const apiKey = this.configs.get('ALCHEMY_API_KEY');
-    console.log("api key: ", apiKey);
+    console.error("api key: ", apiKey);
     const alchemyUrl = this.configs.get<string>('ALCHEMY_API_URL');
-    console.log("alchemy url: ", alchemyUrl);
+    console.error("alchemy url: ", alchemyUrl);
     const pk = this.configs.get<string>('PRIVATE_KEY');
     const network =
       environment === 'production'
         ? AlchemyNetwork.ETH_MAINNET
         : AlchemyNetwork.ETH_SEPOLIA;
-    console.log("network: ", network);
+    console.error("network: ", network);
     // provider, signer, contract
     const alchemyProvider = new ethers.JsonRpcProvider(
       alchemyUrl,
@@ -40,7 +40,7 @@ export class ContractService {
       { staticNetwork: true },
     );
     const signer = new ethers.Wallet(pk, alchemyProvider);
-    console.log('abi items length: ', itemsAbi.length);
+    console.error('abi items length: ', itemsAbi.length);
     this.ribbitItems = new ethers.Contract(this.itemsAddress, itemsAbi, signer);
     // alchemy
     this.alchemy = new Alchemy({ apiKey, network });

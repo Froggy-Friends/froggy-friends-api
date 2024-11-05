@@ -12,7 +12,7 @@ export class HibernateController {
 
   @Get('/proof/:address')
   async getProof(@Param('address') address: string) {
-    console.log("get proof for address: ", address);
+    console.error("get proof for address: ", address);
     return this.hibernateService.getProof(address);
   }
 }
