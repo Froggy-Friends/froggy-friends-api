@@ -31,7 +31,7 @@ import { UpgradeModule } from './upgrades/upgrade.module';
         port: 5432,
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
-        database: 'postgres',
+        database: 'verceldb',
         schema:
           config.get<string>('ENVIRONMENT') === 'production'
             ? 'public'
@@ -54,4 +54,4 @@ import { UpgradeModule } from './upgrades/upgrade.module';
   controllers: [],
   providers: [ConfigService],
 })
-export class AppModule {}
+export class AppModule { }
