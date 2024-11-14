@@ -8,7 +8,12 @@ dotenv.config();
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
-    app.enableCors();
+    app.enableCors({
+      origin: 'https://hibernation.froggyfriends.io',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true,
+    });
     app.useGlobalFilters(new NotFoundExceptionFilter());
 
     // start server
